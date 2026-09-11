@@ -156,6 +156,10 @@ var workNext=document.querySelector('[data-work-next]');if(workNext)workNext.add
   document.querySelectorAll('.modal').forEach(function(m){m.addEventListener('click',function(e){if(e.target===m)closeAll();});});
 document.addEventListener('keydown',function(e){
   if(e.key==='Escape'){closeAll();return;}
+  if(e.code==='Space'&&thoughtsModal&&thoughtsModal.classList.contains('open')&&realBookReader&&realBookReader.classList.contains('is-open')&&!realBookClosing){
+    var interactive=e.target.closest&&e.target.closest('input,textarea,select,button,a,[contenteditable="true"]');
+    if(!interactive||e.target===bookVideo){e.preventDefault();if(e.repeat)return;if(bookVideo.paused)startBookVideo();else bookVideo.pause();return;}
+  }
   if(e.key!=='Tab')return;
   var modal=document.querySelector('.modal.open');
   if(!modal)return;
