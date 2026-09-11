@@ -292,6 +292,6 @@ body{display:grid;min-height:100svh;place-items:center;overflow-x:hidden;backgro
   .action-highlights,.note-reactions,.body-hotspots,.hotspot-layer{display:block}
   @media(max-width:600px){
     .book-peek-hit{left:10%;top:10%;width:80%;height:23%;clip-path:none}
-    .layer-book{top:10%;width:112%;left:-6%}
-    .layer-note{top:10%;width:112%;left:-6%}
+    .layer-book{transform:translateY(8%) scale(1.1);transform-origin:50% 50%}
+    .layer-note{transform:translateY(8%) scale(1.1);transform-origin:50% 50%}
   }
