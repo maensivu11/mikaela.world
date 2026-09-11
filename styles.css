@@ -17,7 +17,8 @@
   .layer-note{position:absolute;inset:0;z-index:3;display:block;width:100%;height:100%;object-fit:fill;pointer-events:none}
   .action-highlights{position:absolute;inset:0;z-index:4;pointer-events:none}
   .action-highlights [data-highlight-layer]{position:absolute;inset:0;display:block;width:100%;height:100%;overflow:visible;color:#f4e21f;opacity:0;clip-path:inset(0 100% 0 0);mix-blend-mode:multiply;filter:drop-shadow(0 0 .8px rgba(234,205,0,.48));transition:clip-path 460ms var(--ease-out),opacity 70ms ease}
-  .action-highlights [data-highlight-layer].is-active,.action-highlights [data-highlight-layer].is-locked{opacity:.66;clip-path:inset(0 0 0 0)}
+  .action-highlights .action-trace{stroke-width:8}
+  .action-highlights [data-highlight-layer].is-active,.action-highlights [data-highlight-layer].is-locked{opacity:.52;clip-path:inset(0 0 0 0)}
   .note-reactions{position:absolute;inset:0;z-index:5;pointer-events:none}
   .name-gradient{position:absolute;inset:0;display:block;width:100%;height:100%;opacity:0}
   .name-gradient.is-active{opacity:.43;animation:name-breathe 900ms var(--ease-out) both}
@@ -252,7 +253,7 @@
 
   /* Clean tabletop baseline. Reactions return after registration to this source image. */
 body{display:grid;min-height:100svh;place-items:center;overflow-x:hidden;background:#e80756 url("assets/source-painting/plain_canvas.png") center top/cover fixed no-repeat}
-  .work-flower-entry{--flower-rest:rotate(0deg);position:fixed;right:clamp(8px,2.2vw,38px);top:clamp(8px,2.2vh,28px);z-index:20;width:320px;aspect-ratio:1973/1385;padding:0;border:0;background:none;cursor:pointer;filter:drop-shadow(0 7px 5px rgba(35,18,8,.32));transform:var(--flower-rest);transform-origin:58% 55%;transition:transform 440ms cubic-bezier(.2,.8,.2,1),opacity 140ms ease}
+  .work-flower-entry{--flower-rest:rotate(0deg);position:fixed;left:calc(50% - 500px);right:auto;top:clamp(8px,2.2vh,28px);z-index:20;width:320px;aspect-ratio:1973/1385;padding:0;border:0;background:none;cursor:pointer;filter:drop-shadow(0 7px 5px rgba(35,18,8,.32));transform:var(--flower-rest);transform-origin:58% 55%;transition:transform 440ms cubic-bezier(.2,.8,.2,1),opacity 140ms ease}
   .work-flower-entry:before{content:"";position:absolute;z-index:0;left:40%;top:73%;width:34%;height:10%;border-radius:50%;background:rgba(42,18,8,.38);filter:blur(7px);transform:rotate(-5deg);pointer-events:none}
   .work-flower-entry.is-desk-hidden{opacity:0;transform:var(--flower-rest) rotate(155deg) scale(.52);pointer-events:none;transition:transform 380ms cubic-bezier(.55,.05,.67,.19),opacity 140ms ease 190ms}
   .work-flower-entry img{position:absolute;object-fit:contain;pointer-events:none}
@@ -261,7 +262,7 @@ body{display:grid;min-height:100svh;place-items:center;overflow-x:hidden;backgro
   .work-flower-entry:hover .work-flower-label,.work-flower-entry:focus-visible .work-flower-label{opacity:1;clip-path:inset(0 0 0 0)}
   .work-flower-entry:hover .work-flower-bloom,.work-flower-entry:focus-visible .work-flower-bloom{animation:none;transform:scale(1.1) rotate(10deg)}
   @keyframes flower-idle{0%,100%{transform:scale(1) rotate(-1deg)}50%{transform:scale(1.035) rotate(1deg)}}
-  @media(max-width:1000px){.work-flower-entry{--flower-rest:rotate(16deg);right:2px;top:4px;width:188px;transform:var(--flower-rest);transform-origin:58% 50%}.work-flower-entry.is-desk-hidden{transform:var(--flower-rest) rotate(155deg) scale(.52)}}
+  @media(max-width:1000px){.work-flower-entry{--flower-rest:rotate(16deg);left:auto;right:2px;top:4px;width:188px;transform:var(--flower-rest);transform-origin:58% 50%}.work-flower-entry.is-desk-hidden{transform:var(--flower-rest) rotate(155deg) scale(.52)}}
   .painting-backdrop-trigger{position:fixed;inset:0;z-index:0;width:100%;height:100%;padding:0;border:0;background:transparent;cursor:zoom-in}
   .top,.legend{display:none}
   .stage{width:min(100vw,75svh);max-width:none;margin:0 auto;overflow:visible}
