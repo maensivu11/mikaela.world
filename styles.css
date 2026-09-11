@@ -24,12 +24,9 @@
   .action-highlights .action-trace{stroke-width:8}
   .action-highlights [data-highlight-layer].is-active,.action-highlights [data-highlight-layer].is-locked{opacity:.52;clip-path:inset(0 0 0 0)}
   .note-reactions{position:absolute;inset:0;z-index:5;pointer-events:none}
-  .gold-star-layer{position:absolute;inset:0;display:block;width:100%;height:100%;overflow:visible}
-  .gold-star{fill:#f6d740;stroke:#725912;stroke-width:4;stroke-linejoin:round;paint-order:stroke fill;opacity:0;transform-box:fill-box;transform-origin:center;transform:translate3d(-7px,5px,0) rotate(-13deg) scale(.88);filter:drop-shadow(1px 2px 0 rgba(75,49,4,.45)) drop-shadow(0 2px 2px rgba(0,0,0,.22));transition:opacity 140ms ease,transform 180ms ease}
-  .name-stars.is-active .gold-star{animation:star-sticker-land 320ms var(--ease-out) both}
-  .name-stars.is-active g:nth-child(2) .name-star{animation-delay:55ms}.name-stars.is-active g:nth-child(3) .name-star{animation-delay:110ms}
-  @keyframes star-sticker-land{from{opacity:0;transform:translate3d(-7px,5px,0) rotate(-13deg) scale(.88)}to{opacity:1;transform:translate3d(0,0,0) rotate(0) scale(1)}}
-  .action-stars .gold-star.is-thrown{animation:star-sticker-land 320ms var(--ease-out) both}
+  .paper-sticker{position:absolute;z-index:1;width:clamp(42px,4.1vw,68px);height:auto;opacity:0;transform:translate3d(-6px,5px,0) rotate(calc(var(--sticker-rotation) - 8deg)) scale(.9);filter:drop-shadow(1px 2px 0 rgba(34,31,28,.46)) drop-shadow(0 3px 2px rgba(0,0,0,.24));will-change:transform,opacity}
+  .paper-sticker.is-placed{animation:place-paper-sticker 320ms var(--ease-out) both}
+  @keyframes place-paper-sticker{from{opacity:0;transform:translate3d(-6px,5px,0) rotate(calc(var(--sticker-rotation) - 8deg)) scale(.9)}to{opacity:1;transform:translate3d(0,0,0) rotate(var(--sticker-rotation)) scale(1)}}
   .smiley-reaction{position:absolute;inset:0;display:block;width:100%;height:100%;fill:#090604;opacity:0;transform-origin:85.7% 15.4%;transition:opacity 120ms ease}
   .smiley-reaction.is-active{opacity:.88}
   @media (hover:hover) and (pointer:fine){.smiley-reaction.is-active{animation:smiley-friendly 1100ms ease-in-out infinite}}
@@ -107,15 +104,18 @@
   @keyframes work-gradient{0%,100%{background-position:0 45%}50%{background-position:100% 55%}}
   .work-sheet:before{ content:""; position:absolute; inset:0; pointer-events:none; background:radial-gradient(circle at 24% 45%,rgba(155,113,232,.18),transparent 31%),radial-gradient(circle at 78% 22%,rgba(112,212,245,.09),transparent 26%);}
   .resume-modal{align-items:center;background:transparent;backdrop-filter:none;-webkit-backdrop-filter:none;overflow:hidden;padding:0;pointer-events:none}
-  .clipboard-sheet{width:min(92vw,92svh,1080px);max-width:none;aspect-ratio:1513/1516;height:auto;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;transform:translate3d(6vw,7vh,0) rotate(-2.4deg);animation:none;pointer-events:auto}
+  .clipboard-sheet{width:min(92vw,92svh,1080px);max-width:none;aspect-ratio:1513/1516;height:auto;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;transform:translate3d(6vw,-14vh,0) rotate(-2.4deg);filter:drop-shadow(11px 18px 13px rgba(38,19,9,.4));animation:none;pointer-events:auto}
   .resume-modal.open .clipboard-sheet{animation:clipboard-up 380ms var(--ease-out) both}
   .resume-modal .clipboard-sheet.is-leaving{animation:clipboard-down 340ms var(--ease-out) both}
-  @keyframes clipboard-up{from{opacity:.98;transform:translate3d(5.4vw,37vh,0) rotate(-1.1deg)}to{opacity:1;transform:translate3d(6vw,7vh,0) rotate(-2.4deg)}}
-  @keyframes clipboard-down{from{opacity:1;transform:translate3d(6vw,7vh,0) rotate(-2.4deg)}to{opacity:.98;transform:translate3d(5.4vw,37vh,0) rotate(-1.1deg)}}
+  @keyframes clipboard-up{from{opacity:.98;transform:translate3d(5.4vw,20vh,0) rotate(-1.1deg)}to{opacity:1;transform:translate3d(6vw,-14vh,0) rotate(-2.4deg)}}
+  @keyframes clipboard-down{from{opacity:1;transform:translate3d(6vw,-14vh,0) rotate(-2.4deg)}to{opacity:.98;transform:translate3d(5.4vw,20vh,0) rotate(-1.1deg)}}
   .clipboard-photo{position:absolute;z-index:1;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none}
   .resume-preview{position:absolute;z-index:2;left:20%;top:10.5%;display:block;width:60%;height:auto;border:0;border-radius:1px;background:#fff;object-fit:contain;box-shadow:0 1px 2px rgba(0,0,0,.45)}
   .clipboard-metal{position:absolute;z-index:3;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none}
-  .resume-download{position:absolute;z-index:4;left:50%;bottom:7%;transform:translateX(-50%);display:block;width:max-content;margin:0;padding:9px 15px;border:1px solid #d9d9d9;border-radius:3px;background:#f6f0e6;color:#1c1c1c;text-decoration:none;font:12px/1 var(--mono);letter-spacing:.04em;box-shadow:0 2px 3px rgba(0,0,0,.4)}
+  .resume-download{position:absolute;z-index:4;left:50%;bottom:6.5%;transform:translateX(-50%);display:block;width:clamp(142px,17vw,230px);margin:0;padding:0;border:0;background:transparent;text-decoration:none;filter:drop-shadow(0 3px 2px rgba(0,0,0,.38));transition:transform 150ms ease,filter 150ms ease}
+  .resume-download img{display:block;width:100%;height:auto;pointer-events:none}
+  @media (hover:hover) and (pointer:fine){.resume-download:hover{transform:translateX(-50%) translateY(-3px) rotate(-1deg) scale(1.025);filter:drop-shadow(0 7px 5px rgba(0,0,0,.4))}}
+  .resume-download:active{transform:translateX(-50%) translateY(1px) scale(.985)}
   .clipboard-close{position:absolute;right:18%;top:8.5%;z-index:5;width:30px;height:30px;border:0;background:transparent;color:#fff;font:24px/1 Arial,sans-serif;text-shadow:0 1px 2px rgba(0,0,0,.85);cursor:pointer}
   @keyframes work-reveal{ from{opacity:0;transform:scale(.97)} to{opacity:1;transform:none} }
   .work-close{ color:#fff; border-color:rgba(255,255,255,.75);}
@@ -238,19 +238,17 @@
   .story-sheet > img{ display:block; width:100%; max-height:90vh; object-fit:contain;}
   .story-sheet .close{ color:#fff;border-color:rgba(255,255,255,.8);background:rgba(0,0,0,.35);}
 
-  @media (prefers-reduced-motion:reduce){ *{transition:none!important;animation:none!important;} .site-loader{transition:opacity 120ms ease,visibility 0s linear 120ms}.name-stars.is-active .gold-star,.action-stars .gold-star.is-thrown{opacity:1;transform:none}.layer-book{transform:translate(-9%,12%) rotate(-8deg)} .painting-camera{transform:none!important;} .mapped-hot:hover .mapped-shuffle{transform:none!important;} }
+  @media (prefers-reduced-motion:reduce){ *{transition:none!important;animation:none!important;} .site-loader{transition:opacity 120ms ease,visibility 0s linear 120ms}.paper-sticker.is-placed{opacity:1;transform:rotate(var(--sticker-rotation))}.layer-book{transform:translate(-9%,12%) rotate(-8deg)} .painting-camera{transform:none!important;} .mapped-hot:hover .mapped-shuffle{transform:none!important;} }
   @media (max-width:600px){
     #m-thoughts{padding:0;align-items:flex-start;overflow-x:hidden;overflow-y:auto;overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch;touch-action:pan-y}
-    .book-sheet{width:100vw;min-height:180vw;flex:none;}
-    .real-book-reader{width:92vw;height:180vw;margin:0 auto;aspect-ratio:auto;overflow:visible}
-    .real-book-stage{position:absolute;left:0;top:56vw;width:92vw;height:122vw;place-items:stretch;overflow:hidden;z-index:1}
-    .real-book-frame,.real-book-turn{position:absolute;inset:auto;left:-92vw;top:-35vw;width:184vw;height:184vw;max-width:none;object-fit:contain}
-    .book-video-shell{left:14vw;top:6vw;width:64vw;padding:10px;border-radius:20px;transform:rotate(-1.4deg);z-index:4}
-    .real-book-reader.is-mobile-opening .real-book-stage{animation:mobile-journal-settle 260ms var(--ease-out) both}
-    @keyframes mobile-journal-settle{from{opacity:.94;transform:translate3d(0,12px,0)}to{opacity:1;transform:translate3d(0,0,0)}}
-    .real-book-reader .book-arrow{top:56vw;height:122vw;width:24px}
+    .book-sheet{width:100vw;min-height:112vw;flex:none;}
+    .real-book-reader{width:100vw;height:112vw;margin:0;aspect-ratio:auto;overflow:visible}
+    .real-book-stage{position:absolute;left:0;top:0;width:100vw;height:90vw;place-items:stretch;overflow:visible;z-index:1}
+    .real-book-frame,.real-book-turn{position:absolute;inset:auto;left:-12vw;top:-24vw;width:116vw;height:116vw;max-width:none;object-fit:contain}
+    .book-video-shell{left:10vw;top:31vw;width:38vw;padding:7px;border-radius:15px;transform:rotate(-1.4deg);z-index:4}
+    .real-book-reader .book-arrow{top:0;height:78vw;width:28px}
     .real-book-reader .book-prev{left:-2px}.real-book-reader .book-next{right:-2px}
-    .journal-close{top:56vw;right:2px;width:36px;height:36px}
+    .journal-close{top:2vw;right:2vw;width:36px;height:36px}
     .book-prev{ left:-2px;}.book-next{ right:-2px;}
     .book-arrow{ width:32px;height:44px;font-size:38px;line-height:40px;}
     .book-caption{ left:3%;top:2%;width:44%;font-size:12px;}
