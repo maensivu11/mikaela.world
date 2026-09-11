@@ -159,7 +159,7 @@ if(window.matchMedia('(hover:hover) and (pointer:fine)').matches){
 var nameStickerCount=0,nameStickerLocked=false,nameStickerTimer=0;
 function placeNameSticker(){var stickers=document.querySelectorAll('.name-sticker');var sticker=stickers[nameStickerCount];if(!sticker){clearInterval(nameStickerTimer);nameStickerTimer=0;return;}nameStickerCount+=1;sticker.classList.add('is-placed');}
 function clearNameStickers(){clearInterval(nameStickerTimer);nameStickerTimer=0;nameStickerCount=0;document.querySelectorAll('.name-sticker').forEach(function(sticker){sticker.classList.remove('is-placed');});}
-function startNameStickerHover(){if(nameStickerLocked)return;clearNameStickers();placeNameSticker();nameStickerTimer=setInterval(placeNameSticker,180);}
+function startNameStickerHover(){if(nameStickerLocked)return;clearNameStickers();placeNameSticker();nameStickerTimer=setInterval(placeNameSticker,240);}
 function endNameStickerHover(){clearInterval(nameStickerTimer);nameStickerTimer=0;if(!nameStickerLocked)clearNameStickers();}
 function toggleNameStickers(){if(nameStickerLocked){nameStickerLocked=false;clearNameStickers();return;}nameStickerLocked=true;clearInterval(nameStickerTimer);nameStickerTimer=0;document.querySelectorAll('.name-sticker').forEach(function(sticker){sticker.classList.add('is-placed');});nameStickerCount=document.querySelectorAll('.name-sticker').length;}
 var nameReactionHit=document.querySelector('[data-reaction="name"]');if(nameReactionHit)nameReactionHit.addEventListener('click',toggleNameStickers);
