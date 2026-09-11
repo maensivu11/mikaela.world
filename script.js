@@ -7,7 +7,7 @@ document.addEventListener('click',function(e){
 },true);
 function openM(id){var m=document.getElementById('m-'+id);if(m){modalTrigger=document.activeElement;m.classList.add('open');document.body.style.overflow='hidden';if(id==='thoughts'&&typeof startRealBook==='function')startRealBook();if(id==='phone')startInstagramVideo();var close=m.querySelector('[data-close]');if(close&&id!=='thoughts')close.focus({preventScroll:true});}}
 var instagramVideo=document.querySelector('[data-instagram-video]');
-function startInstagramVideo(){if(!instagramVideo)return;instagramVideo.volume=.35;var play=instagramVideo.play();if(play&&play.catch)play.catch(function(){});}
+function startInstagramVideo(){if(!instagramVideo)return;instagramVideo.muted=true;var play=instagramVideo.play();if(play&&play.catch)play.catch(function(){});}
 function stopInstagramVideo(){if(!instagramVideo)return;instagramVideo.pause();}
 var phoneModal=document.getElementById('m-phone');
 var phoneClosing=false;
