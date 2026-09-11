@@ -473,18 +473,23 @@ function startRealBook(){
   realBookPage=0;realBookOpening=true;
   realBookReader.classList.remove('is-closing','is-open');realBookReader.classList.toggle('is-mobile-opening',mobile);
   realBookClosing=false;prev.disabled=true;next.disabled=true;
+  // Pre-decode all opening frames so swaps are instant (no blank flash on mobile)
+  var openingDecoded=reduce?Promise.resolve():Promise.all(opening.map(function(src){
+    var img=new Image();img.src=src;
+    return (img.decode?img.decode():Promise.resolve()).catch(function(){});
+  }));
   function showNext(){
     frame.src=opening[step];
     frame.classList.remove('is-turning');
     step+=1;
-    if(step<opening.length){realBookTimer=setTimeout(showNext,reduce?0:(mobile?95:130));return;}
+    if(step<opening.length){realBookTimer=setTimeout(showNext,reduce?0:(mobile?110:130));return;}
     realBookOpening=false;prev.disabled=true;next.disabled=false;
     var reveal=function(){realBookReader.classList.add('is-open');startBookVideo();};
     if(reduce){reveal();return;}
     var decoded=frame.decode?frame.decode():Promise.resolve();
     decoded.catch(function(){}).then(function(){realBookTimer=setTimeout(reveal,mobile?60:80);});
   }
-  showNext();
+  openingDecoded.then(function(){showNext();});
 }
 if(realBookReader){
   var realFrame=realBookReader.querySelector('[data-real-book-frame]');
