@@ -106,7 +106,7 @@
   .work-sheet{ max-width:none; min-height:100%; border-radius:0; padding:0; overflow:hidden; background:linear-gradient(120deg,#ef4a8a,#b92d91,#6d28d9,#ef4a8a);background-size:300% 300%;color:#fff;animation:work-reveal 420ms var(--ease-out),work-gradient 10s ease-in-out infinite;}
   @keyframes work-gradient{0%,100%{background-position:0 45%}50%{background-position:100% 55%}}
   .work-sheet:before{ content:""; position:absolute; inset:0; pointer-events:none; background:radial-gradient(circle at 24% 45%,rgba(155,113,232,.18),transparent 31%),radial-gradient(circle at 78% 22%,rgba(112,212,245,.09),transparent 26%);}
-  .resume-modal{align-items:center;background:transparent;backdrop-filter:none;-webkit-backdrop-filter:none;overflow:hidden;padding:0;pointer-events:none}
+  .resume-modal{align-items:center;background:transparent;backdrop-filter:none;-webkit-backdrop-filter:none;overflow:hidden;padding:0;pointer-events:auto}
   .clipboard-sheet{width:min(92vw,92svh,1080px);max-width:none;aspect-ratio:1513/1516;height:auto;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;transform:translate3d(6vw,-4vh,0) rotate(-2.4deg);filter:drop-shadow(11px 18px 13px rgba(38,19,9,.4));animation:none;pointer-events:auto}
   .resume-modal.open .clipboard-sheet{animation:clipboard-up 380ms var(--ease-out) both}
   .resume-modal .clipboard-sheet.is-leaving{animation:clipboard-down 340ms var(--ease-out) both}
@@ -248,11 +248,12 @@
     .real-book-reader{width:92vw;height:180vw;margin:0 auto;aspect-ratio:auto;overflow:visible}
     .real-book-stage{position:absolute;left:0;top:56vw;width:92vw;height:122vw;place-items:stretch;overflow:visible;z-index:1}
     .real-book-frame,.real-book-turn{position:absolute;inset:auto;left:-92vw;top:-35vw;width:184vw;height:184vw;max-width:none;object-fit:contain}
-    .book-video-shell{left:14vw;top:6vw;width:64vw;padding:10px;border-radius:20px;transform:rotate(-1.4deg);z-index:4}
+    .book-video-shell{left:14vw;top:8vw;width:64vw;padding:10px;border-radius:20px;transform:rotate(2.2deg);z-index:4;box-shadow:3px 7px 5px rgba(49,31,17,.3),10px 18px 16px rgba(49,31,17,.24),inset 0 1px 1px rgba(255,255,255,.9),inset 0 -2px 4px rgba(63,43,26,.18)}
     .real-book-reader .book-arrow{top:56vw;height:122vw;width:44px}
     .real-book-reader .book-prev{left:-2px}.real-book-reader .book-next{right:-2px}
     .journal-close{top:56vw;right:2px;width:36px;height:36px}
     .book-prev{ left:-2px;}.book-next{ right:-2px;}
+    .resume-download{bottom:.75%;width:min(27vw,110px)}
     .book-arrow{ width:32px;height:44px;font-size:38px;line-height:40px;}
     .book-caption{ left:3%;top:2%;width:44%;font-size:12px;}
     .real-book-caption{left:9%;top:64%;max-width:240px;font-size:12px}
@@ -288,3 +289,4 @@ body{display:grid;min-height:100svh;place-items:center;overflow-x:hidden;backgro
   .book-peek-hit:active{cursor:grabbing}
   .painting-hotspot-layer{display:block;z-index:1}
   .action-highlights,.note-reactions,.body-hotspots,.hotspot-layer{display:block}
+  @media(max-width:600px){.book-peek-hit{left:10%;top:10%;width:80%;height:23%;clip-path:none}}

@@ -6,6 +6,17 @@ function startInstagramVideo(){if(!instagramVideo)return;instagramVideo.volume=.
 function stopInstagramVideo(){if(!instagramVideo)return;instagramVideo.pause();}
 var phoneModal=document.getElementById('m-phone');
 var phoneClosing=false;
+var resumeModal=document.getElementById('m-resume');
+var resumeClosing=false;
+function closeResume(){
+  if(!resumeModal||!resumeModal.classList.contains('open')){finishCloseAll();return;}
+  if(resumeClosing)return;
+  resumeClosing=true;
+  var sheet=resumeModal.querySelector('.clipboard-sheet');
+  if(sheet)sheet.classList.add('is-leaving');
+  var duration=window.matchMedia('(prefers-reduced-motion: reduce)').matches?0:340;
+  window.setTimeout(function(){if(sheet)sheet.classList.remove('is-leaving');resumeClosing=false;finishCloseAll();},duration);
+}
 function closePhone(){
   if(!phoneModal||!phoneModal.classList.contains('open')){finishCloseAll();return;}
   if(phoneClosing)return;
@@ -32,7 +43,7 @@ function finishThoughtsClose(){
   if(sceneBook){sceneBook.style.zIndex='8';bookReturn=sceneBook.animate([{transform:'translate3d(0,24%,0) rotate(2deg) scale(1.025)'},{transform:getComputedStyle(sceneBook).transform}],{duration:motion,easing:'cubic-bezier(0.77,0,0.175,1)',fill:'forwards'});}
   cover.finished.then(function(){covers.forEach(function(a){a.cancel();});if(bookReturn)bookReturn.cancel();noteStack.forEach(function(layer){layer.style.transform='';layer.style.zIndex='';});if(sceneBook&&typeof window.resetLayeredBook==='function')window.resetLayeredBook();}).catch(function(){});
 }
-function closeAll(){var thoughts=document.getElementById('m-thoughts');if(thoughts&&thoughts.classList.contains('open')&&typeof closeRealBook==='function'){closeRealBook(finishThoughtsClose);return;}if(phoneModal&&phoneModal.classList.contains('open')){closePhone();return;}finishCloseAll();}
+function closeAll(){var thoughts=document.getElementById('m-thoughts');if(thoughts&&thoughts.classList.contains('open')&&typeof closeRealBook==='function'){closeRealBook(finishThoughtsClose);return;}if(phoneModal&&phoneModal.classList.contains('open')){closePhone();return;}if(resumeModal&&resumeModal.classList.contains('open')){closeResume();return;}finishCloseAll();}
 
 var workProjects=Array.from(document.querySelectorAll('[data-project]'));
 var workIndex=0;
@@ -113,9 +124,7 @@ document.querySelectorAll('[data-modal]').forEach(function(el){el.addEventListen
 function setResume(src){var preview=document.querySelector('[data-resume-preview]');var download=document.querySelector('[data-resume-download]');var name=src.indexOf('design')>-1?'design':src.indexOf('front-end')>-1?'frontend':'product';if(preview)preview.src='assets/resume-previews/'+name+'.png';if(download)download.href=src;}
 var resumeDownload=document.querySelector('[data-resume-download]');
 if(resumeDownload)resumeDownload.addEventListener('click',function(){
-  var sheet=document.querySelector('.clipboard-sheet');
-  if(sheet)sheet.classList.add('is-leaving');
-  setTimeout(function(){if(sheet)sheet.classList.remove('is-leaving');finishCloseAll();},420);
+  closeResume();
 });
 document.querySelectorAll('.mapped-hot[role="button"]').forEach(function(el){el.addEventListener('keydown',function(e){
   if(e.key==='Enter'||e.key===' '){e.preventDefault();el.dispatchEvent(new MouseEvent('click',{bubbles:true,cancelable:true}));}
@@ -157,6 +166,12 @@ var workPrevious=document.querySelector('[data-work-previous]');if(workPrevious)
 var workNext=document.querySelector('[data-work-next]');if(workNext)workNext.addEventListener('click',function(){showWorkProject(workIndex+1,false);});
   document.querySelectorAll('[data-close]').forEach(function(b){b.addEventListener('click',closeAll);});
   document.querySelectorAll('.modal').forEach(function(m){m.addEventListener('click',function(e){if(e.target===m)closeAll();});});
+  var thoughtsBackdropModal=document.getElementById('m-thoughts');
+  if(thoughtsBackdropModal)thoughtsBackdropModal.addEventListener('click',function(e){
+    if(!thoughtsBackdropModal.classList.contains('open'))return;
+    if(e.target.closest('.real-book-stage,.book-video-shell,.book-arrow,.journal-close'))return;
+    closeAll();
+  });
 document.addEventListener('keydown',function(e){
   if(e.key==='Escape'){closeAll();return;}
   if(e.code==='Space'&&thoughtsModal&&thoughtsModal.classList.contains('open')&&realBookReader&&realBookReader.classList.contains('is-open')&&!realBookClosing){
