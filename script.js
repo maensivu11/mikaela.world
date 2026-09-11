@@ -10,7 +10,7 @@ function closePhone(){
   if(!phoneModal||!phoneModal.classList.contains('open')){finishCloseAll();return;}
   if(phoneClosing)return;
   phoneClosing=true;phoneModal.classList.add('is-closing');
-  var duration=window.matchMedia('(prefers-reduced-motion: reduce)').matches?0:300;
+  var duration=window.matchMedia('(prefers-reduced-motion: reduce)').matches?0:540;
   window.setTimeout(function(){phoneModal.classList.remove('is-closing');phoneClosing=false;finishCloseAll();},duration);
 }
 var paintingJourney=document.querySelector('.painting-journey');

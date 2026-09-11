@@ -204,7 +204,7 @@
   .phonewrap{width:min(350px,34vw);max-width:none;background:none;box-shadow:none;padding:0;animation:none;transform:rotate(1.2deg)}
   .phone-mock{position:relative;width:100%;aspect-ratio:1697/3460;filter:drop-shadow(3px 5px 2px rgba(38,18,8,.34)) drop-shadow(10px 16px 13px rgba(38,18,8,.34));transform-origin:50% 70%}
   .phone-modal.open .phone-mock{animation:place-phone 380ms cubic-bezier(0.23,1,0.32,1) both}
-  .phone-modal.is-closing .phone-mock{animation:put-phone-away 300ms cubic-bezier(.55,.05,.67,.19) both}
+  .phone-modal.is-closing .phone-mock{animation:put-phone-away 540ms var(--ease-out) both}
   .phone-mock>img{position:absolute;inset:0;z-index:2;display:block;width:100%;height:100%;pointer-events:none}
   .instagram-video{position:absolute;left:4.6%;top:1.8%;z-index:3;width:90.8%;height:96.25%;border:0;border-radius:13%/6.4%;background:#050505;object-fit:cover;overflow:hidden}
   .phone-close{position:absolute;right:-42px;top:0;z-index:4;display:grid;place-items:center;width:34px;height:34px;padding:0;border:0;background:rgba(251,246,234,.9);color:#493b31;border-radius:50%;font:24px/1 Arial,sans-serif;text-align:center;cursor:pointer;box-shadow:0 5px 12px rgba(0,0,0,.22)}
@@ -213,7 +213,7 @@
     78%{ transform:translate3d(0,1%,0) rotate(-.25deg) scale(1); opacity:1;}
     100%{ transform:translate3d(0,0,0) rotate(0) scale(1); opacity:1;}
   }
-  @keyframes put-phone-away{from{transform:translate3d(0,0,0) rotate(0) scale(1);opacity:1}to{transform:translate3d(1vw,13vh,0) rotate(.8deg) scale(.97);opacity:0}}
+  @keyframes put-phone-away{0%{transform:translate3d(0,0,0) rotate(0) scale(1);opacity:1}72%{transform:translate3d(1vw,96%,0) rotate(.55deg) scale(.98);opacity:1}100%{transform:translate3d(1.4vw,145%,0) rotate(.8deg) scale(.97);opacity:0}}
   @media(max-width:700px){.phone-modal{justify-content:center;padding:18px}.phonewrap{width:min(69vw,310px);transform:rotate(2.6deg)}.phone-close{right:-24px;top:-8px}}
   .phone .screen{ background:#fff; border-radius:34px; overflow:hidden; height:min(560px,74vh); display:flex; flex-direction:column;}
   .phone .island{ position:relative; height:26px;} .phone .island:before{ content:""; position:absolute; left:50%; top:7px; transform:translateX(-50%); width:86px; height:22px; background:#0c0c0e; border-radius:14px;}
