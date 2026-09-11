@@ -512,11 +512,11 @@ if(realBookReader){
     if(reduce){finishTurn();return;}
     realTurn.src=realBookPages[realBookPage];realTurn.hidden=false;
     realFrame.src=realBookPages[nextIndex];
-    realTurn.style.clipPath='none';
-    realTurn.style.transformOrigin=direction>0?'0% 50%':'100% 50%';
+    realTurn.style.clipPath=direction>0?'inset(0 0 0 50%)':'inset(0 50% 0 0)';
+    realTurn.style.transformOrigin='50% 50%';
     var out=realTurn.animate(mobile?[
-      {transform:'scaleX(1)',opacity:1},
-      {transform:'scaleX(0)',opacity:0.7}
+      {transform:'scaleX(1)'},
+      {transform:'scaleX(0)'}
     ]:[
       {transform:'rotateY(0deg)'},
       {transform:'rotateY('+(direction>0?-96:96)+'deg)'}
