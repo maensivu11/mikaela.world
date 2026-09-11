@@ -24,7 +24,7 @@
   .action-highlights .action-trace{stroke-width:8}
   .action-highlights [data-highlight-layer].is-active,.action-highlights [data-highlight-layer].is-locked{opacity:.52;clip-path:inset(0 0 0 0)}
   .note-reactions{position:absolute;inset:0;z-index:5;pointer-events:none}
-  .paper-sticker{position:absolute;z-index:1;width:clamp(42px,4.1vw,68px);height:auto;opacity:0;transform:translate3d(-6px,5px,0) rotate(calc(var(--sticker-rotation) - 8deg)) scale(.9);filter:drop-shadow(1px 2px 0 rgba(34,31,28,.46)) drop-shadow(0 3px 2px rgba(0,0,0,.24));will-change:transform,opacity}
+  .paper-sticker{position:absolute;z-index:1;width:clamp(42px,4.1vw,68px);height:auto;opacity:0;transform:translate3d(-6px,5px,0) rotate(calc(var(--sticker-rotation) - 8deg)) scale(.9);filter:drop-shadow(0 1px .35px rgba(30,24,20,.3));will-change:transform,opacity}
   .name-sticker{transform:translate(-50%,-50%) translate3d(-6px,5px,0) rotate(calc(var(--sticker-rotation) - 8deg)) scale(.9)}
   .name-sticker.is-placed{animation-name:place-name-sticker}
   @keyframes place-name-sticker{from{opacity:0;transform:translate(-50%,-50%) translate3d(-6px,5px,0) rotate(calc(var(--sticker-rotation) - 8deg)) scale(.9)}to{opacity:1;transform:translate(-50%,-50%) translate3d(0,0,0) rotate(var(--sticker-rotation)) scale(1)}}
