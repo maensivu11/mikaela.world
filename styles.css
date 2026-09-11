@@ -266,7 +266,8 @@
   }
 
   /* Clean tabletop baseline. Reactions return after registration to this source image. */
-body{display:grid;min-height:100svh;place-items:center;overflow-x:hidden;background:#e80756 url("assets/source-painting/plain_canvas.png") center top/cover fixed no-repeat}
+body{display:grid;min-height:100svh;place-items:center;overflow-x:hidden;background:#e80756}
+#bg-canvas{position:fixed;inset:0;z-index:0;background:#e80756 url("assets/source-painting/plain_canvas.png") center top/cover no-repeat;pointer-events:none;will-change:initial}
   .work-flower-entry{--flower-rest:rotate(0deg);position:fixed;left:auto;right:clamp(68px,6vw,112px);top:clamp(8px,2.2vh,28px);z-index:20;width:320px;aspect-ratio:1973/1385;padding:0;border:0;background:none;cursor:pointer;filter:drop-shadow(0 7px 5px rgba(35,18,8,.32));transform:var(--flower-rest);transform-origin:58% 55%;transition:transform 440ms cubic-bezier(.2,.8,.2,1),opacity 140ms ease}
   .work-flower-entry:before{content:"";position:absolute;z-index:0;left:40%;top:73%;width:34%;height:10%;border-radius:50%;background:rgba(42,18,8,.38);filter:blur(7px);transform:rotate(-5deg);pointer-events:none}
   .work-flower-entry.is-desk-hidden{opacity:0;transform:var(--flower-rest) rotate(155deg) scale(.52);pointer-events:none;transition:transform 380ms cubic-bezier(.55,.05,.67,.19),opacity 140ms ease 190ms}
@@ -292,5 +293,4 @@ body{display:grid;min-height:100svh;place-items:center;overflow-x:hidden;backgro
   .action-highlights,.note-reactions,.body-hotspots,.hotspot-layer{display:block}
   @media(max-width:600px){
     .book-peek-hit{left:10%;top:10%;width:80%;height:23%;clip-path:none}
-    body{background-attachment:scroll}
   }
