@@ -277,7 +277,7 @@ body{display:grid;min-height:100svh;place-items:center;overflow-x:hidden;backgro
   .work-flower-entry:hover .work-flower-bloom,.work-flower-entry:focus-visible .work-flower-bloom{animation:none;transform:scale(1.1) rotate(10deg)}
   @keyframes flower-idle{0%,100%{transform:scale(1) rotate(-1deg)}50%{transform:scale(1.035) rotate(1deg)}}
   @media(max-width:1000px){.work-flower-entry{--flower-rest:rotate(16deg);left:auto;right:clamp(16px,4vw,32px);top:clamp(10px,2vh,18px);width:clamp(166px,34vw,188px);transform:var(--flower-rest);transform-origin:58% 50%}.work-flower-entry.is-desk-hidden{transform:var(--flower-rest) rotate(155deg) scale(.52)}}
-  @media(max-width:600px){.work-flower-entry{width:clamp(120px,28vw,150px);right:clamp(10px,3vw,20px);top:clamp(6px,1.5vh,14px)}}
+  @media(max-width:600px){.work-flower-entry{width:clamp(148px,34vw,180px);right:clamp(10px,3vw,20px);top:clamp(6px,1.5vh,14px)}}
   .painting-backdrop-trigger{position:fixed;inset:0;z-index:0;width:100%;height:100%;padding:0;border:0;background:transparent;cursor:zoom-in}
   .top,.legend{display:none}
   .stage{width:min(100vw,75svh);max-width:none;margin:0 auto;overflow:visible}
@@ -290,4 +290,8 @@ body{display:grid;min-height:100svh;place-items:center;overflow-x:hidden;backgro
   .book-peek-hit:active{cursor:grabbing}
   .painting-hotspot-layer{display:block;z-index:1}
   .action-highlights,.note-reactions,.body-hotspots,.hotspot-layer{display:block}
-  @media(max-width:600px){.book-peek-hit{left:10%;top:10%;width:80%;height:23%;clip-path:none}}
+  @media(max-width:600px){
+    .book-peek-hit{left:10%;top:10%;width:80%;height:23%;clip-path:none}
+    .layer-book{top:10%;width:112%;left:-6%}
+    .layer-note{top:10%;width:112%;left:-6%}
+  }
