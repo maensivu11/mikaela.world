@@ -47,7 +47,7 @@
   .layer-book{position:absolute;left:5.69%;top:1.33%;width:67.34%;height:auto;transform-origin:60% 90%;z-index:5;will-change:transform;touch-action:none;user-select:none}
   .layer-book.has-intro-transition{transition:transform 900ms var(--ease-out)}
   .layer-book.is-moved{transform:translate(-9%,12%) rotate(-8deg)}
-  .layer-book.is-dragging{cursor:grabbing;transition:none;z-index:10}
+  .layer-book.is-dragging{cursor:grabbing;transition:none}
   .mapped-hot{ cursor:pointer; outline:none;}
   .painting-map{cursor:zoom-in}
   .mapped-hit{ fill:transparent; pointer-events:all;}
@@ -220,6 +220,7 @@
   }
   @keyframes put-phone-away{0%{transform:translate3d(0,0,0) rotate(0) scale(1);opacity:1}99%{transform:translate3d(1vw,120vh,0) rotate(.8deg) scale(.97);opacity:1}100%{transform:translate3d(1vw,120vh,0) rotate(.8deg) scale(.97);opacity:0}}
   @media(max-width:700px){.phone-modal{justify-content:center;padding:18px}.phonewrap{width:min(54vw,40svh,240px);transform:rotate(2.6deg)}.phone-close{right:-24px;top:-8px}}
+  @media(max-width:600px){.phonewrap{width:min(44vw,32svh,190px)}.clipboard-sheet{width:min(88vw,78svh,560px);transform:translate3d(2vw,-2vh,0) rotate(-1.8deg)}@keyframes clipboard-up{from{opacity:.98;transform:translate3d(1.5vw,110vh,0) rotate(-1.1deg)}to{opacity:1;transform:translate3d(2vw,-2vh,0) rotate(-1.8deg)}}@keyframes clipboard-down{from{opacity:1;transform:translate3d(2vw,-2vh,0) rotate(-1.8deg)}to{opacity:1;transform:translate3d(1vw,115vh,0) rotate(-.5deg)}}}
   .phone .screen{ background:#fff; border-radius:34px; overflow:hidden; height:min(560px,74vh); display:flex; flex-direction:column;}
   .phone .island{ position:relative; height:26px;} .phone .island:before{ content:""; position:absolute; left:50%; top:7px; transform:translateX(-50%); width:86px; height:22px; background:#0c0c0e; border-radius:14px;}
   .ig-top{ display:flex; align-items:center; gap:11px; padding:6px 14px 12px; border-bottom:1px solid #eee;}
@@ -277,6 +278,8 @@ body{display:grid;min-height:100svh;place-items:center;overflow-x:hidden;backgro
   .work-flower-entry:hover .work-flower-label,.work-flower-entry:focus-visible .work-flower-label{opacity:1;clip-path:inset(0 0 0 0)}
   .work-flower-entry:hover .work-flower-bloom,.work-flower-entry:focus-visible .work-flower-bloom{animation:none;transform:scale(1.1) rotate(10deg)}
   @keyframes flower-idle{0%,100%{transform:scale(1) rotate(-1deg)}50%{transform:scale(1.035) rotate(1deg)}}
+  @keyframes flower-hint-pulse{0%,100%{opacity:0}15%,50%{opacity:1}}
+  .work-flower-entry.has-hint .work-flower-label{clip-path:inset(0 0 0 0);animation:flower-hint-pulse 7s ease-in-out infinite;animation-delay:1s}
   @media(max-width:1000px){.work-flower-entry{--flower-rest:rotate(16deg);left:auto;right:clamp(16px,4vw,32px);top:clamp(10px,2vh,18px);width:clamp(166px,34vw,188px);transform:var(--flower-rest);transform-origin:58% 50%}.work-flower-entry.is-desk-hidden{transform:var(--flower-rest) rotate(155deg) scale(.52)}}
   @media(max-width:600px){.work-flower-entry{--flower-rest:rotate(22deg);width:clamp(148px,34vw,180px);right:clamp(10px,3vw,20px);top:clamp(2px,0.8vh,8px);transform-origin:62% 45%}}
   .painting-backdrop-trigger{position:fixed;inset:0;z-index:0;width:100%;height:100%;padding:0;border:0;background:transparent;cursor:zoom-in}

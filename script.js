@@ -253,7 +253,7 @@ if(layeredStage&&layeredBook){
     if(layeredLiftAnimation)layeredLiftAnimation.cancel();
     layeredLiftAnimation=null;
     layeredBook.dataset.lifting='';
-    layeredBook.style.zIndex='2';
+    layeredBook.style.zIndex='';
     layeredBook.style.filter='';
     layeredApply(layeredState);
   }
@@ -276,6 +276,7 @@ if(layeredStage&&layeredBook){
     var noteStack=Array.from(layeredStage.querySelectorAll('.layer-note,.action-highlights,.note-reactions,.body-hotspots,.hotspot-layer'));
     if(layeredReduce){noteStack.forEach(function(layer){layer.style.transform='translate3d(0,108%,0)';});openM('thoughts');return;}
     noteStack.forEach(function(layer){layer.style.zIndex='9';});
+    layeredBook.style.zIndex='3';
     var noteFrames=[
       {transform:'translate3d(0,0,0) rotate(0deg)'},
       {transform:'translate3d(-2px,28%,0) rotate(.25deg)',offset:.28},
@@ -614,26 +615,18 @@ if(siteLoader){
   window.setTimeout(dismissSiteLoader,6500);
 }
 
-// One-shot hint: briefly reveal "see my work" label on touch devices after loader clears
+// Repeating hint: pulse "see my work" label on touch devices until first tap
 (function(){
   if(window.matchMedia('(hover:hover) and (pointer:fine)').matches)return;
   var entry=document.querySelector('.work-flower-entry');
-  var label=entry&&entry.querySelector('.work-flower-label');
-  if(!entry||!label)return;
-  function showHint(){
-    label.style.transition='opacity 600ms ease';
-    label.style.clipPath='inset(0 0 0 0)';
-    label.style.opacity='1';
-    setTimeout(function(){
-      label.style.opacity='0';
-      setTimeout(function(){label.style.transition='';label.style.opacity='';label.style.clipPath='';},700);
-    },2200);
-  }
-  // Wait for the #loader to be removed from the DOM, then show hint after a beat
+  if(!entry)return;
+  function startHint(){entry.classList.add('has-hint');}
+  function stopHint(){entry.classList.remove('has-hint');}
+  entry.addEventListener('click',stopHint,{once:true});
   var loaderEl=document.getElementById('loader');
-  if(!loaderEl){setTimeout(showHint,800);return;}
+  if(!loaderEl){setTimeout(startHint,800);return;}
   var obs=new MutationObserver(function(){
-    if(!document.getElementById('loader')){obs.disconnect();setTimeout(showHint,800);}
+    if(!document.getElementById('loader')){obs.disconnect();setTimeout(startHint,800);}
   });
   obs.observe(document.body,{childList:true});
 })();

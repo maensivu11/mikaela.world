@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mikaela Mäensivu</title>
 <link rel="stylesheet" href="fonts.css">
-<link rel="stylesheet" href="styles.css?v=20260911-19">
+<link rel="stylesheet" href="styles.css?v=20260911-24">
 <link rel="preload" as="image" href="assets/source-painting/plain_canvas.png">
 <link rel="preload" as="image" media="(min-width:601px)" href="assets/tabletop/book-closed.png">
 <link rel="preload" as="image" media="(min-width:601px)" href="assets/tabletop/book-slightly-open.png">
@@ -370,7 +370,8 @@ function setFinal(plants){
     // Hold 800ms breath, then fade out
     setTimeout(function(){
       loader.style.opacity = '0';
-      loader.addEventListener('transitionend', function(){ loader.remove(); }, {once: true});
+      loader.addEventListener('transitionend', function(e){ if(e.target===loader&&e.propertyName==='opacity') loader.remove(); });
+      setTimeout(function(){ if(loader.parentNode) loader.remove(); }, 1400);
     }, 800);
   }
   document.getElementById('loader-skip').addEventListener('click', function(){
