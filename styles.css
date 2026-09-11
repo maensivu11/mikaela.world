@@ -191,6 +191,7 @@
   .book-video-shell{position:absolute;left:10.5%;top:39.5%;z-index:4;width:34%;aspect-ratio:4/3;padding:6px;border-radius:16px;background:linear-gradient(145deg,#d9d0c1,#f7f1e8);box-shadow:0 9px 16px rgba(49,31,17,.22),inset 0 1px 1px rgba(255,255,255,.9),inset 0 -2px 4px rgba(63,43,26,.18);opacity:0;pointer-events:none;overflow:hidden;transition:opacity 100ms ease}
   .real-book-reader.is-open .book-video-shell{opacity:1;pointer-events:auto}
   .book-video{display:block;width:100%;height:100%;border:0;border-radius:10px;background:#17120f;object-fit:cover}
+  .book-mute-btn{position:absolute;bottom:8px;right:8px;z-index:5;width:28px;height:28px;padding:0;border:0;border-radius:50%;background:rgba(0,0,0,.45);color:#fff;font-size:13px;line-height:1;cursor:pointer;display:grid;place-items:center;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
   .real-book-reader.is-closing .book-video-shell{opacity:0;pointer-events:none}
   .journal-close{top:21.5%;right:7.5%;z-index:12;display:grid;place-items:center;width:36px;height:36px;padding:0;border:0!important;outline:0!important;border-radius:0;background:transparent!important;color:#AB9F8D!important;font:32px/1 var(--hand);text-shadow:0 1px 0 rgba(255,255,255,.55);box-shadow:none;transform:rotate(-5deg);opacity:0;visibility:hidden;pointer-events:none;transition:none}
   .real-book-reader.is-open:not(.is-closing) .journal-close{opacity:1;visibility:visible;pointer-events:auto}

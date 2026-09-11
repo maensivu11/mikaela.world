@@ -459,8 +459,18 @@ function startBookVideo(){
   if(!bookVideo)return;
   bookVideo.currentTime=0;
   bookVideo.removeAttribute('muted');bookVideo.defaultMuted=false;bookVideo.muted=false;bookVideo.volume=.38;
+  if(bookMuteBtn){bookMuteBtn.textContent='🔊';bookMuteBtn.setAttribute('aria-label','Mute');}
   var play=bookVideo.play();
   if(play&&play.catch)play.catch(function(){});
+}
+var bookMuteBtn=realBookReader&&realBookReader.querySelector('.book-mute-btn');
+if(bookMuteBtn&&bookVideo){
+  bookMuteBtn.addEventListener('click',function(e){
+    e.stopPropagation();
+    bookVideo.muted=!bookVideo.muted;
+    bookMuteBtn.textContent=bookVideo.muted?'🔇':'🔊';
+    bookMuteBtn.setAttribute('aria-label',bookVideo.muted?'Unmute':'Mute');
+  });
 }
 function startRealBook(){
   if(!realBookReader)return;
