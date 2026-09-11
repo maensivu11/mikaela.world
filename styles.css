@@ -285,7 +285,7 @@ body{display:grid;min-height:100svh;place-items:center;overflow-x:hidden;backgro
   .layer-base,.layer-note{width:100%;height:auto;object-fit:contain}
   .layer-base{opacity:0;pointer-events:none}
   .layer-note{inset:0;filter:drop-shadow(0 4px 3px rgba(34,15,5,.34)) drop-shadow(0 20px 16px rgba(34,15,5,.4))}
-  .layer-book{display:block;inset:0;left:0;top:0;width:100%;height:auto;z-index:5;transform:none;clip-path:none;filter:drop-shadow(0 5px 4px rgba(34,15,5,.34)) drop-shadow(0 18px 14px rgba(34,15,5,.38));transform-origin:50% 50%;pointer-events:none}
+  .layer-book{display:block;inset:0;left:0;top:0;width:100%;height:auto;z-index:2;transform:none;clip-path:none;filter:drop-shadow(0 5px 4px rgba(34,15,5,.34)) drop-shadow(0 18px 14px rgba(34,15,5,.38));transform-origin:50% 50%;pointer-events:none}
   .layer-book > img{display:block;width:100%;height:auto;pointer-events:none;user-select:none;-webkit-user-drag:none}
   .book-peek-hit{position:absolute;left:17%;top:15%;width:64%;height:12%;z-index:1;padding:0;border:0;background:transparent;cursor:grab;pointer-events:auto;touch-action:none;clip-path:polygon(0 7%,92% 0,100% 8%,100% 100%,0 100%)}
   .book-peek-hit:active{cursor:grabbing}
