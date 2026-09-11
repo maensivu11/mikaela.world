@@ -241,14 +241,16 @@
   @media (prefers-reduced-motion:reduce){ *{transition:none!important;animation:none!important;} .site-loader{transition:opacity 120ms ease,visibility 0s linear 120ms}.paper-sticker.is-placed{opacity:1;transform:rotate(var(--sticker-rotation))}.layer-book{transform:translate(-9%,12%) rotate(-8deg)} .painting-camera{transform:none!important;} .mapped-hot:hover .mapped-shuffle{transform:none!important;} }
   @media (max-width:600px){
     #m-thoughts{padding:0;align-items:flex-start;overflow-x:hidden;overflow-y:auto;overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch;touch-action:pan-y}
-    .book-sheet{width:100vw;min-height:112vw;flex:none;}
-    .real-book-reader{width:100vw;height:112vw;margin:0;aspect-ratio:auto;overflow:visible}
-    .real-book-stage{position:absolute;left:0;top:0;width:100vw;height:90vw;place-items:stretch;overflow:visible;z-index:1}
-    .real-book-frame,.real-book-turn{position:absolute;inset:auto;left:-12vw;top:-24vw;width:116vw;height:116vw;max-width:none;object-fit:contain}
-    .book-video-shell{left:10vw;top:31vw;width:38vw;padding:7px;border-radius:15px;transform:rotate(-1.4deg);z-index:4}
-    .real-book-reader .book-arrow{top:0;height:78vw;width:28px}
+    .book-sheet{width:100vw;min-height:180vw;flex:none;}
+    .real-book-reader{width:92vw;height:180vw;margin:0 auto;aspect-ratio:auto;overflow:visible}
+    .real-book-stage{position:absolute;left:0;top:56vw;width:92vw;height:122vw;place-items:stretch;overflow:hidden;z-index:1}
+    .real-book-frame,.real-book-turn{position:absolute;inset:auto;left:-92vw;top:-35vw;width:184vw;height:184vw;max-width:none;object-fit:contain}
+    .book-video-shell{left:14vw;top:6vw;width:64vw;padding:10px;border-radius:20px;transform:rotate(-1.4deg);z-index:4}
+    .real-book-reader.is-mobile-opening .real-book-stage{animation:mobile-journal-settle 260ms var(--ease-out) both}
+    @keyframes mobile-journal-settle{from{opacity:.94;transform:translate3d(0,12px,0)}to{opacity:1;transform:translate3d(0,0,0)}}
+    .real-book-reader .book-arrow{top:56vw;height:122vw;width:24px}
     .real-book-reader .book-prev{left:-2px}.real-book-reader .book-next{right:-2px}
-    .journal-close{top:2vw;right:2vw;width:36px;height:36px}
+    .journal-close{top:56vw;right:2px;width:36px;height:36px}
     .book-prev{ left:-2px;}.book-next{ right:-2px;}
     .book-arrow{ width:32px;height:44px;font-size:38px;line-height:40px;}
     .book-caption{ left:3%;top:2%;width:44%;font-size:12px;}
