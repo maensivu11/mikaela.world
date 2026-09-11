@@ -100,16 +100,16 @@
   @keyframes work-gradient{0%,100%{background-position:0 45%}50%{background-position:100% 55%}}
   .work-sheet:before{ content:""; position:absolute; inset:0; pointer-events:none; background:radial-gradient(circle at 24% 45%,rgba(155,113,232,.18),transparent 31%),radial-gradient(circle at 78% 22%,rgba(112,212,245,.09),transparent 26%);}
   .resume-modal{align-items:center;background:transparent;backdrop-filter:none;-webkit-backdrop-filter:none;overflow:hidden;padding:0;pointer-events:none}
-  .clipboard-sheet{width:min(72vw,54svh,600px);max-width:none;aspect-ratio:850/1200;height:auto;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;transform:rotate(-.7deg);animation:none;pointer-events:auto}
-  .resume-modal.open .clipboard-sheet{animation:clipboard-up 560ms steps(5,end) both}
-  .resume-modal .clipboard-sheet.is-leaving{animation:clipboard-down 420ms steps(4,end) both}
-  @keyframes clipboard-up{0%{transform:translate3d(0,112vh,0) rotate(2.5deg)}25%{transform:translate3d(-5px,76vh,0) rotate(1.4deg)}50%{transform:translate3d(3px,42vh,0) rotate(.2deg)}75%{transform:translate3d(-2px,11vh,0) rotate(-1.1deg)}100%{transform:translate3d(0,0,0) rotate(-.7deg)}}
-  @keyframes clipboard-down{0%{transform:translate3d(0,0,0) rotate(-.7deg)}33%{transform:translate3d(3px,31vh,0) rotate(.2deg)}66%{transform:translate3d(-4px,72vh,0) rotate(1.3deg)}100%{transform:translate3d(0,112vh,0) rotate(2.5deg)}}
+  .clipboard-sheet{width:min(80vw,72svh,700px);max-width:none;aspect-ratio:1513/1516;height:auto;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;transform:translate3d(-1vw,-.6vh,0) rotate(-2.4deg);animation:none;pointer-events:auto}
+  .resume-modal.open .clipboard-sheet{animation:clipboard-up 440ms var(--ease-out) both}
+  .resume-modal .clipboard-sheet.is-leaving{animation:clipboard-down 380ms var(--ease-out) both}
+  @keyframes clipboard-up{from{opacity:.98;transform:translate3d(-2vw,108vh,0) rotate(3.4deg)}to{opacity:1;transform:translate3d(-1vw,-.6vh,0) rotate(-2.4deg)}}
+  @keyframes clipboard-down{from{opacity:1;transform:translate3d(-1vw,-.6vh,0) rotate(-2.4deg)}to{opacity:.98;transform:translate3d(-2vw,108vh,0) rotate(3.4deg)}}
   .clipboard-photo{position:absolute;z-index:1;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none}
-  .resume-preview{position:absolute;z-index:2;left:8.8%;top:8.8%;display:block;width:82.4%;height:82.6%;border:0;border-radius:1px;background:#fff;object-fit:contain;box-shadow:0 1px 2px rgba(43,25,12,.18)}
-  .clipboard-metal{position:absolute;z-index:3;left:20.6%;top:.4%;width:58.8%;height:14.2%;object-fit:fill;pointer-events:none}
-  .resume-download{position:absolute;z-index:4;left:50%;bottom:9.4%;transform:translateX(-50%);display:block;width:max-content;margin:0;padding:9px 15px;border:1px solid #62472f;border-radius:3px;background:#efe5d2;color:#382619;text-decoration:none;font:12px/1 var(--mono);letter-spacing:.04em;box-shadow:0 2px 3px rgba(43,25,12,.28)}
-  .clipboard-close{position:absolute;right:7%;top:11.5%;z-index:5;width:30px;height:30px;border:0;background:transparent;color:#4b3421;font:25px/1 var(--hand);cursor:pointer}
+  .resume-preview{position:absolute;z-index:2;left:20%;top:14%;display:block;width:60%;height:auto;border:0;border-radius:1px;background:#fff;object-fit:contain;box-shadow:0 1px 2px rgba(0,0,0,.45)}
+  .clipboard-metal{position:absolute;z-index:3;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none}
+  .resume-download{position:absolute;z-index:4;left:50%;bottom:7%;transform:translateX(-50%);display:block;width:max-content;margin:0;padding:9px 15px;border:1px solid #d9d9d9;border-radius:3px;background:#f6f0e6;color:#1c1c1c;text-decoration:none;font:12px/1 var(--mono);letter-spacing:.04em;box-shadow:0 2px 3px rgba(0,0,0,.4)}
+  .clipboard-close{position:absolute;right:14%;top:6.5%;z-index:5;width:30px;height:30px;border:0;background:transparent;color:#fff;font:24px/1 Arial,sans-serif;text-shadow:0 1px 2px rgba(0,0,0,.85);cursor:pointer}
   @keyframes work-reveal{ from{opacity:0;transform:scale(.97)} to{opacity:1;transform:none} }
   .work-close{ color:#fff; border-color:rgba(255,255,255,.75);}
   .work-close:hover{ background:#fff;color:#3a1560;}
