@@ -635,10 +635,14 @@ if(siteLoader){
   obs.observe(document.body,{childList:true});
 })();
 
-// Fix iOS about:blank bug for SVG <a target="_blank"> links
-document.querySelectorAll('svg a[target="_blank"]').forEach(function(a){
-  a.addEventListener('click',function(e){
+// External links via data-ext-href — avoids iOS about:blank bug from SVG <a>
+document.querySelectorAll('[data-ext-href]').forEach(function(el){
+  el.addEventListener('click',function(e){
     e.preventDefault();
-    window.open(a.getAttribute('href'),'_blank','noopener,noreferrer');
+    e.stopPropagation();
+    window.open(el.dataset.extHref,'_blank','noopener,noreferrer');
+  });
+  el.addEventListener('keydown',function(e){
+    if(e.key==='Enter'||e.key===' '){e.preventDefault();window.open(el.dataset.extHref,'_blank','noopener,noreferrer');}
   });
 });
