@@ -462,8 +462,8 @@ if(realBookReader){
     realFrame.src=realBookPages[nextIndex];
     realTurn.style.transformOrigin=mobile?(direction>0?'100% 50%':'50% 50%'):'50% 50%';
     var out=realTurn.animate(mobile?[
-      {transform:'perspective(1800px) rotateY(0deg)',opacity:1},
-      {transform:'perspective(1800px) rotateY('+(direction>0?-26:26)+'deg)',opacity:.14}
+      {clipPath:'inset(0 0 0 50%)',opacity:1},
+      {clipPath:direction>0?'inset(0 50% 0 50%)':'inset(0 0 0 100%)',opacity:.98}
     ]:[
       {transform:'rotateY(0deg)'},
       {transform:'rotateY('+(direction>0?-96:96)+'deg)'}
@@ -538,4 +538,12 @@ function closeRealBook(done){
     realBookTimer=setTimeout(function(){frame.style.transform='';realBookClosing=false;if(done)done();},reduce?0:120);
   }
   showNext();
+}
+
+var siteLoader=document.querySelector('[data-site-loader]');
+if(siteLoader){
+  var dismissSiteLoader=function(){siteLoader.classList.add('is-ready');};
+  if(document.readyState==='complete')dismissSiteLoader();
+  else window.addEventListener('load',function(){window.setTimeout(dismissSiteLoader,80);},{once:true});
+  window.setTimeout(dismissSiteLoader,6500);
 }
