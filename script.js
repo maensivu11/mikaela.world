@@ -449,6 +449,7 @@ function armBookVideo(){
 }
 function startBookVideo(){
   if(!bookVideo)return;
+  bookVideo.currentTime=0;
   bookVideo.removeAttribute('muted');bookVideo.defaultMuted=false;bookVideo.muted=false;bookVideo.volume=.38;
   var play=bookVideo.play();
   if(play&&play.catch)play.catch(function(){});
@@ -604,3 +605,24 @@ if(siteLoader){
   else window.addEventListener('load',function(){window.setTimeout(dismissSiteLoader,80);},{once:true});
   window.setTimeout(dismissSiteLoader,6500);
 }
+
+// One-shot hint: briefly reveal "see my work" label on touch devices
+(function(){
+  if(window.matchMedia('(hover:hover) and (pointer:fine)').matches)return;
+  var entry=document.querySelector('.work-flower-entry');
+  var label=entry&&entry.querySelector('.work-flower-label');
+  if(!entry||!label)return;
+  function showHint(){
+    label.style.transition='opacity 500ms ease,clip-path 500ms ease';
+    label.style.opacity='1';
+    label.style.clipPath='inset(0 0 0 0)';
+    setTimeout(function(){
+      label.style.opacity='0';
+      label.style.clipPath='inset(0 100% 0 0)';
+      setTimeout(function(){label.style.transition='';label.style.opacity='';label.style.clipPath='';},600);
+    },2000);
+  }
+  window.addEventListener('load',function(){
+    setTimeout(showHint,1500);
+  },{once:true});
+})();

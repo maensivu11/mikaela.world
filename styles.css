@@ -292,5 +292,4 @@ body{display:grid;min-height:100svh;place-items:center;overflow-x:hidden;backgro
   .action-highlights,.note-reactions,.body-hotspots,.hotspot-layer{display:block}
   @media(max-width:600px){
     .book-peek-hit{left:10%;top:10%;width:80%;height:23%;clip-path:none}
-    .stage{transform:translateY(6%) scale(1.08);transform-origin:50% 50%}
   }
