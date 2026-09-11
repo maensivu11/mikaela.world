@@ -1,5 +1,10 @@
 if(new URLSearchParams(window.location.search).get('debug')==='map')document.body.classList.add('debug-map');
 var modalTrigger=null;
+var bookGestureShieldUntil=0;
+document.addEventListener('click',function(e){
+  if(performance.now()>bookGestureShieldUntil)return;
+  if(e.target.closest&&e.target.closest('.painting-backdrop-trigger')){e.preventDefault();e.stopImmediatePropagation();}
+},true);
 function openM(id){var m=document.getElementById('m-'+id);if(m){modalTrigger=document.activeElement;m.classList.add('open');document.body.style.overflow='hidden';if(id==='thoughts'&&typeof startRealBook==='function')startRealBook();if(id==='phone')startInstagramVideo();var close=m.querySelector('[data-close]');if(close&&id!=='thoughts')close.focus({preventScroll:true});}}
 var instagramVideo=document.querySelector('[data-instagram-video]');
 function startInstagramVideo(){if(!instagramVideo)return;instagramVideo.volume=.35;var play=instagramVideo.play();if(play&&play.catch)play.catch(function(){});}
@@ -280,6 +285,7 @@ if(layeredStage&&layeredBook){
   layeredBookHit.addEventListener('pointerdown',function(e){
     e.preventDefault();
     e.stopPropagation();
+    bookGestureShieldUntil=performance.now()+1200;
     clearTimeout(layeredIntroTimer);
     layeredApply(layeredState);
     layeredBook.classList.add('is-dragging');
@@ -310,11 +316,12 @@ if(layeredStage&&layeredBook){
     if(!layeredDrag||layeredDrag.id!==e.pointerId)return;
     e.stopPropagation();
     var wasTap=layeredDrag.distance<6;
+    bookGestureShieldUntil=performance.now()+650;
     layeredDrag=null;
     layeredBook.classList.remove('is-dragging');
     if(wasTap)liftAndOpenBook();
   });
-  layeredBookHit.addEventListener('pointercancel',function(){layeredDrag=null;layeredBook.classList.remove('is-dragging');});
+  layeredBookHit.addEventListener('pointercancel',function(){bookGestureShieldUntil=performance.now()+350;layeredDrag=null;layeredBook.classList.remove('is-dragging');});
   layeredBookHit.addEventListener('keydown',function(e){
     if(e.key==='Enter'||e.key===' '){e.preventDefault();modalTrigger=layeredBook;liftAndOpenBook();}
   });
