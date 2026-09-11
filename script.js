@@ -4,6 +4,15 @@ function openM(id){var m=document.getElementById('m-'+id);if(m){modalTrigger=doc
 var instagramVideo=document.querySelector('[data-instagram-video]');
 function startInstagramVideo(){if(!instagramVideo)return;instagramVideo.volume=.35;var play=instagramVideo.play();if(play&&play.catch)play.catch(function(){});}
 function stopInstagramVideo(){if(!instagramVideo)return;instagramVideo.pause();try{instagramVideo.currentTime=0;}catch(error){}}
+var phoneModal=document.getElementById('m-phone');
+var phoneClosing=false;
+function closePhone(){
+  if(!phoneModal||!phoneModal.classList.contains('open')){finishCloseAll();return;}
+  if(phoneClosing)return;
+  phoneClosing=true;phoneModal.classList.add('is-closing');
+  var duration=window.matchMedia('(prefers-reduced-motion: reduce)').matches?0:300;
+  window.setTimeout(function(){phoneModal.classList.remove('is-closing');phoneClosing=false;finishCloseAll();},duration);
+}
 var paintingJourney=document.querySelector('.painting-journey');
 var journeyAnimations=[];
 var journeyTimer=0;
@@ -23,7 +32,7 @@ function finishThoughtsClose(){
   if(sceneBook){sceneBook.style.zIndex='8';bookReturn=sceneBook.animate([{transform:'translate3d(0,24%,0) rotate(2deg) scale(1.025)'},{transform:getComputedStyle(sceneBook).transform}],{duration:motion,easing:'cubic-bezier(0.77,0,0.175,1)',fill:'forwards'});}
   cover.finished.then(function(){covers.forEach(function(a){a.cancel();});if(bookReturn)bookReturn.cancel();noteStack.forEach(function(layer){layer.style.transform='';layer.style.zIndex='';});if(sceneBook&&typeof window.resetLayeredBook==='function')window.resetLayeredBook();}).catch(function(){});
 }
-function closeAll(){var thoughts=document.getElementById('m-thoughts');if(thoughts&&thoughts.classList.contains('open')&&typeof closeRealBook==='function'){closeRealBook(finishThoughtsClose);return;}finishCloseAll();}
+function closeAll(){var thoughts=document.getElementById('m-thoughts');if(thoughts&&thoughts.classList.contains('open')&&typeof closeRealBook==='function'){closeRealBook(finishThoughtsClose);return;}if(phoneModal&&phoneModal.classList.contains('open')){closePhone();return;}finishCloseAll();}
 
 var workProjects=Array.from(document.querySelectorAll('[data-project]'));
 var workIndex=0;
