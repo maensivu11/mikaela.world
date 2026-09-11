@@ -607,7 +607,7 @@ if(siteLoader){
   window.setTimeout(dismissSiteLoader,6500);
 }
 
-// One-shot hint: briefly reveal "see my work" label on touch devices
+// One-shot hint: briefly reveal "see my work" label on touch devices after loader clears
 (function(){
   if(window.matchMedia('(hover:hover) and (pointer:fine)').matches)return;
   var entry=document.querySelector('.work-flower-entry');
@@ -623,9 +623,13 @@ if(siteLoader){
       setTimeout(function(){label.style.transition='';label.style.opacity='';label.style.clipPath='';},600);
     },2000);
   }
-  window.addEventListener('load',function(){
-    setTimeout(showHint,1500);
-  },{once:true});
+  // Wait for the #loader to be removed from the DOM, then show hint after a beat
+  var loaderEl=document.getElementById('loader');
+  if(!loaderEl){setTimeout(showHint,800);return;}
+  var obs=new MutationObserver(function(){
+    if(!document.getElementById('loader')){obs.disconnect();setTimeout(showHint,800);}
+  });
+  obs.observe(document.body,{childList:true});
 })();
 
 // Fix iOS about:blank bug for SVG <a target="_blank"> links
