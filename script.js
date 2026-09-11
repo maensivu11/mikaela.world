@@ -13,6 +13,9 @@ var phoneModal=document.getElementById('m-phone');
 var phoneClosing=false;
 var resumeModal=document.getElementById('m-resume');
 var resumeClosing=false;
+if(resumeModal)resumeModal.addEventListener('click',function(e){
+  if(e.target===resumeModal||!e.target.closest('.clipboard-sheet'))closeResume();
+});
 function closeResume(){
   if(!resumeModal||!resumeModal.classList.contains('open')){finishCloseAll();return;}
   if(resumeClosing)return;
