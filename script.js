@@ -14,7 +14,7 @@ function closeResume(){
   resumeClosing=true;
   var sheet=resumeModal.querySelector('.clipboard-sheet');
   if(sheet)sheet.classList.add('is-leaving');
-  var duration=window.matchMedia('(prefers-reduced-motion: reduce)').matches?0:340;
+  var duration=window.matchMedia('(prefers-reduced-motion: reduce)').matches?0:540;
   window.setTimeout(function(){if(sheet)sheet.classList.remove('is-leaving');resumeClosing=false;finishCloseAll();},duration);
 }
 function closePhone(){
@@ -165,13 +165,7 @@ var workHome=document.querySelector('[data-work-home]');if(workHome)workHome.add
 var workPrevious=document.querySelector('[data-work-previous]');if(workPrevious)workPrevious.addEventListener('click',function(){showWorkProject(workIndex-1,false);});
 var workNext=document.querySelector('[data-work-next]');if(workNext)workNext.addEventListener('click',function(){showWorkProject(workIndex+1,false);});
   document.querySelectorAll('[data-close]').forEach(function(b){b.addEventListener('click',closeAll);});
-  document.querySelectorAll('.modal').forEach(function(m){m.addEventListener('click',function(e){if(e.target===m)closeAll();});});
-  var thoughtsBackdropModal=document.getElementById('m-thoughts');
-  if(thoughtsBackdropModal)thoughtsBackdropModal.addEventListener('click',function(e){
-    if(!thoughtsBackdropModal.classList.contains('open'))return;
-    if(e.target.closest('.real-book-stage,.book-video-shell,.book-arrow,.journal-close'))return;
-    closeAll();
-  });
+  document.querySelectorAll('.modal').forEach(function(m){m.addEventListener('click',function(e){if(m.id!=='m-thoughts'&&e.target===m)closeAll();});});
 document.addEventListener('keydown',function(e){
   if(e.key==='Escape'){closeAll();return;}
   if(e.code==='Space'&&thoughtsModal&&thoughtsModal.classList.contains('open')&&realBookReader&&realBookReader.classList.contains('is-open')&&!realBookClosing){
@@ -553,8 +547,12 @@ if(realBookReader){
 var thoughtsModal=document.getElementById('m-thoughts');
 if(thoughtsModal)thoughtsModal.addEventListener('click',function(e){
   if(!thoughtsModal.classList.contains('open'))return;
-  if(e.target===thoughtsModal)return;
-  if(e.target.closest('.real-book-frame,.real-book-turn,.book-video-shell,.book-arrow,.journal-close'))return;
+  if(e.target.closest('.book-arrow,.journal-close'))return;
+  if(window.matchMedia('(max-width:600px)').matches){
+    var safeTargets=[thoughtsModal.querySelector('.real-book-stage'),thoughtsModal.querySelector('.book-video-shell')];
+    var inSafeZone=safeTargets.some(function(target){if(!target)return false;var rect=target.getBoundingClientRect();return e.clientX>=rect.left-8&&e.clientX<=rect.right+8&&e.clientY>=rect.top-8&&e.clientY<=rect.bottom+8;});
+    if(inSafeZone)return;
+  }else if(e.target.closest('.real-book-frame,.real-book-turn,.book-video-shell'))return;
   closeAll();
 });
 

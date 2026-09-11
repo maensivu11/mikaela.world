@@ -109,9 +109,9 @@
   .resume-modal{align-items:center;background:transparent;backdrop-filter:none;-webkit-backdrop-filter:none;overflow:hidden;padding:0;pointer-events:auto}
   .clipboard-sheet{width:min(92vw,92svh,1080px);max-width:none;aspect-ratio:1513/1516;height:auto;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;transform:translate3d(6vw,-4vh,0) rotate(-2.4deg);filter:drop-shadow(11px 18px 13px rgba(38,19,9,.4));animation:none;pointer-events:auto}
   .resume-modal.open .clipboard-sheet{animation:clipboard-up 380ms var(--ease-out) both}
-  .resume-modal .clipboard-sheet.is-leaving{animation:clipboard-down 340ms var(--ease-out) both}
+  .resume-modal .clipboard-sheet.is-leaving{animation:clipboard-down 540ms var(--ease-in-out) both}
   @keyframes clipboard-up{from{opacity:.98;transform:translate3d(5.4vw,20vh,0) rotate(-1.1deg)}to{opacity:1;transform:translate3d(6vw,-4vh,0) rotate(-2.4deg)}}
-  @keyframes clipboard-down{from{opacity:1;transform:translate3d(6vw,-4vh,0) rotate(-2.4deg)}to{opacity:.98;transform:translate3d(5.4vw,20vh,0) rotate(-1.1deg)}}
+  @keyframes clipboard-down{from{opacity:1;transform:translate3d(6vw,-4vh,0) rotate(-2.4deg)}to{opacity:1;transform:translate3d(4.5vw,115vh,0) rotate(-.8deg)}}
   .clipboard-photo{position:absolute;z-index:1;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none}
   .resume-preview{position:absolute;z-index:2;left:20%;top:10.5%;display:block;width:60%;height:auto;border:0;border-radius:1px;background:#fff;object-fit:contain;box-shadow:0 1px 2px rgba(0,0,0,.45)}
   .clipboard-metal{position:absolute;z-index:3;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none}
