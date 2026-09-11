@@ -126,6 +126,7 @@ document.querySelectorAll('[data-modal]').forEach(function(el){el.addEventListen
   if(el.focus)el.focus({preventScroll:true});
   openM(el.getAttribute('data-modal'));
 });});
+['design','frontend','product'].forEach(function(n){new Image().src='assets/resume-previews/'+n+'.png';});
 function setResume(src){var preview=document.querySelector('[data-resume-preview]');var download=document.querySelector('[data-resume-download]');var name=src.indexOf('design')>-1?'design':src.indexOf('front-end')>-1?'frontend':'product';if(preview)preview.src='assets/resume-previews/'+name+'.png';if(download)download.href=src;}
 var resumeDownload=document.querySelector('[data-resume-download]');
 if(resumeDownload)resumeDownload.addEventListener('click',function(){
