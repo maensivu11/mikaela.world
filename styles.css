@@ -294,5 +294,4 @@ body{display:grid;min-height:100svh;place-items:center;overflow-x:hidden;backgro
   @media(max-width:600px){
     .book-peek-hit{left:10%;top:10%;width:80%;height:23%;clip-path:none}
     body{align-items:flex-end;padding-bottom:5svh}
-    .stage{transform:scale(1.08);transform-origin:top center;overflow:visible}
   }
