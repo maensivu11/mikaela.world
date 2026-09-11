@@ -3,7 +3,7 @@ var modalTrigger=null;
 var bookGestureShieldUntil=0;
 document.addEventListener('click',function(e){
   if(performance.now()>bookGestureShieldUntil)return;
-  if(e.target.closest&&e.target.closest('.painting-backdrop-trigger')){e.preventDefault();e.stopImmediatePropagation();}
+  if(e.target.closest&&e.target.closest('.painting-backdrop-trigger,.painting-map')){e.preventDefault();e.stopImmediatePropagation();}
 },true);
 function openM(id){var m=document.getElementById('m-'+id);if(m){modalTrigger=document.activeElement;m.classList.add('open');document.body.style.overflow='hidden';if(id==='thoughts'&&typeof startRealBook==='function')startRealBook();if(id==='phone')startInstagramVideo();var close=m.querySelector('[data-close]');if(close&&id!=='thoughts')close.focus({preventScroll:true});}}
 var instagramVideo=document.querySelector('[data-instagram-video]');
@@ -512,10 +512,11 @@ if(realBookReader){
     if(reduce){finishTurn();return;}
     realTurn.src=realBookPages[realBookPage];realTurn.hidden=false;
     realFrame.src=realBookPages[nextIndex];
-    realTurn.style.transformOrigin='50% 50%';
+    realTurn.style.clipPath='none';
+    realTurn.style.transformOrigin=direction>0?'0% 50%':'100% 50%';
     var out=realTurn.animate(mobile?[
-      {transform:'translate3d(0,0,0)',clipPath:'inset(0 0 0 0)',opacity:1},
-      {transform:'translate3d('+(direction>0?'-3%':'3%')+',0,0)',clipPath:direction>0?'inset(0 0 0 100%)':'inset(0 100% 0 0)',opacity:.96}
+      {transform:'scaleX(1)',opacity:1},
+      {transform:'scaleX(0)',opacity:0.7}
     ]:[
       {transform:'rotateY(0deg)'},
       {transform:'rotateY('+(direction>0?-96:96)+'deg)'}
@@ -523,7 +524,7 @@ if(realBookReader){
     out.finished.then(function(){out.cancel();finishTurn();}).catch(function(){realBookTurning=false;realTurn.hidden=true;});
     function finishTurn(){
       realBookPage=nextIndex;realFrame.src=realBookPages[realBookPage];
-      realTurn.hidden=true;realTurn.style.transformOrigin='';completeTurn();
+      realTurn.hidden=true;realTurn.style.transformOrigin='';realTurn.style.clipPath='';completeTurn();
     }
     function completeTurn(){
       realBookTurning=false;
