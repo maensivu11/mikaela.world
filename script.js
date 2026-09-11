@@ -41,12 +41,15 @@ function finishThoughtsClose(){
   var noteStack=Array.from(document.querySelectorAll('.layer-note,.action-highlights,.note-reactions,.body-hotspots,.hotspot-layer'));
   if(!note){finishCloseAll();return;}
   noteStack.forEach(function(layer){layer.style.zIndex='9';});
+  // Disable mix-blend-mode during animation so Chrome uses GPU compositing
+  var blendLayers=document.querySelectorAll('[data-highlight-layer]');
+  blendLayers.forEach(function(l){l.style.mixBlendMode='normal';});
   var motion=window.matchMedia('(prefers-reduced-motion: reduce)').matches?0:620;
   var covers=noteStack.map(function(layer){return layer.animate([{transform:'translate3d(0,108%,0)'},{transform:'translate3d(0,0,0)'}],{duration:motion,easing:'cubic-bezier(0.77,0,0.175,1)',fill:'forwards'});});
   var cover=covers[0];
   var bookReturn=null;
   if(sceneBook){sceneBook.style.zIndex='8';bookReturn=sceneBook.animate([{transform:'translate3d(0,24%,0) rotate(2deg) scale(1.025)'},{transform:getComputedStyle(sceneBook).transform}],{duration:motion,easing:'cubic-bezier(0.77,0,0.175,1)',fill:'forwards'});}
-  cover.finished.then(function(){covers.forEach(function(a){a.cancel();});if(bookReturn)bookReturn.cancel();noteStack.forEach(function(layer){layer.style.transform='';layer.style.zIndex='';});if(sceneBook&&typeof window.resetLayeredBook==='function')window.resetLayeredBook();}).catch(function(){});
+  cover.finished.then(function(){covers.forEach(function(a){a.cancel();});if(bookReturn)bookReturn.cancel();noteStack.forEach(function(layer){layer.style.transform='';layer.style.zIndex='';});blendLayers.forEach(function(l){l.style.mixBlendMode='';});if(sceneBook&&typeof window.resetLayeredBook==='function')window.resetLayeredBook();}).catch(function(){});
 }
 function closeAll(){var thoughts=document.getElementById('m-thoughts');if(thoughts&&thoughts.classList.contains('open')&&typeof closeRealBook==='function'){closeRealBook(finishThoughtsClose);return;}if(phoneModal&&phoneModal.classList.contains('open')){closePhone();return;}if(resumeModal&&resumeModal.classList.contains('open')){closeResume();return;}finishCloseAll();}
 
@@ -614,14 +617,13 @@ if(siteLoader){
   var label=entry&&entry.querySelector('.work-flower-label');
   if(!entry||!label)return;
   function showHint(){
-    label.style.transition='opacity 500ms ease,clip-path 500ms ease';
-    label.style.opacity='1';
+    label.style.transition='opacity 600ms ease';
     label.style.clipPath='inset(0 0 0 0)';
+    label.style.opacity='1';
     setTimeout(function(){
       label.style.opacity='0';
-      label.style.clipPath='inset(0 100% 0 0)';
-      setTimeout(function(){label.style.transition='';label.style.opacity='';label.style.clipPath='';},600);
-    },2000);
+      setTimeout(function(){label.style.transition='';label.style.opacity='';label.style.clipPath='';},700);
+    },2200);
   }
   // Wait for the #loader to be removed from the DOM, then show hint after a beat
   var loaderEl=document.getElementById('loader');
