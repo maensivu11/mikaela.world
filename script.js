@@ -626,3 +626,11 @@ if(siteLoader){
     setTimeout(showHint,1500);
   },{once:true});
 })();
+
+// Fix iOS about:blank bug for SVG <a target="_blank"> links
+document.querySelectorAll('svg a[target="_blank"]').forEach(function(a){
+  a.addEventListener('click',function(e){
+    e.preventDefault();
+    window.open(a.getAttribute('href'),'_blank','noopener,noreferrer');
+  });
+});
