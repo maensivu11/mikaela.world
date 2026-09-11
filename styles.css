@@ -25,6 +25,7 @@
   .action-highlights [data-highlight-layer].is-active,.action-highlights [data-highlight-layer].is-locked{opacity:.52;clip-path:inset(0 0 0 0)}
   .note-reactions{position:absolute;inset:0;z-index:5;pointer-events:none}
   .paper-sticker{position:absolute;z-index:1;width:clamp(42px,4.1vw,68px);height:auto;opacity:0;transform:translate3d(-6px,5px,0) rotate(calc(var(--sticker-rotation) - 8deg)) scale(.9);filter:drop-shadow(1px 2px 0 rgba(34,31,28,.46)) drop-shadow(0 3px 2px rgba(0,0,0,.24));will-change:transform,opacity}
+  .name-sticker{width:var(--sticker-width)}
   .paper-sticker.is-placed{animation:place-paper-sticker 320ms var(--ease-out) both}
   @keyframes place-paper-sticker{from{opacity:0;transform:translate3d(-6px,5px,0) rotate(calc(var(--sticker-rotation) - 8deg)) scale(.9)}to{opacity:1;transform:translate3d(0,0,0) rotate(var(--sticker-rotation)) scale(1)}}
   .smiley-reaction{position:absolute;inset:0;display:block;width:100%;height:100%;fill:#090604;opacity:0;transform-origin:85.7% 15.4%;transition:opacity 120ms ease}
@@ -104,16 +105,16 @@
   @keyframes work-gradient{0%,100%{background-position:0 45%}50%{background-position:100% 55%}}
   .work-sheet:before{ content:""; position:absolute; inset:0; pointer-events:none; background:radial-gradient(circle at 24% 45%,rgba(155,113,232,.18),transparent 31%),radial-gradient(circle at 78% 22%,rgba(112,212,245,.09),transparent 26%);}
   .resume-modal{align-items:center;background:transparent;backdrop-filter:none;-webkit-backdrop-filter:none;overflow:hidden;padding:0;pointer-events:none}
-  .clipboard-sheet{width:min(92vw,92svh,1080px);max-width:none;aspect-ratio:1513/1516;height:auto;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;transform:translate3d(6vw,-14vh,0) rotate(-2.4deg);filter:drop-shadow(11px 18px 13px rgba(38,19,9,.4));animation:none;pointer-events:auto}
+  .clipboard-sheet{width:min(92vw,92svh,1080px);max-width:none;aspect-ratio:1513/1516;height:auto;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;transform:translate3d(6vw,-4vh,0) rotate(-2.4deg);filter:drop-shadow(11px 18px 13px rgba(38,19,9,.4));animation:none;pointer-events:auto}
   .resume-modal.open .clipboard-sheet{animation:clipboard-up 380ms var(--ease-out) both}
   .resume-modal .clipboard-sheet.is-leaving{animation:clipboard-down 340ms var(--ease-out) both}
-  @keyframes clipboard-up{from{opacity:.98;transform:translate3d(5.4vw,20vh,0) rotate(-1.1deg)}to{opacity:1;transform:translate3d(6vw,-14vh,0) rotate(-2.4deg)}}
-  @keyframes clipboard-down{from{opacity:1;transform:translate3d(6vw,-14vh,0) rotate(-2.4deg)}to{opacity:.98;transform:translate3d(5.4vw,20vh,0) rotate(-1.1deg)}}
+  @keyframes clipboard-up{from{opacity:.98;transform:translate3d(5.4vw,20vh,0) rotate(-1.1deg)}to{opacity:1;transform:translate3d(6vw,-4vh,0) rotate(-2.4deg)}}
+  @keyframes clipboard-down{from{opacity:1;transform:translate3d(6vw,-4vh,0) rotate(-2.4deg)}to{opacity:.98;transform:translate3d(5.4vw,20vh,0) rotate(-1.1deg)}}
   .clipboard-photo{position:absolute;z-index:1;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none}
   .resume-preview{position:absolute;z-index:2;left:20%;top:10.5%;display:block;width:60%;height:auto;border:0;border-radius:1px;background:#fff;object-fit:contain;box-shadow:0 1px 2px rgba(0,0,0,.45)}
   .clipboard-metal{position:absolute;z-index:3;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none}
-  .resume-download{position:absolute;z-index:4;left:50%;bottom:6.5%;transform:translateX(-50%);display:block;width:clamp(142px,17vw,230px);margin:0;padding:0;border:0;background:transparent;text-decoration:none;filter:drop-shadow(0 3px 2px rgba(0,0,0,.38));transition:transform 150ms ease,filter 150ms ease}
-  .resume-download img{display:block;width:100%;height:auto;pointer-events:none}
+  .resume-download{position:absolute;z-index:4;left:50%;bottom:2.75%;transform:translateX(-50%);display:block;width:clamp(150px,18vw,230px);margin:0;padding:0;border:0;background:transparent;text-decoration:none;filter:drop-shadow(0 3px 2px rgba(0,0,0,.38));transition:transform 150ms ease,filter 150ms ease}
+  .resume-download img{display:block;width:100%;height:auto;pointer-events:none;filter:grayscale(1) contrast(500%) brightness(1.35);mix-blend-mode:screen}
   @media (hover:hover) and (pointer:fine){.resume-download:hover{transform:translateX(-50%) translateY(-3px) rotate(-1deg) scale(1.025);filter:drop-shadow(0 7px 5px rgba(0,0,0,.4))}}
   .resume-download:active{transform:translateX(-50%) translateY(1px) scale(.985)}
   .clipboard-close{position:absolute;right:18%;top:8.5%;z-index:5;width:30px;height:30px;border:0;background:transparent;color:#fff;font:24px/1 Arial,sans-serif;text-shadow:0 1px 2px rgba(0,0,0,.85);cursor:pointer}
@@ -243,12 +244,10 @@
     #m-thoughts{padding:0;align-items:flex-start;overflow-x:hidden;overflow-y:auto;overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch;touch-action:pan-y}
     .book-sheet{width:100vw;min-height:180vw;flex:none;}
     .real-book-reader{width:92vw;height:180vw;margin:0 auto;aspect-ratio:auto;overflow:visible}
-    .real-book-stage{position:absolute;left:0;top:56vw;width:92vw;height:122vw;place-items:stretch;overflow:hidden;z-index:1}
+    .real-book-stage{position:absolute;left:0;top:56vw;width:92vw;height:122vw;place-items:stretch;overflow:visible;z-index:1}
     .real-book-frame,.real-book-turn{position:absolute;inset:auto;left:-92vw;top:-35vw;width:184vw;height:184vw;max-width:none;object-fit:contain}
     .book-video-shell{left:14vw;top:6vw;width:64vw;padding:10px;border-radius:20px;transform:rotate(-1.4deg);z-index:4}
-    .real-book-reader.is-mobile-opening .real-book-stage{animation:mobile-journal-settle 260ms var(--ease-out) both}
-    @keyframes mobile-journal-settle{from{opacity:.94;transform:translate3d(0,12px,0)}to{opacity:1;transform:translate3d(0,0,0)}}
-    .real-book-reader .book-arrow{top:56vw;height:122vw;width:24px}
+    .real-book-reader .book-arrow{top:56vw;height:122vw;width:44px}
     .real-book-reader .book-prev{left:-2px}.real-book-reader .book-next{right:-2px}
     .journal-close{top:56vw;right:2px;width:36px;height:36px}
     .book-prev{ left:-2px;}.book-next{ right:-2px;}
