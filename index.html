@@ -529,7 +529,10 @@ function setFinal(plants){
     }, 800);
   }
   document.getElementById('loader-skip').addEventListener('click', function(){
-    animDone = true; pageDone = true; tryDone();
+    loader.style.transition = 'opacity 400ms ease';
+    loader.style.opacity = '0';
+    loader.addEventListener('transitionend', function(e){ if(e.target===loader&&e.propertyName==='opacity') loader.remove(); });
+    setTimeout(function(){ if(loader.parentNode) loader.remove(); }, 500);
   });
   setTimeout(function(){ animDone = true; tryDone(); }, ANIM_TOTAL);
   var skipBtn = document.getElementById('loader-skip');
