@@ -166,7 +166,7 @@
 
 @font-face{font-family:'B-McE';src:url(assets/fonts/B-McE.ttf) format('truetype');font-display:swap}
 @property --border-angle{syntax:'<angle>';initial-value:0deg;inherits:false}
-.voice-orb{position:fixed;left:20px;bottom:20px;z-index:100;border:none;border-radius:999px;cursor:pointer;padding:10px 20px;font-family:'B-McE',cursive;font-size:20px;line-height:1;color:rgba(255,255,255,.9);background:linear-gradient(rgba(255,255,255,.18),rgba(255,255,255,.18)) padding-box,conic-gradient(from var(--border-angle),transparent 65%,rgba(255,255,255,.35) 78%,transparent 90%) border-box;border:1.5px solid transparent;backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);box-shadow:0 1px 3px rgba(0,0,0,.12);transition:transform 200ms var(--ease-out),color 300ms ease;animation:border-spin 5s linear infinite}
+.voice-orb{position:fixed;left:56px;bottom:56px;z-index:100;border:none;border-radius:999px;cursor:pointer;padding:14px 28px;font-family:'B-McE',cursive;font-size:24px;line-height:1;color:rgba(255,255,255,.9);background:linear-gradient(rgba(255,255,255,.18),rgba(255,255,255,.18)) padding-box,conic-gradient(from var(--border-angle),transparent 65%,rgba(255,255,255,.35) 78%,transparent 90%) border-box;border:1.5px solid transparent;backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);box-shadow:0 1px 3px rgba(0,0,0,.12);transition:transform 200ms var(--ease-out),color 300ms ease;animation:border-spin 5s linear infinite}
 .voice-orb:hover{background:linear-gradient(rgba(255,255,255,.25),rgba(255,255,255,.25)) padding-box,conic-gradient(from var(--border-angle),transparent 65%,rgba(255,255,255,.45) 78%,transparent 90%) border-box;transform:scale(1.04)}
 .voice-orb:active{transform:scale(.96)}
 .voice-orb.is-connecting{background:linear-gradient(rgba(255,255,255,.1),rgba(255,255,255,.1)) padding-box,conic-gradient(from var(--border-angle),transparent 65%,rgba(255,255,255,.3) 78%,transparent 90%) border-box;color:rgba(255,255,255,.6);animation:border-spin 3.5s linear infinite,glass-connecting 2s ease-in-out infinite}
@@ -177,7 +177,7 @@
 @keyframes glass-connecting{0%,100%{opacity:.7}50%{opacity:1}}
 @keyframes glass-pulse{0%,100%{box-shadow:0 1px 3px rgba(0,0,0,.2)}50%{box-shadow:0 1px 10px rgba(255,255,255,.06)}}
 @keyframes glass-speak{0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}
-@media(max-width:600px){.voice-orb{left:14px;bottom:14px;padding:7px 14px;font-size:15px}}
+@media(max-width:600px){.voice-orb{left:20px;bottom:24px;padding:7px 14px;font-size:15px}}
 .voice-orb{-webkit-tap-highlight-color:transparent;outline:none}
 
 </style>
