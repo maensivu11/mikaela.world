@@ -92,7 +92,7 @@
       "memberOf": {
         "@type": "Organization",
         "name": "Blocktickets",
-        "description": "Mobile-first live-event ticketing. Owned the entire product experience. Raised $600K+."
+        "description": "Mobile-first live-event ticketing. Owned the entire product experience. Raised $200K."
       }
     },
     {
@@ -146,7 +146,7 @@
 @property --e{syntax:'<number>';inherits:false;initial-value:0}
 :root{--stem:#6f9a58}
 #loader{position:fixed;inset:0;z-index:9999;background:#0a0a0a;transition:opacity 1200ms cubic-bezier(0.4,0,0.2,1)}
-#loader-skip{position:fixed;bottom:20px;right:24px;font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.08em;color:rgba(205,191,166,.35);background:none;border:none;cursor:pointer;padding:4px 0;text-transform:lowercase;opacity:0;transition:color 200ms ease,opacity 400ms ease}
+#loader-skip{position:fixed;bottom:20px;right:24px;font-family:'B-McE',cursive;font-size:16px;letter-spacing:0;color:rgba(205,191,166,.35);background:none;border:none;cursor:pointer;padding:4px 0;text-transform:lowercase;opacity:0;transition:color 200ms ease,opacity 400ms ease}
 #loader-skip.visible{opacity:1}
 #loader-skip:hover{color:rgba(205,191,166,.7)}
 .note{position:absolute;left:50%;top:26%;transform:translate(-50%,-50%);width:min(46vw,470px);aspect-ratio:2351/1557}
@@ -163,6 +163,18 @@
 /* bloom is positioned + scaled every frame by JS so it always sits at the stem tip */
 .bloom{position:absolute;left:50%;display:block;transform-origin:center bottom;opacity:0;pointer-events:none}
 #replay{position:fixed;right:16px;bottom:16px;background:#161616;border:1px solid #333;color:#cdbfa6;padding:8px 14px;border-radius:10px;cursor:pointer;opacity:.75;z-index:9;font:15px system-ui}
+
+@font-face{font-family:'B-McE';src:url(assets/fonts/B-McE.ttf) format('truetype');font-display:swap}
+.voice-orb{position:fixed;right:20px;bottom:20px;z-index:100;border:none;border-radius:999px;cursor:pointer;padding:10px 20px;font-family:'B-McE',cursive;font-size:20px;line-height:1;color:rgba(255,255,255,.9);background:rgba(255,255,255,.18);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border:0.5px solid rgba(255,255,255,.25);box-shadow:0 1px 3px rgba(0,0,0,.12);transition:transform 200ms var(--ease-out),background 300ms ease,border-color 300ms ease,color 300ms ease}
+.voice-orb:hover{background:rgba(255,255,255,.25);border-color:rgba(255,255,255,.35);transform:scale(1.04)}
+.voice-orb:active{transform:scale(.96)}
+.voice-orb.is-connecting{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);color:rgba(255,255,255,.6);animation:glass-connecting 1.2s ease-in-out infinite}
+.voice-orb.is-active{background:rgba(30,30,30,.45);border-color:rgba(255,255,255,.12);color:rgba(255,255,255,.75);animation:glass-pulse 2.5s ease-in-out infinite}
+.voice-orb.is-active:hover{background:rgba(40,40,40,.55);border-color:rgba(255,255,255,.18)}
+.voice-orb.is-speaking{animation:glass-speak 1s ease-in-out infinite}
+@keyframes glass-connecting{0%,100%{opacity:.7}50%{opacity:1}}
+@keyframes glass-pulse{0%,100%{box-shadow:0 1px 3px rgba(0,0,0,.2)}50%{box-shadow:0 1px 10px rgba(255,255,255,.06)}}
+@keyframes glass-speak{0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}
 
 </style>
 </head>
@@ -535,5 +547,66 @@ function setFinal(plants){
   });
 })();
 </script>
+
+<button class="voice-orb" id="voice-orb" aria-label="Talk to Mikaela"><span class="orb-ring"></span><span class="orb-text">talk to me</span></button>
+<script src="https://unpkg.com/@elevenlabs/client" async></script>
+<script>
+(function(){
+  var orb = document.getElementById('voice-orb');
+  var session = null;
+  var AGENT_ID = 'agent_9001m2qw08vhe0vs3nxkqjjcngcv';
+
+  orb.addEventListener('click', async function(){
+    if (session) {
+      await session.endSession();
+      session = null;
+      orb.classList.remove('is-active','is-speaking','is-connecting');
+      orb.querySelector('.orb-text').textContent = 'talk to me';
+      return;
+    }
+
+    orb.classList.add('is-connecting');
+    orb.querySelector('.orb-text').textContent = 'connecting...';
+
+    try {
+      await navigator.mediaDevices.getUserMedia({ audio: true });
+
+      session = await ElevenLabsClient.Conversation.startSession({
+        agentId: AGENT_ID,
+        connectionType: 'webrtc',
+        onConnect: function(){
+          orb.classList.remove('is-connecting');
+          orb.classList.add('is-active');
+          orb.querySelector('.orb-text').textContent = 'end call';
+        },
+        onDisconnect: function(){
+          session = null;
+          orb.classList.remove('is-active','is-speaking','is-connecting');
+          orb.querySelector('.orb-text').textContent = 'talk to me';
+        },
+        onError: function(e){
+          console.error('ElevenLabs error:', e);
+          session = null;
+          orb.classList.remove('is-active','is-speaking','is-connecting');
+          orb.querySelector('.orb-text').textContent = 'talk to me';
+        },
+        onModeChange: function(mode){
+          if (mode.mode === 'speaking') {
+            orb.classList.add('is-speaking');
+          } else {
+            orb.classList.remove('is-speaking');
+          }
+        }
+      });
+    } catch(e) {
+      console.error('Could not start voice session:', e);
+      orb.classList.remove('is-active','is-speaking','is-connecting');
+      orb.querySelector('.orb-text').textContent = 'talk to me';
+      session = null;
+    }
+  });
+})();
+</script>
+
 </body>
 </html>
