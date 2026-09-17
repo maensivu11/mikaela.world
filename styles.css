@@ -272,6 +272,8 @@ body{display:grid;min-height:100svh;place-items:center;overflow-x:hidden;backgro
 #bg-canvas{position:fixed;inset:0;z-index:0;background:#e80756 url("assets/source-painting/plain_canvas.png") center top/cover no-repeat;pointer-events:none}
   .work-flower-entry{--flower-rest:rotate(0deg);position:fixed;left:auto;right:clamp(68px,6vw,112px);top:clamp(8px,2.2vh,28px);z-index:20;width:320px;aspect-ratio:1973/1385;padding:0;border:0;background:none;cursor:pointer;filter:drop-shadow(0 7px 5px rgba(35,18,8,.32));transform:var(--flower-rest);transform-origin:58% 55%;transition:transform 440ms cubic-bezier(.2,.8,.2,1),opacity 140ms ease}
   .work-flower-entry:before{content:"";position:absolute;z-index:0;left:38%;top:32%;width:36%;height:48%;border-radius:50%;background:rgba(255,255,255,.06);filter:blur(18px);pointer-events:none;animation:flower-glow 4s ease-in-out infinite}
+  .work-flower-stroke{z-index:0;left:27%;top:16%;width:56%;height:76%;filter:brightness(0) invert(1) blur(4px);opacity:.45;pointer-events:none;animation:flower-idle 2400ms ease-in-out infinite,border-stroke-pulse 6s ease-in-out infinite}
+  @keyframes border-stroke-pulse{0%,100%{opacity:.25;filter:brightness(0) invert(1) blur(5px)}50%{opacity:.55;filter:brightness(0) invert(1) blur(3px)}}
   @keyframes flower-glow{0%,100%{opacity:.5;transform:scale(1)}50%{opacity:1;transform:scale(1.08)}}
   .work-flower-entry.is-desk-hidden{opacity:0;transform:var(--flower-rest) rotate(155deg) scale(.52);pointer-events:none;transition:transform 380ms cubic-bezier(.55,.05,.67,.19),opacity 140ms ease 190ms}
   .work-flower-entry img{position:absolute;object-fit:contain;pointer-events:none}
