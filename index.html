@@ -165,7 +165,7 @@
 #replay{position:fixed;right:16px;bottom:16px;background:#161616;border:1px solid #333;color:#cdbfa6;padding:8px 14px;border-radius:10px;cursor:pointer;opacity:.75;z-index:9;font:15px system-ui}
 
 @font-face{font-family:'B-McE';src:url(assets/fonts/B-McE.ttf) format('truetype');font-display:swap}
-.voice-orb{position:fixed;right:20px;bottom:20px;z-index:100;border:none;border-radius:999px;cursor:pointer;padding:10px 20px;font-family:'B-McE',cursive;font-size:20px;line-height:1;color:rgba(255,255,255,.9);background:rgba(255,255,255,.18);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border:0.5px solid rgba(255,255,255,.25);box-shadow:0 1px 3px rgba(0,0,0,.12);transition:transform 200ms var(--ease-out),background 300ms ease,border-color 300ms ease,color 300ms ease}
+.voice-orb{position:fixed;left:20px;bottom:20px;z-index:100;border:none;border-radius:999px;cursor:pointer;padding:10px 20px;font-family:'B-McE',cursive;font-size:20px;line-height:1;color:rgba(255,255,255,.9);background:rgba(255,255,255,.18);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border:0.5px solid rgba(255,255,255,.25);box-shadow:0 1px 3px rgba(0,0,0,.12);transition:transform 200ms var(--ease-out),background 300ms ease,border-color 300ms ease,color 300ms ease}
 .voice-orb:hover{background:rgba(255,255,255,.25);border-color:rgba(255,255,255,.35);transform:scale(1.04)}
 .voice-orb:active{transform:scale(.96)}
 .voice-orb.is-connecting{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);color:rgba(255,255,255,.6);animation:glass-connecting 1.2s ease-in-out infinite}
@@ -175,7 +175,7 @@
 @keyframes glass-connecting{0%,100%{opacity:.7}50%{opacity:1}}
 @keyframes glass-pulse{0%,100%{box-shadow:0 1px 3px rgba(0,0,0,.2)}50%{box-shadow:0 1px 10px rgba(255,255,255,.06)}}
 @keyframes glass-speak{0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}
-@media(max-width:600px){.voice-orb{right:14px;bottom:14px;padding:7px 14px;font-size:15px}}
+@media(max-width:600px){.voice-orb{left:14px;bottom:14px;padding:7px 14px;font-size:15px}}
 
 </style>
 </head>
