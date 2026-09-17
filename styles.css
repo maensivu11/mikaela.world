@@ -10,7 +10,7 @@
   .site-loader img{width:clamp(94px,14vw,176px);height:auto;filter:drop-shadow(0 8px 5px rgba(0,0,0,.78)) drop-shadow(0 0 18px rgba(255,197,84,.26));animation:loader-flower-spin 1100ms linear infinite}
   @keyframes loader-flower-spin{to{transform:rotate(360deg)}}
   .inline-trace-definitions{position:absolute;width:0;height:0;overflow:hidden;pointer-events:none}
-  body{ background:#e80756;
+  body{ background:#0a0a0a;
     min-height:100vh; color:#efe6d4; font-family:var(--serif); -webkit-font-smoothing:antialiased;}
   .top{ position:relative; z-index:1; width:max-content; max-width:96vw; margin:0 auto 14px; padding:5px 13px 7px; border-radius:8px; text-align:center; background:rgba(35,20,22,.68); backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px);}
   .top .eye{ font-family:var(--mono); font-size:11px; letter-spacing:.26em; text-transform:uppercase; color:#d9c9a8; opacity:.85;}
@@ -268,7 +268,7 @@
   }
 
   /* Clean tabletop baseline. Reactions return after registration to this source image. */
-body{display:grid;min-height:100svh;place-items:center;overflow-x:hidden;background:#e80756}
+body{display:grid;min-height:100svh;place-items:center;overflow-x:hidden;background:#0a0a0a}
 #bg-canvas{position:fixed;inset:0;z-index:0;background:#e80756 url("assets/source-painting/plain_canvas.png") center top/cover no-repeat;pointer-events:none}
   .work-flower-entry{--flower-rest:rotate(0deg);position:fixed;left:auto;right:clamp(68px,6vw,112px);top:clamp(8px,2.2vh,28px);z-index:20;width:320px;aspect-ratio:1973/1385;padding:0;border:0;background:none;cursor:pointer;filter:drop-shadow(0 7px 5px rgba(35,18,8,.32));transform:var(--flower-rest);transform-origin:58% 55%;transition:transform 440ms cubic-bezier(.2,.8,.2,1),opacity 140ms ease}
   .work-flower-entry:before{content:"";position:absolute;z-index:0;left:40%;top:73%;width:34%;height:10%;border-radius:50%;background:rgba(42,18,8,.38);filter:blur(7px);transform:rotate(-5deg);pointer-events:none}
