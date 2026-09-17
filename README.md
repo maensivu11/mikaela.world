@@ -1,3 +1,3 @@
 # mikaela.world
 
-Personal portfolio. Hand-drawn, hand-coded.
+Handwritten, handpainted, designed and built pixel by pixel.
