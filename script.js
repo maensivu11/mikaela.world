@@ -789,6 +789,11 @@ document.querySelectorAll('[data-ext-href]').forEach(function(el){
     if(/^mailto:/i.test(href))return;
     e.preventDefault();
     if(diving)return;
+    // the case opens in a windows 98 browser growing from the exact pixel clicked (keyboard: the entry's centre)
+    if(window.wwOpen){
+      var lr=link.getBoundingClientRect(),px=e.detail?e.clientX:lr.left+lr.width/2,py=e.detail?e.clientY:lr.top+lr.height/2;
+      if(window.wwOpen(link,px,py))return;
+    }
     diving=true;
     if(window.matchMedia('(prefers-reduced-motion: reduce)').matches||!stage.animate){
       stage.style.transition='opacity 140ms linear';stage.style.opacity='0';
@@ -805,7 +810,7 @@ document.querySelectorAll('[data-ext-href]').forEach(function(el){
     stage.style.transformOrigin='';stage.style.transition='';stage.style.opacity='';
     var w=modal.querySelector('.wi-wash');if(w)w.remove();
   });
-  function fromHash(){if(window.location.hash==='#work-index')openWorkIndex();}
+  function fromHash(){if(window.location.hash==='#work-index'&&!modal.classList.contains('open'))openWorkIndex();}
   window.addEventListener('hashchange',fromHash);
   // Arriving from a case page ("↑ notebook"): the book plays its real opening flip into the spread.
   // Back from a case page ("notebook"): the reverse of the dive. The spread is already open, the camera starts
@@ -856,4 +861,252 @@ document.querySelectorAll('[data-ext-href]').forEach(function(el){
   try{if(sessionStorage.getItem('book-hint'))return;sessionStorage.setItem('book-hint','1');}catch(e){}
   function hint(){arc.classList.add('is-hint');setTimeout(function(){arc.classList.remove('is-hint');},2600);}
   window.addEventListener('load',function(){setTimeout(hint,2600);},{once:true});
+})();
+
+// Work window: a windows 98 browser that grows out of the exact pixel you clicked on the notebook,
+// loads the case page (?win=1 hides its own chrome), walks prev/next, minimizes to a taskbar, drags and resizes.
+(function(){
+  var modal=document.getElementById('m-workindex');if(!modal)return;
+  var stage=modal.querySelector('[data-wi-stage]');
+  var cases=Array.prototype.filter.call(modal.querySelectorAll('a.wi-entry'),function(a){return !/^mailto:/i.test(a.getAttribute('href'));}).map(function(a){
+    var href=a.getAttribute('href'),m=href.match(/work\/([^\/]+)\//),img=a.querySelector('.wi-hand');
+    return {link:a,href:href,slug:m?m[1]:'',name:img?img.getAttribute('alt'):m[1]};
+  });
+  if(!cases.length)return;
+  var SV={
+    ie:'<svg class="ww-ico" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2.2a5.8 5.8 0 1 0 5.6 7.3h-3a2.9 2.9 0 0 1-5.4-1h8.5A5.8 5.8 0 0 0 8 2.2zm-2.7 5a2.8 2.8 0 0 1 5.4 0z" fill="#1d64d6"/><path d="M1.2 11.6C.4 8.4 6.3 3.6 11.7 2c2.6-.8 3.8.1 3.2 1.9" fill="none" stroke="#f2b705" stroke-width="1.3"/></svg>',
+    min:'<svg viewBox="0 0 8 7" aria-hidden="true"><rect x="1" y="5" width="6" height="2"/></svg>',
+    max:'<svg viewBox="0 0 9 9" aria-hidden="true" style="width:9px;height:9px"><path d="M0 0h9v9H0zM1 2v6h7V2z" fill-rule="evenodd"/></svg>',
+    rest:'<svg viewBox="0 0 9 9" aria-hidden="true" style="width:9px;height:9px"><path d="M2 0h7v6H7V2H2zM0 3h6v6H0zm1 2v3h4V5z" fill-rule="evenodd"/></svg>',
+    x:'<svg viewBox="0 0 8 7" aria-hidden="true"><path d="M0 0h2l2 2 2-2h2v1L5 3.5 8 6v1H6L4 5 2 7H0V6l3-2.5L0 1z"/></svg>',
+    back:'<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M2 10l8-7v4h8v6h-8v4z" fill="#2f9e2f" stroke="#0b4f0b" stroke-width="1"/></svg>',
+    fwd:'<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M18 10l-8-7v4H2v6h8v4z" fill="#2f9e2f" stroke="#0b4f0b" stroke-width="1"/></svg>',
+    stop:'<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M6 2h8l4 4v8l-4 4H6l-4-4V6z" fill="#d81e1e" stroke="#6b0000"/><path d="M7 7l6 6M13 7l-6 6" stroke="#fff" stroke-width="2"/></svg>',
+    refresh:'<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M15.5 7.5A6 6 0 1 0 16 12" fill="none" stroke="#1d64d6" stroke-width="2.4"/><path d="M12 7.8h5.6V2.2z" fill="#1d64d6"/></svg>',
+    home:'<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2l8 7h-2.5v9h-4v-5h-3v5h-4V9H2z" fill="#e8c85a" stroke="#6b4e00"/><rect x="13" y="3" width="2" height="4" fill="#a33"/></svg>',
+    page:'<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 1h7l3 3v11H3z" fill="#fff" stroke="#000"/><path d="M10 1v3h3" fill="none" stroke="#000"/><circle cx="8" cy="10" r="3" fill="#1d64d6"/></svg>',
+    globe:'<svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="#3a8ee6" stroke="#0a3d8a"/><path d="M4 5c2 1 3-1 4 1s-2 3 0 5M10 3c-1 2 2 2 3 4" fill="none" stroke="#2c9b33" stroke-width="2"/></svg>',
+    drop:'<svg viewBox="0 0 7 4" aria-hidden="true"><path d="M0 0h7L3.5 4z"/></svg>',
+    go:'<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h9V4l4 4-4 4V8" fill="#2f9e2f" stroke="#0b4f0b"/></svg>',
+    throb:'<svg viewBox="0 0 26 26" aria-hidden="true"><path d="M13 2c3 3 3 8 0 11-3-3-3-8 0-11z" fill="#f2492c"/><path d="M24 13c-3 3-8 3-11 0 3-3 8-3 11 0z" fill="#7cc242"/><path d="M13 24c-3-3-3-8 0-11 3 3 3 8 0 11z" fill="#20a0e8"/><path d="M2 13c3-3 8-3 11 0-3 3-8 3-11 0z" fill="#ffc20e"/></svg>',
+    win:'<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M1 3l6-1v6H1z" fill="#f2492c"/><path d="M8 2l7-1v7H8z" fill="#7cc242"/><path d="M1 9h6v6l-6-1z" fill="#20a0e8"/><path d="M8 9h7v7l-7-1z" fill="#ffc20e"/></svg>'
+  };
+  var dim=document.createElement('div');dim.className='ww-dim';
+  var w=document.createElement('div');w.className='ww';w.setAttribute('role','dialog');w.setAttribute('aria-modal','true');w.tabIndex=-1;
+  w.innerHTML=
+    '<div class="ww-bar">'+SV.ie+'<span class="ww-title"></span><span class="ww-ctl">'+
+      '<button type="button" class="ww-min" aria-label="minimize" title="Minimize">'+SV.min+'</button>'+
+      '<button type="button" class="ww-max" aria-label="maximize" title="Maximize">'+SV.max+'</button>'+
+      '<button type="button" class="ww-x" aria-label="close" title="Close">'+SV.x+'</button></span></div>'+
+    '<div class="ww-menu" aria-hidden="true"><span>File</span><span>Edit</span><span>View</span><span>Favorites</span><span>Tools</span><span>Help</span></div>'+
+    '<div class="ww-tools">'+
+      '<button type="button" class="ww-prev">'+SV.back+'<span>Previous</span></button>'+
+      '<button type="button" class="ww-next">'+SV.fwd+'<span>Next</span></button>'+
+      '<button type="button" class="ww-stop ww-opt" title="Stop">'+SV.stop+'<span>Stop</span></button>'+
+      '<button type="button" class="ww-refresh" title="Refresh">'+SV.refresh+'<span>Refresh</span></button>'+
+      '<button type="button" class="ww-home" title="Back to the notebook">'+SV.home+'<span>Home</span></button>'+
+      '<span class="ww-fill"></span><span class="ww-throb">'+SV.throb+'</span></div>'+
+    '<div class="ww-addr"><label>Address</label><span class="ww-field">'+SV.page+'<span class="ww-url"></span><span class="ww-drop">'+SV.drop+'</span></span><span class="ww-go">'+SV.go+'Go</span></div>'+
+    '<div class="ww-view"><iframe title="case study" loading="eager"></iframe></div>'+
+    '<div class="ww-status"><div class="ww-msg">'+SV.page+'<span></span></div><div class="ww-prog"><i></i></div><div class="ww-zone">'+SV.globe+'Internet</div></div>'+
+    '<span class="ww-grip" data-e="se" aria-hidden="true"></span>'+
+    ['n','s','e','w','ne','nw','se','sw'].map(function(e){return '<span class="ww-h" data-e="'+e+'" aria-hidden="true"></span>';}).join('');
+  var task=document.createElement('div');task.className='ww-task';
+  task.innerHTML='<button type="button" class="ww-start" tabindex="-1">'+SV.win+'Start</button><button type="button" class="ww-tb">'+SV.ie+'<span></span></button><span class="ww-clock"></span>';
+  document.body.appendChild(dim);document.body.appendChild(w);document.body.appendChild(task);
+  var $=function(s){return w.querySelector(s);};
+  var titleEl=$('.ww-title'),urlEl=$('.ww-url'),msgEl=$('.ww-msg span'),progEl=$('.ww-prog i'),frame=$('iframe');
+  var bPrev=$('.ww-prev'),bNext=$('.ww-next'),bMax=$('.ww-max'),tb=task.querySelector('.ww-tb');
+  var state='closed',cur=-1,rect=null,saved=null,isMax=false,loadTimer=0,pollTimer=0,progAnim=null,anim=null,origin=null;
+  var reduce=function(){return window.matchMedia('(prefers-reduced-motion: reduce)').matches;};
+  var mobile=function(){return window.matchMedia('(max-width:600px)').matches;};
+  function caseOf(slug){for(var i=0;i<cases.length;i++)if(cases[i].slug===slug||cases[i].link.getAttribute('data-wi-slug')===slug)return i;return -1;}
+  function absHref(c){return new URL(c.href,document.baseURI).href;}
+  function vw(){return document.documentElement.clientWidth;}
+  function vh(){return window.innerHeight;}
+  function place(r){w.style.left=r.x+'px';w.style.top=r.y+'px';w.style.width=r.w+'px';w.style.height=r.h+'px';}
+  function clamp(r){
+    var W=vw(),H=vh(),minW=Math.min(380,W),minH=Math.min(260,H);
+    r.w=Math.max(minW,Math.min(r.w,W));r.h=Math.max(minH,Math.min(r.h,H));
+    r.x=Math.max(0,Math.min(r.x,W-r.w));r.y=Math.max(0,Math.min(r.y,H-r.h));return r;
+  }
+  function defRect(){var W=vw(),H=vh(),ww=Math.min(1120,W-96),hh=Math.min(820,H-72);return {x:Math.round((W-ww)/2),y:Math.round((H-hh)/2),w:ww,h:hh};}
+  function applyGeom(){
+    if(mobile()||isMax){w.classList.add('max');place({x:0,y:0,w:vw(),h:vh()});}
+    else{w.classList.remove('max');rect=clamp(rect||defRect());place(rect);}
+    bMax.innerHTML=(isMax||mobile())?SV.rest:SV.max;bMax.setAttribute('aria-label',isMax?'restore':'maximize');bMax.title=isMax?'Restore':'Maximize';
+    bMax.disabled=mobile();
+  }
+  function status(t){msgEl.textContent=t;}
+  function setChrome(i,docTitle){
+    var c=cases[i],name=docTitle||c.name;
+    titleEl.textContent=name+' - Microsoft Internet Explorer';
+    w.setAttribute('aria-label',name);
+    urlEl.textContent='http://mikaela.world/work/'+c.slug+'/';
+    tb.querySelector('span').textContent=name+' - Microsoft Internet...';
+    var p=cases[i-1],n=cases[i+1];
+    bPrev.disabled=!p;bNext.disabled=!n;
+    bPrev.title=p?'previous: '+p.name:'';bNext.title=n?'next: '+n.name:'';
+  }
+  function finishLoad(){
+    clearTimeout(loadTimer);clearInterval(pollTimer);loadTimer=0;
+    w.classList.remove('loading');if(progAnim){progAnim.cancel();progAnim=null;}progEl.style.width='0';status('Done');
+  }
+  function load(i){
+    cur=i;var c=cases[i];setChrome(i);
+    w.classList.add('loading');status('Opening page http://mikaela.world/work/'+c.slug+'/...');
+    if(progEl.animate){if(progAnim)progAnim.cancel();progAnim=progEl.animate([{width:'0%'},{width:'70%',offset:.4},{width:'92%'}],{duration:2400,easing:'ease-out',fill:'forwards'});}
+    var target=absHref(c),url=target+(target.indexOf('?')<0?'?':'&')+'win=1';
+    clearTimeout(loadTimer);clearInterval(pollTimer);
+    // the case page has to be parsed within 3s, otherwise fall back to a plain visit
+    loadTimer=setTimeout(function(){if(state!=='closed'&&cur===i)window.location.href=target;},3000);
+    pollTimer=setInterval(function(){
+      try{var d=frame.contentDocument;if(d&&d.readyState!=='loading'&&frame.contentWindow.location.pathname.indexOf('/work/'+c.slug+'/')>=0){clearTimeout(loadTimer);loadTimer=0;clearInterval(pollTimer);}}catch(e){}
+    },80);
+    // replace, never push: the window's page swaps must not pile up entries in the tab's history
+    var live=false;try{live=frame.contentWindow.location.href!=='about:blank';}catch(e){}
+    if(live)frame.contentWindow.location.replace(url);else frame.src=url;
+  }
+  function onFrameLoad(){
+    if(state==='closed'||!frame.getAttribute('src'))return;
+    var path='',title='';
+    try{path=frame.contentWindow.location.pathname;title=(frame.contentDocument.title||'').split(' · ')[0];}catch(e){}
+    var m=path.match(/\/work\/([^\/]+)\//),i=m?caseOf(m[1]):-1;
+    if(i<0){if(path){var to=frame.contentWindow.location.href;close(true);window.location.href=to;}return;}
+    if(i!==cur){cur=i;setHash(true);}
+    setChrome(i,title);finishLoad();
+  }
+  frame.addEventListener('load',onFrameLoad);
+  function freshFrame(){var f=document.createElement('iframe');f.title='case study';f.addEventListener('load',onFrameLoad);frame.replaceWith(f);frame=f;}
+  function setHash(replace){
+    var h='#work/'+cases[cur].slug;if(window.location.hash===h)return;
+    if(replace||history.state&&history.state.ww)history.replaceState({ww:1},'',h);else history.pushState({ww:1},'',h);
+  }
+  function grow(fromX,fromY,reverse,done){
+    var r=w.getBoundingClientRect();
+    if(reduce()||!w.animate){if(done)done();return;}
+    var dx=fromX-r.left,dy=fromY-r.top;
+    var k=[{transform:'translate('+dx+'px,'+dy+'px) scale(.02)',opacity:.4},{transform:'translate(0,0) scale(1)',opacity:1}];
+    w.style.transformOrigin='0 0';
+    if(anim)anim.cancel();
+    anim=w.animate(reverse?k.slice().reverse():k,{duration:reverse?190:260,easing:reverse?'cubic-bezier(.5,0,.9,.5)':'cubic-bezier(.15,.75,.3,1)'});
+    anim.onfinish=function(){anim=null;if(done)done();};
+  }
+  function clock(){var d=new Date(),h=d.getHours(),mm=('0'+d.getMinutes()).slice(-2);task.querySelector('.ww-clock').textContent=((h%12)||12)+':'+mm+' '+(h<12?'AM':'PM');}
+  function open(i,x,y){
+    var c=cases[i];if(!c)return;
+    cases.forEach(function(k){k.link.classList.remove('ww-from');});
+    origin={x:x,y:y};
+    var wasClosed=state==='closed';
+    state='open';task.classList.remove('on');
+    w.classList.add('open');w.classList.remove('inactive');dim.classList.add('on');
+    applyGeom();
+    if(wasClosed||cur!==i)load(i);
+    setHash(false);
+    grow(x,y,false);
+    w.focus({preventScroll:true});
+  }
+  function entryPoint(i){var r=cases[i].link.getBoundingClientRect();return {x:r.left+r.width/2,y:r.top+r.height/2};}
+  function close(noHistory){
+    if(state==='closed')return;
+    var i=cur,p=(i>=0&&cases[i].link.getClientRects().length)?entryPoint(i):(origin||{x:vw()/2,y:vh()/2});
+    var wasMin=state==='min';
+    state='closed';task.classList.remove('on');dim.classList.remove('on');
+    var end=function(){
+      w.classList.remove('open','loading');finishLoad();freshFrame();cur=-1;
+      if(i>=0){var l=cases[i].link;l.classList.add('ww-from');l.focus({preventScroll:true});setTimeout(function(){l.classList.remove('ww-from');},1400);}
+    };
+    if(!noHistory){if(history.state&&history.state.ww)history.back();else if(/^#work\//.test(window.location.hash))history.replaceState(null,'','#work-index');}
+    if(wasMin)end();else grow(p.x,p.y,true,end);
+  }
+  function minimize(){
+    if(state!=='open')return;
+    state='min';clock();task.classList.add('on');dim.classList.remove('on');
+    var r=tb.getBoundingClientRect();
+    grow(r.left+r.width/2,r.top+r.height/2,true,function(){if(state==='min'){w.classList.remove('open');tb.focus({preventScroll:true});}});
+  }
+  function restore(){
+    if(state!=='min')return;
+    var r=tb.getBoundingClientRect();
+    state='open';task.classList.remove('on');dim.classList.add('on');w.classList.add('open');applyGeom();
+    grow(r.left+r.width/2,r.top+r.height/2,false);w.focus({preventScroll:true});
+  }
+  function toggleMax(){if(mobile())return;isMax=!isMax;applyGeom();}
+  function go(d){var j=cur+d;if(state!=='open'||!cases[j])return;load(j);setHash(true);}
+  window.wwOpen=function(link,x,y){var i=-1;for(var k=0;k<cases.length;k++)if(cases[k].link===link)i=k;if(i<0)return false;open(i,x,y);return true;};
+  window.wwState=function(){return {state:state,slug:cur>=0?cases[cur].slug:null,rect:w.getBoundingClientRect()};};
+  $('.ww-x').addEventListener('click',function(){close();});
+  $('.ww-min').addEventListener('click',minimize);
+  bMax.addEventListener('click',toggleMax);
+  bPrev.addEventListener('click',function(){go(-1);});
+  bNext.addEventListener('click',function(){go(1);});
+  $('.ww-home').addEventListener('click',function(){close();});
+  $('.ww-refresh').addEventListener('click',function(){if(cur>=0)load(cur);});
+  $('.ww-stop').addEventListener('click',function(){if(w.classList.contains('loading')){try{frame.contentWindow.stop();}catch(e){}finishLoad();}});
+  tb.addEventListener('click',function(){if(state==='min')restore();else if(state==='open')minimize();});
+  dim.addEventListener('pointerdown',function(){w.classList.add('inactive');});
+  w.addEventListener('pointerdown',function(){w.classList.remove('inactive');});
+  // drag by the title bar, resize from any edge or corner; the iframe goes inert while the pointer is captured
+  function grab(e,edge){
+    if(e.button!==0||mobile()||(isMax&&edge))return;
+    if(!edge&&e.target.closest('button'))return;
+    e.preventDefault();
+    if(isMax){ // dragging a maximized window restores it under the pointer, like windows does
+      isMax=false;rect=rect||defRect();rect.x=e.clientX-rect.w*(e.clientX/vw());rect.y=0;applyGeom();
+    }
+    var sx=e.clientX,sy=e.clientY,r0={x:rect.x,y:rect.y,w:rect.w,h:rect.h},el=e.currentTarget;
+    el.setPointerCapture(e.pointerId);w.classList.add('busy');
+    var W=vw(),H=vh(),minW=Math.min(380,W),minH=Math.min(260,H);
+    function mv(ev){
+      var dx=ev.clientX-sx,dy=ev.clientY-sy,r={x:r0.x,y:r0.y,w:r0.w,h:r0.h};
+      if(!edge){r.x=Math.max(0,Math.min(r0.x+dx,W-r0.w));r.y=Math.max(0,Math.min(r0.y+dy,H-r0.h));}
+      else{
+        if(edge.indexOf('e')>=0)r.w=Math.max(minW,Math.min(r0.w+dx,W-r0.x));
+        if(edge.indexOf('s')>=0)r.h=Math.max(minH,Math.min(r0.h+dy,H-r0.y));
+        if(edge.indexOf('w')>=0){var nx=Math.max(0,Math.min(r0.x+dx,r0.x+r0.w-minW));r.w=r0.w+(r0.x-nx);r.x=nx;}
+        if(edge.indexOf('n')>=0){var ny=Math.max(0,Math.min(r0.y+dy,r0.y+r0.h-minH));r.h=r0.h+(r0.y-ny);r.y=ny;}
+      }
+      rect=r;place(r);
+    }
+    function up(){el.removeEventListener('pointermove',mv);el.removeEventListener('pointerup',up);el.removeEventListener('pointercancel',up);w.classList.remove('busy');}
+    el.addEventListener('pointermove',mv);el.addEventListener('pointerup',up);el.addEventListener('pointercancel',up);
+  }
+  $('.ww-bar').addEventListener('pointerdown',function(e){grab(e,'');});
+  $('.ww-bar').addEventListener('dblclick',function(e){if(!e.target.closest('button'))toggleMax();});
+  Array.prototype.forEach.call(w.querySelectorAll('[data-e]'),function(h){h.addEventListener('pointerdown',function(e){grab(e,h.getAttribute('data-e'));});});
+  window.addEventListener('resize',function(){if(state!=='closed')applyGeom();});
+  // keys: esc minimizes / restores before anything else; tab stays inside it
+  document.addEventListener('keydown',function(e){
+    // esc tucks the window into the taskbar like a real computer; esc again brings it back. only X closes.
+    if(e.key==='Escape'&&state!=='closed'){e.preventDefault();e.stopImmediatePropagation();if(state==='open')minimize();else restore();return;}
+    if(state!=='open')return;
+    if(e.key==='Tab'){
+      var f=Array.prototype.filter.call(w.querySelectorAll('button:not(:disabled),iframe'),function(el){return el.getClientRects().length;});
+      if(!f.length)return;e.stopImmediatePropagation();
+      var a=document.activeElement,k=f.indexOf(a);
+      if(e.shiftKey&&(k<=0)){e.preventDefault();f[f.length-1].focus();}
+      else if(!e.shiftKey&&(k<0||k===f.length-1)){e.preventDefault();f[0].focus();}
+    }
+  },true);
+  // the case page inside the window forwards its hotkeys (esc, left, right)
+  window.addEventListener('message',function(e){
+    if(e.origin!==window.location.origin||!e.data||!e.data.ww||e.source!==frame.contentWindow)return;
+    if(e.data.ww==='esc')minimize();else if(e.data.ww==='prev')go(-1);else if(e.data.ww==='next')go(1);
+  });
+  // back/forward: #work/<slug> opens that case in the window, anything else closes it
+  function fromHash(){
+    var m=window.location.hash.match(/^#work\/([^\/]+)$/),i=m?caseOf(m[1]):-1;
+    if(i>=0){
+      if(!modal.classList.contains('open')&&window.openWorkIndex)window.openWorkIndex(true);
+      if(state==='closed'||cur!==i){var p=entryPoint(i);if(!p.x){p={x:vw()/2,y:vh()/2};}
+        if(state==='closed')open(i,p.x,p.y);else{load(i);if(state==='min')restore();}}
+    }else if(state!=='closed')close(true);
+  }
+  window.addEventListener('hashchange',fromHash);
+  window.addEventListener('popstate',fromHash);
+  if(/^#work\/[^\/]+$/.test(window.location.hash)){var dl=caseOf(window.location.hash.slice(6));if(dl>=0){window.openWorkIndex(true);setTimeout(fromHash,450);}}
+  // closing the notebook takes a minimized window with it
+  var closeWI=window.closeWorkIndex;
+  window.closeWorkIndex=function(done){if(state!=='closed')close(true);if(/^#work\//.test(window.location.hash))history.replaceState(null,'','#work-index');return closeWI(done);};
+  setInterval(function(){if(state==='min')clock();},30000);
 })();

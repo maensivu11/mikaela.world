@@ -26,6 +26,7 @@
     '.cc-ne{display:inline-block;width:14px;height:14px;vertical-align:-1px;stroke-width:3;margin:0 2px}',
     '@media (max-width:760px){.cc-arrow{width:30px;height:21px}.cc-top .cc-up{width:13px;height:17px}}',
     '@media print{.cc{display:none}}',
+    'html.cc-win .cc,html.cc-win .cc-pager{display:none!important}',
     '.cc-side:active,.cc-side:focus,.cc-top:active,.cc-top:focus{opacity:1!important;color:#3d3a8c!important}',
     '.cc-side:active .cc-arrow,.cc-side:focus .cc-arrow,.cc-top:active .cc-up,.cc-top:focus .cc-up{filter:drop-shadow(1px 0 0 #fff) drop-shadow(-1px 0 0 #fff) drop-shadow(0 1px 0 #fff) drop-shadow(0 -1px 0 #fff)}',
     '@media (hover:none){.cc-side:active,.cc-side:focus{background:rgba(255,255,255,.9);border-radius:999px;box-shadow:0 0 0 1.5px #fff,0 4px 12px rgba(0,0,0,.12)}.cc-side .cc-name{display:none}}',
@@ -137,12 +138,27 @@
     (parent || document.body).appendChild(a);
   }
 
-  link('cc-top', d.notebook || '../../index.html#work-index', ARROW.up + '<span>notebook</span>', '', 'back to the notebook');
+  /* inside the notebook's windows 98 window (?win=1): the window's own toolbar replaces the floating nav,
+     and the hotkeys are handed up to it */
+  var inWin = /[?&]win=1(&|$)/.test(location.search) && window.parent !== window;
+  if (inWin) {
+    document.documentElement.classList.add('cc-win');
+    document.addEventListener('keydown', function (e) {
+      if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.altKey) return;
+      var t = e.target, tag = t && t.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || (t && t.isContentEditable)) return;
+      if (document.querySelector('.lb, [aria-modal="true"]')) return;
+      var k = e.key === 'Escape' ? 'esc' : e.key === 'ArrowLeft' ? 'prev' : e.key === 'ArrowRight' ? 'next' : '';
+      if (k) { e.preventDefault(); parent.postMessage({ ww: k }, location.origin); }
+    });
+  }
+  if (!inWin) link('cc-top', d.notebook || '../../index.html#work-index', ARROW.up + '<span>notebook</span>', '', 'back to the notebook');
   /* prev/next live in one nav: fixed at the screen edges on desktop, an in-flow pager at the page end on phones */
   var pager = document.createElement('nav');
   pager.className = 'cc-pager';
   pager.setAttribute('aria-label', 'case studies');
   document.body.appendChild(pager);
+  if (inWin) pager.hidden = true;
   if (d.prev) link('cc-side cc-prev', d.prev, ARROW.left, d.prevName, 'previous: ' + d.prevName, pager);
   if (d.next) link('cc-side cc-next', d.next, ARROW.right, d.nextName, 'next: ' + d.nextName, pager);
   /* phones: the edge arrows recede while the reader scrolls fast, and return as soon as she slows to a near-pause (under 4px per event for 120ms) or stops (150ms) */
@@ -173,7 +189,7 @@
     a1.finished.then(function () { location.href = href; }, function () { location.href = href; });
   });
   /* hotkeys: esc goes back to the notebook (lightboxes close first), left and right walk the cases */
-  document.addEventListener('keydown', function (e) {
+  if (!inWin) document.addEventListener('keydown', function (e) {
     if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.altKey) return;
     var t = e.target, tag = t && t.tagName;
     if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || (t && t.isContentEditable)) return;
