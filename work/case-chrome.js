@@ -47,6 +47,25 @@
     '.hero-head a.live .cc-ne{width:12px!important;height:12px!important;margin:0 4px!important}',
     '.hero-head a.live:hover,.hero-head a.live:focus-visible{background:var(--ink);color:var(--bg)}',
     '@media (max-width:900px){.hero-head h1{font-size:36px!important;line-height:40px!important}.hero-head h1+p{font-size:19px!important;line-height:28px!important}.hero-head h1+p~.claim{font-size:16px!important;line-height:26px!important}.hero-head a.live{margin-top:20px!important}}',
+    /* 2c sitewide type scale: display 44 > lede 22 > body 17 > card 14 > label/caption/button 13 mono; notes 23 hand.
+       product specimens (.fc .chip .status .ladder span .v-* .reg .mark-word .w98 svg) keep the product's own type. */
+    'section.prose,.ed{display:block!important}',
+    'section.prose>*,.ed>*{max-width:none!important}',
+    'section.prose>h2+.hand,.ed>h2+.hand{margin:0 0 12px!important}',
+    'h2{font-family:var(--mono)!important;font-size:13px!important;line-height:20px!important;font-weight:400!important;color:var(--muted)!important;margin-bottom:16px!important}',
+    '.intro,.manifesto p.intro,.call p{font-size:22px!important;line-height:32px!important;font-weight:400!important}',
+    '.framing,.manifesto p:not(.intro),.note li,.hers{font-size:17px!important;line-height:28px!important}',
+    '.hop .t,.rung .t{font-size:14px!important;line-height:20px!important;font-weight:600!important}',
+    '.knob .what{font-size:14px!important;line-height:20px!important}',
+    '.cap,.why,figcaption,.sw p,.stage,.tok p,.tok .name,.tok .why,.ladder small,.voices .k,.hop .r,.hop .n,.rung .r,.ilab,.funnel span,.argue,.say,.read,.steps,.bars,.states,.mono,.hud,.live-tag,.live .live-tag{font-family:var(--mono)!important;font-size:13px!important;line-height:20px!important;font-weight:400!important}',
+    '.cap,.why,figcaption,.funnel span,.ladder small,.voices .k,.hop .r,.rung .r{color:var(--muted)!important}',
+    'pre:not(.code){font-size:13px!important;line-height:20px!important}',
+    '.live-run,.jctl button,.live .chips button,.live .run{font-family:var(--mono)!important;font-size:13px!important;line-height:20px!important;font-weight:400!important;padding:9px 16px!important;border-radius:999px!important}',
+    '.live-run,.jctl button{color:var(--ink)!important;border:1px solid var(--ink)!important;background:transparent}',
+    '.live-run:hover,.jctl button:hover{background:var(--ink)!important;color:var(--bg)!important}',
+    '@media (max-width:900px){.intro,.manifesto p.intro,.call p{font-size:19px!important;line-height:28px!important}.framing,.manifesto p:not(.intro),.note li,.hers{font-size:16px!important;line-height:26px!important}pre:not(.code){font-size:11.5px!important;line-height:18px!important}}',
+    /* captions: clear space before the text that follows */
+    '.cap+.why+*,figure:has(figcaption)+:not(figure):not(.art),.art:has(.cap)+:not(.art):not(figure){margin-top:var(--s4)!important}',
     /* 3 captions breathe before the text below them */
     '.cap+*:not(.cap):not(.why){margin-top:var(--s4)!important}',
     '.pair+.ed,.art+.ed{margin-top:var(--s3)!important}',

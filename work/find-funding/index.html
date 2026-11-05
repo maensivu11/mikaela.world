@@ -310,7 +310,7 @@ document.querySelectorAll('.art').forEach(el => io ? io.observe(el) : el.classLi
   var calm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   document.querySelectorAll('.frame.live').forEach(function(box){
     var frame = null;
-    var tag = document.createElement('span'); tag.className = 'live-tag'; tag.textContent = 'live app — click through';
+    var tag = document.createElement('span'); tag.className = 'live-tag'; tag.textContent = 'live app · click through';
     box.parentNode.insertBefore(tag, box);
     /* the app runs at a real device width and is fitted to the column: 390 (its phone layout) on a phone, 1280 on a laptop */
     var phone = window.matchMedia('(max-width:600px)');

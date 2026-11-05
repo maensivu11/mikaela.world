@@ -351,3 +351,15 @@ body{display:grid;min-height:100svh;place-items:center;overflow-x:hidden;backgro
 .wi-close:focus-visible{outline:1px dashed #2b2a5e!important;outline-offset:4px}
 .wi-close svg{display:block;width:46px;height:46px}
 @media(max-width:600px){.wi-close{background:rgba(251,246,234,.92)!important;border-radius:50%}}
+
+/* sitewide type scale (matches work/case-chrome.js 2c): lede 22 > body 17 > card 14 > label/caption/button 13 mono; hand 23 notes, 34 sheet titles.
+   the work-sheet poster title, the voice orb, the loader skip, the book/phone hand captions and the instagram and win2k replicas keep their own type. */
+.sheet>p,.note p,#connote,#emailnote,#elsenote{font-size:17px!important;line-height:28px!important}
+.wcard h3{font-size:17px!important;line-height:28px!important;font-weight:600!important}
+.wcard p{font-size:14px!important;line-height:20px!important}
+.top .hint,.note h3{font-size:23px!important;line-height:26px!important}
+.top .eye,.legend,.sheet .lead,.wcard .m,.work-copy .work-kicker,.editnote,.sheet>div[style*="font-size:10px"]{font-family:var(--mono)!important;font-size:13px!important;line-height:20px!important;letter-spacing:.02em!important;text-transform:none!important}
+.work-copy p{font-size:22px!important;line-height:32px!important}
+.close,.copybtn,.sheet div[style*="display:flex"]>a,.work-copy a{font-family:var(--mono)!important;font-size:13px!important;line-height:20px!important;font-weight:400!important;letter-spacing:.02em!important;padding:9px 16px!important;border-radius:999px!important}
+.copybtn,.close{border-width:1px!important}
+@media (max-width:900px){.work-copy p{font-size:19px!important;line-height:28px!important}.sheet>p,.note p,#connote,#emailnote,#elsenote{font-size:16px!important;line-height:26px!important}}

@@ -117,7 +117,8 @@ blockquote{border-left:2px solid var(--iris);padding-left:20px;margin-top:24px}
 /* no inner scroll: the phone grows to its screen's full height and hugs the section beside it */
 .blk:has(.live-stage){align-items:stretch}
 .blk .live-stage{display:flex;align-items:center;justify-content:center;height:100%}
-.live .phone.fit{aspect-ratio:auto}
+.live .phone.fit{aspect-ratio:auto;border-radius:22px}
+.hero-live .live-stage{display:flex;justify-content:center;padding:32px 24px}
 .live .phone.fit iframe{inset:auto;top:0;left:0;width:390px;transform-origin:0 0}
 .live .chips{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:16px}
 .live .chips button,.live .run{font:inherit;font-family:var(--mono);font-size:12px;line-height:18px;color:rgba(255,255,255,.7);background:transparent;border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:6px 14px;cursor:pointer}
@@ -292,14 +293,8 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
     </div>
     <span class="mark-word" title="the Winged wordmark: Advercase, from the repo's own tokens file">Winged</span>
   </div>
-  <div class="frame night art">
-    <div class="stage">
-      <img src="assets/figma-voice-selection.png" alt="Pick how your double will introduce you, in your own voice: three voice takes on the warm gradient" width="393" height="852">
-      <img class="lift" src="assets/figma-double-live.png" alt="Your double is live. I'll text you when I find someone worth your time" width="393" height="852">
-      <img src="assets/figma-intro-card.png" alt="Match card with the Introduction pill: Mikaela, 32, a played voice introduction and 84% compatible" width="500" height="800">
-    </div>
-  </div>
-  <p class="cap">voice pick, the double going live, and the introduction card · design, v2</p>
+  <div class="frame night art hero-live"><div class="live-stage"><div class="live" data-stages='[{"label": "what it learned", "hash": "/onboard/demo"}, {"label": "your voice", "hash": "/embed/intro"}, {"label": "a match", "hash": "/matches/demo"}, {"label": "the date", "hash": "/date/d1?stage=before"}]'><div class="fb"><img src="assets/figma-voice-selection.png" alt="Pick how your double will introduce you, in your own voice: three voice takes on the warm gradient" width="393" height="852"><img class="lift" src="assets/figma-intro-card.png" alt="Match card with the Introduction pill and a played voice introduction" width="500" height="800"></div></div></div></div>
+  <p class="cap">the live winged web app, running with sample people · tap through it, switch screens under the phone</p>
 </header>
 
 <!-- 2. the problem -->
@@ -568,7 +563,7 @@ document.querySelectorAll('.art').forEach(el => io ? io.observe(el) : el.classLi
   document.querySelectorAll('.live').forEach(function(box){
     var stages = JSON.parse(box.getAttribute('data-stages')), cur = 0, phone, frame;
     /* unmissable affordance: these frames are the real app */
-    var tag = document.createElement('span'); tag.className = 'live-tag'; tag.textContent = 'live app — click through';
+    var tag = document.createElement('span'); tag.className = 'live-tag'; tag.textContent = 'live app · click through';
     box.insertBefore(tag, box.firstChild);
     function src(i){ return APP + '#' + stages[i].hash; }
     function mount(){
@@ -595,26 +590,26 @@ document.querySelectorAll('.art').forEach(el => io ? io.observe(el) : el.classLi
       var extra = 0;
       doc.querySelectorAll('*').forEach(function(el){ var o = getComputedStyle(el).overflowY; if ((o === 'auto' || o === 'scroll') && el.scrollHeight > el.clientHeight + 1) extra = Math.max(extra, el.scrollHeight - el.clientHeight); });
       extra = Math.max(extra, doc.documentElement.scrollHeight - doc.documentElement.clientHeight);
-      var w = box.clientWidth, sc = w / 390;
-      var blk = box.closest('.blk'), note = blk && blk.querySelector('.note');
-      var hug = (note && getComputedStyle(blk).display === 'grid') ? (note.offsetHeight - 80) / sc : 0;
-      var need = Math.max(H + extra, hug, 844);
+      var need = Math.max(H + extra, 844);
+      /* the whole screen, top to bottom, fits in the viewport: scale the phone down rather than scroll anything */
+      var room = Math.max(360, window.innerHeight - 150);
+      var sc = Math.min(box.parentNode.clientWidth / 390, 1, room / need);
       if (phone.classList.contains('fit') && measured) return;
       if (H === 844) measured = true;
       H = Math.ceil(need);
       phone.classList.add('fit');
       frame.style.height = H + 'px'; frame.style.transform = 'scale(' + sc + ')';
-      phone.style.height = Math.ceil(H * sc) + 'px';
+      phone.style.height = Math.ceil(H * sc) + 'px'; phone.style.width = Math.ceil(390 * sc) + 'px'; phone.style.margin = '0 auto';
     }
     function fitSoon(){ fitT.forEach(clearTimeout); fitT = [1500].map(function(t){ return setTimeout(fit, t); }); }
-    window.addEventListener('resize', function(){ if (frame) { H = 844; measured = false; phone.classList.remove('fit'); frame.style.height = ''; frame.style.transform = ''; phone.style.height = ''; fitSoon(); } });
+    window.addEventListener('resize', function(){ if (frame) { H = 844; measured = false; phone.classList.remove('fit'); frame.style.height = ''; frame.style.transform = ''; phone.style.height = ''; phone.style.width = ''; fitSoon(); } });
     function unmount(){ if (!frame) return; phone.remove(); frame = null; box.classList.remove('on'); if (chips) chips.remove(); }
     var chips = null;
     if (stages.length > 1) {
       chips = document.createElement('div'); chips.className = 'chips';
       stages.forEach(function(st,i){
         var b = document.createElement('button'); b.type = 'button'; b.textContent = st.label; b.setAttribute('aria-pressed', i===cur);
-        b.onclick = function(){ cur = i; chips.querySelectorAll('button').forEach(function(x,j){ x.setAttribute('aria-pressed', j===i); }); if (frame) { H = 844; measured = false; phone.classList.remove('fit'); frame.style.height = ''; frame.style.transform = ''; phone.style.height = ''; frame.src = src(i); if (frame.contentWindow) { try { frame.contentWindow.location.reload(); } catch(e){} } fitSoon(); } };
+        b.onclick = function(){ cur = i; chips.querySelectorAll('button').forEach(function(x,j){ x.setAttribute('aria-pressed', j===i); }); if (frame) { H = 844; measured = false; phone.classList.remove('fit'); frame.style.height = ''; frame.style.transform = ''; phone.style.height = ''; phone.style.width = ''; frame.src = src(i); if (frame.contentWindow) { try { frame.contentWindow.location.reload(); } catch(e){} } fitSoon(); } };
         chips.appendChild(b);
       });
     }
