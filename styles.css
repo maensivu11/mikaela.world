@@ -491,3 +491,18 @@ body{display:grid;min-height:100svh;place-items:center;overflow-x:hidden;backgro
 }
 .layer-book.is-dragging .book-arc{animation:none;opacity:0}
 @media(prefers-reduced-motion:reduce){.book-arc{animation:none;opacity:.7}}
+
+/* work window: Go is a real button; the taskbar's Start opens a windows 98 start menu */
+.ww-go{border:1px solid transparent;background:none;font:inherit;color:#000;height:21px;cursor:default}
+.ww-go:hover{border-color:#fff #808080 #808080 #fff}
+.ww-go:active{border-color:#808080 #fff #fff #808080}
+.ww-task .ww-start.act{box-shadow:inset 1px 1px 0 #000,inset -1px -1px 0 #fff,inset 2px 2px 0 #808080,inset -2px -2px 0 #dfdfdf}
+.ww-menu98{position:fixed;left:2px;bottom:27px;z-index:113;display:flex;background:#c0c0c0;box-shadow:inset -1px -1px 0 #000,inset 1px 1px 0 #dfdfdf,inset -2px -2px 0 #808080,inset 2px 2px 0 #fff;padding:3px}
+.ww-menu98[hidden]{display:none}
+.ww-side{width:22px;background:linear-gradient(0deg,#000080,#1084d0);color:#c0c0c0;writing-mode:vertical-rl;transform:rotate(180deg);font:bold 16px/22px Arial,sans-serif;padding:6px 0}
+.ww-side b{color:#fff}
+.ww-items{display:flex;flex-direction:column;min-width:170px}
+.ww-items button{display:flex;align-items:center;gap:8px;height:30px;padding:0 18px 0 6px;border:0;background:none;font:11px Tahoma,"MS Sans Serif",sans-serif;color:#000;text-align:left;box-shadow:none!important;cursor:default}
+.ww-items button svg{width:20px;height:20px;flex:none}
+.ww-items button:hover,.ww-items button:focus-visible{background:#000080;color:#fff;outline:none}
+.ww-items hr{margin:2px 1px;border:0;border-top:1px solid #808080;border-bottom:1px solid #fff}

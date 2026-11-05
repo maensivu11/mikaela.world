@@ -924,13 +924,13 @@ document.querySelectorAll('[data-ext-href]').forEach(function(el){
       '<button type="button" class="ww-refresh" title="Refresh">'+SV.refresh+'<span>Refresh</span></button>'+
       '<button type="button" class="ww-home" title="Back to the notebook">'+SV.home+'<span>Home</span></button>'+
       '<span class="ww-fill"></span><span class="ww-throb">'+SV.throb+'</span></div>'+
-    '<div class="ww-addr"><label>Address</label><span class="ww-field">'+SV.page+'<span class="ww-url"></span><span class="ww-drop">'+SV.drop+'</span></span><span class="ww-go">'+SV.go+'Go</span></div>'+
+    '<div class="ww-addr"><label>Address</label><span class="ww-field">'+SV.page+'<span class="ww-url"></span><span class="ww-drop">'+SV.drop+'</span></span><button type="button" class="ww-go" title="Reload this page">'+SV.go+'Go</button></div>'+
     '<div class="ww-view"><iframe title="case study" loading="eager"></iframe></div>'+
     '<div class="ww-status"><div class="ww-msg">'+SV.page+'<span></span></div><div class="ww-prog"><i></i></div><div class="ww-zone">'+SV.globe+'Internet</div></div>'+
     '<span class="ww-grip" data-e="se" aria-hidden="true"></span>'+
     ['n','s','e','w','ne','nw','se','sw'].map(function(e){return '<span class="ww-h" data-e="'+e+'" aria-hidden="true"></span>';}).join('');
   var task=document.createElement('div');task.className='ww-task';
-  task.innerHTML='<button type="button" class="ww-start" tabindex="-1">'+SV.win+'Start</button><button type="button" class="ww-tb">'+SV.ie+'<span></span></button><span class="ww-clock"></span>';
+  task.innerHTML='<button type="button" class="ww-start" aria-haspopup="menu" aria-expanded="false">'+SV.win+'Start</button><div class="ww-menu98" role="menu" hidden><div class="ww-side"><b>mikaela</b>98</div><div class="ww-items"></div></div><button type="button" class="ww-tb">'+SV.ie+'<span></span></button><span class="ww-clock"></span>';
   document.body.appendChild(dim);document.body.appendChild(w);document.body.appendChild(task);
   var $=function(s){return w.querySelector(s);};
   var titleEl=$('.ww-title'),urlEl=$('.ww-url'),msgEl=$('.ww-msg span'),progEl=$('.ww-prog i'),frame=$('iframe');
@@ -1067,6 +1067,22 @@ document.querySelectorAll('[data-ext-href]').forEach(function(el){
   $('.ww-home').addEventListener('click',function(){close();});
   $('.ww-refresh').addEventListener('click',function(){if(cur>=0)load(cur);});
   $('.ww-stop').addEventListener('click',function(){if(w.classList.contains('loading')){try{frame.contentWindow.stop();}catch(e){}finishLoad();}});
+  // Start: a windows 98 start menu with every case, the notebook, and shut down (closes the window)
+  var startB=task.querySelector('.ww-start'),menu=task.querySelector('.ww-menu98'),items=menu.querySelector('.ww-items');
+  items.innerHTML=cases.map(function(c,i){return '<button type="button" role="menuitem" data-i="'+i+'">'+SV.ie+'<span>'+c.name+'</span></button>';}).join('')+
+    '<hr><button type="button" role="menuitem" data-act="home">'+SV.home+'<span>Notebook</span></button><button type="button" role="menuitem" data-act="off">'+SV.x.replace('viewBox','style="width:16px;height:14px" viewBox')+'<span>Shut Down...</span></button>';
+  function menuOpen(on){menu.hidden=!on;startB.setAttribute('aria-expanded',on?'true':'false');startB.classList.toggle('act',on);}
+  startB.addEventListener('click',function(e){e.stopPropagation();menuOpen(menu.hidden);});
+  items.addEventListener('click',function(e){
+    var b=e.target.closest('button');if(!b)return;menuOpen(false);
+    var act=b.getAttribute('data-act');
+    if(act){close();return;}
+    var i=+b.getAttribute('data-i');
+    if(state==='min')restore();
+    if(state==='open'&&i!==cur){load(i);setHash(true);}
+  });
+  document.addEventListener('pointerdown',function(e){if(!menu.hidden&&!e.target.closest('.ww-menu98,.ww-start'))menuOpen(false);},true);
+  $('.ww-go').addEventListener('click',function(){if(cur>=0)load(cur);});
   tb.addEventListener('click',function(){if(state==='min')restore();else if(state==='open')minimize();});
   dim.addEventListener('pointerdown',function(){w.classList.add('inactive');});
   w.addEventListener('pointerdown',function(){w.classList.remove('inactive');});
