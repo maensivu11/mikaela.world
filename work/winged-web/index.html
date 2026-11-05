@@ -237,9 +237,11 @@ footer{margin-top:var(--gap);border-top:1px solid var(--line);padding:48px 0 64p
 .hand{display:block;width:fit-content;max-width:100%;font-family:'B-McE',cursive;text-transform:lowercase;font-size:23px;line-height:26px;font-weight:400;font-style:normal;color:#3d3a8c;transform:rotate(-1.5deg);transform-origin:left center;margin:0 0 12px}
 .hand.r1{transform:rotate(-2deg)}.hand.r2{transform:rotate(-.8deg)}.hand.r3{transform:rotate(.6deg)}.hand.r4{transform:rotate(1deg)}
 .hand.after{margin:14px 0 0}
+/* descenders (the j, g, y) clear the line box and paint above the block that follows */
+.hand{line-height:1.35;padding:2px 4px 8px 0;overflow:visible;position:relative;z-index:1}
 /* the logic, stated: one plain sentence in her voice where a decision showed no reason */
 .logic{color:var(--ink)}
-@media (max-width:760px){.hand{font-size:21px;line-height:24px}}
+@media (max-width:760px){.hand{font-size:21px;line-height:1.35}}
 /* spacing pass: one scale */
 /* desktop 160 section / 120 block / 64 group / 40 element / 24 note / 16 caption
    mobile   96 section /  80 block / 48 group / 40 element / 24 note / 16 caption */
@@ -405,7 +407,7 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
     <div class="note"><span class="hand r1">someone else speaking for you</span><p>vouching.</p><p>imagine seeing, before you date someone, what their grandma, their best friend and their neighbor say about them. it's like a background check, instead of looking at pictures and self-written prompts and hoping for the best.</p><p>you invite up to five people by name. each one gets a link, opens it in the browser and talks to winged on the vouch call, about two minutes on the orb, no app needed. you hear every vouch first, and nothing shows on your profile until you tap add.</p><p class="logic">and it's a genius growth hack. every vouch brings someone new to winged, a friend who just felt what it's like when someone listens this closely.</p></div>
   </div>
   <div class="blk">
-    <div class="art"><div class="frame night stage live-stage"><div class="live" data-stages='[{"label": "the match card", "hash": "/matches/demo"}]'><div class="fb"><img src="assets/figma-match-compatibility.png" alt="Compatibility screen: ring on the cool gradient, alignment across personality and lifestyle, Propose match" loading="lazy" width="401" height="852"><img src="assets/figma-match-profile.png" alt="Match profile: photos, voice introductions to play, Propose match" loading="lazy" width="401" height="852"></div></div></div></div>
+    <div class="art"><div class="frame night stage live-stage"><div class="live" data-stages='[{"label": "the match card", "hash": "/matches/demo", "grow": true}]'><div class="fb"><img src="assets/figma-match-compatibility.png" alt="Compatibility screen: ring on the cool gradient, alignment across personality and lifestyle, Propose match" loading="lazy" width="401" height="852"><img src="assets/figma-match-profile.png" alt="Match profile: photos, voice introductions to play, Propose match" loading="lazy" width="401" height="852"></div></div></div></div>
     <div class="note"><span class="hand r2">the machine is quieter than the person</span><p>seeing a match, and looking at their profile.</p><p>their words sit in the card at reading brightness, with their voice introduction on a warm pill. the agent's read sits outside the card, dimmer: the alignment first, then the percent in mono caps. the card's edge is warm because this is a person. the ring is cool because that part is the machine.</p><p class="logic">you meet who they are first and the score second.</p></div>
   </div>
   <div class="blk">
@@ -434,6 +436,11 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
 /* ===== the agent system v2. everything scoped to #infra ===== */
 #infra{--iris:#9B71E8;--sky:#70D4F5;--mag:#FF75CA;--am:'Space Mono',ui-monospace,monospace}
 #infra .ag-head{max-width:760px}
+#infra .ag-total{margin-top:32px;font-size:44px;line-height:48px;font-weight:600;letter-spacing:-.01em}
+#infra .ag-total span{color:var(--muted);font-weight:400}
+#infra .ag-parts{font-family:var(--mono);font-size:13px;line-height:20px;color:var(--muted);margin-top:12px}
+#infra .ag-parts b{color:var(--ink);font-weight:400}
+@media (max-width:900px){#infra .ag-total{font-size:36px;line-height:40px}}
 #infra h2{font-family:var(--mono);font-size:13px;line-height:20px;font-weight:400;color:var(--muted);margin-bottom:16px}
 #infra .ag-head p{font-size:22px;line-height:32px}
 #infra .ag-night{margin-top:48px;background:#000;color:#fff;border-radius:16px;padding:96px 80px}
@@ -488,15 +495,17 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
   <div class="ag-head">
     <h2 id="infra-h">the agent system</h2>
     <p>under the screens is the agent system i built. four ideas hold it together, and the last one matters most: nothing speaks for you until you say yes.</p>
+    <div class="ag-total">12 agents <span>and</span> 9 mcp tools</div>
+    <div class="ag-parts"><b>5</b> sms agents · <b>1</b> double · <b>4</b> voice agents · <b>2</b> date-planning agents · <b>9</b> mcp tools. the views below each show one slice.</div>
   </div>
 
   <div class="ag-night">
 
     <div class="ag-view">
       <div>
-        <div class="ag-k">01 · texts</div>
+        <div class="ag-k">01 · texts · 5 of the 12 agents</div>
         <div class="ag-t">one router, five agents</div>
-        <p class="ag-s">your text goes to the one agent that fits where you are in the journey. every agent answers by <b>calling a tool</b>, so there is no free-text path, and links are built by code, never by the model.</p>
+        <p class="ag-s">one slice: your text goes to the one agent that fits where you are in the journey. every agent answers by <b>calling a tool</b>, so there is no free-text path, and links are built by code, never by the model.</p>
       </div>
       <div class="ag-flow" aria-label="your text, the router, five agents, a reply">
         <div class="ag-node ag-you"><div class="ag-n">you</div><div class="ag-m">sms · whatsapp</div></div>
@@ -513,7 +522,7 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
 
     <div class="ag-view">
       <div>
-        <div class="ag-k">02 · the double</div>
+        <div class="ag-k">02 · the double · 1 of the 12, plus the 9 mcp tools</div>
         <div class="ag-t">your double, with eleven tools</div>
         <p class="ag-s">the double chats in the app and texts first when something happens. it acts only through its tools, and the destructive ones check in code that the date is yours. outside assistants reach the same double through <b>nine mcp tools</b>.</p>
       </div>
@@ -534,7 +543,7 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
 
     <div class="ag-view">
       <div>
-        <div class="ag-k">03 · voice</div>
+        <div class="ag-k">03 · voice · 4 of the 12 agents</div>
         <div class="ag-t">the voice agents call you</div>
         <p class="ag-s">four voice agents hold the calls. after the onboarding call your voice is cloned and three introductions are written and spoken in it. you hear all three and <b>pick one</b>. the python service that builds the profile and the takes is niina's.</p>
       </div>
@@ -551,7 +560,7 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
 
     <div class="ag-view">
       <div>
-        <div class="ag-k">04 · approval</div>
+        <div class="ag-k">04 · approval · across all 12</div>
         <div class="ag-t">nothing speaks for you until you say yes</div>
         <p class="ag-s">the model drafts, code checks it, and a person decides. when a check fails, a hand-written line goes out instead, so a text always sends and is always in voice.</p>
       </div>
@@ -660,7 +669,7 @@ document.querySelectorAll('.art').forEach(el => io ? io.observe(el) : el.classLi
       frame = document.createElement('iframe');
       frame.title = 'Winged web, the real app running with sample data';
       frame.setAttribute('sandbox','allow-scripts allow-same-origin');
-      frame.setAttribute('allow','autoplay');
+      frame.setAttribute('allow','autoplay'); frame.setAttribute('scrolling','no');
       frame.src = src(cur);
       phone.appendChild(frame); box.appendChild(phone);
       if (chips) box.appendChild(chips);
@@ -674,7 +683,7 @@ document.querySelectorAll('.art').forEach(el => io ? io.observe(el) : el.classLi
       var narrow = window.innerWidth <= 760;
       var room = roomH - 200; /* same for every phone, with or without a screen switcher */
       /* one scale for every phone on the page, so all screens are the same size */
-      var sc = Math.min((narrow ? window.innerWidth - 48 : 640) / 390, 1, Math.max(narrow ? .7 : .84, room / H));
+      var sc = Math.min((narrow ? window.innerWidth - 48 : 640) / 390, 1, Math.max(narrow ? .7 : .84, room / 844));
       phone.classList.add('fit');
       frame.style.height = H + 'px'; frame.style.transform = 'scale(' + sc + ')';
       phone.style.height = Math.ceil(H * sc) + 'px'; phone.style.width = Math.ceil(390 * sc) + 'px'; phone.style.margin = '0 auto';
@@ -686,6 +695,13 @@ document.querySelectorAll('.art').forEach(el => io ? io.observe(el) : el.classLi
       if (!doc.getElementById('no-inner-scroll')) { var st = doc.createElement('style'); st.id = 'no-inner-scroll'; st.textContent = '*{scrollbar-width:none!important}*::-webkit-scrollbar{display:none!important}[data-held]{overflow:hidden!important;overscroll-behavior:none}'; (doc.head || doc.body).appendChild(st); }
       var anchor = stages[cur].anchor, target = null;
       if (anchor) doc.querySelectorAll('h1,h2,h3,h4,p,span,div,button').forEach(function(el){ if (!target && el.children.length === 0 && el.textContent.trim() === anchor) target = el; });
+      /* grow stages: the phone takes the screen's real height, measured after load, so the whole screen shows and nothing is cut or scrolls */
+      if (stages[cur].grow) {
+        var extra = 0;
+        doc.querySelectorAll('*').forEach(function(el){ var o = getComputedStyle(el).overflowY; if (o !== 'visible' && el.clientHeight > 100) extra = Math.max(extra, el.scrollHeight - el.clientHeight); });
+        extra = Math.max(extra, doc.documentElement.scrollHeight - doc.documentElement.clientHeight);
+        if (extra > 1) { H += Math.ceil(extra); size(); }
+      }
       doc.querySelectorAll('*').forEach(function(el){
         var o = getComputedStyle(el).overflowY;
         if ((o === 'auto' || o === 'scroll' || el.hasAttribute('data-held')) && el.scrollHeight > el.clientHeight + 1) {
@@ -694,7 +710,7 @@ document.querySelectorAll('.art').forEach(el => io ? io.observe(el) : el.classLi
         }
       });
     }
-    function fitSoon(){ fitT.forEach(clearTimeout); fitT = [1500, 3000].map(function(t){ return setTimeout(fit, t); }); }
+    function fitSoon(){ fitT.forEach(clearTimeout); fitT = [300, 1500, 3000].map(function(t){ return setTimeout(fit, t); }); }
     window.addEventListener('resize', function(){ if (window.innerWidth === lastW) return; lastW = window.innerWidth; roomH = window.innerHeight; size(); });
     function unmount(){ if (!frame) return; phone.remove(); frame = null; box.classList.remove('on'); if (chips) chips.remove(); }
     var chips = null;
