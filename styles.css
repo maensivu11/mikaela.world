@@ -454,3 +454,11 @@ body{display:grid;min-height:100svh;place-items:center;overflow-x:hidden;backgro
   .ww-go{display:none}
 }
 @media(prefers-reduced-motion:reduce){.ww-dim{transition:none}.ww.loading .ww-throb svg{animation:none}}
+
+/* mobile notebook + reader x: the sitewide .close type scale (13px, padded pill) shrank the hand-drawn x to a speck.
+   restore the glyph, give it a 44px target, and keep it inside the viewport. */
+@media(max-width:600px){
+  .wi-close,.journal-close{width:44px!important;height:44px!important;padding:0!important;font:34px/1 var(--hand)!important;letter-spacing:0!important;border-radius:0!important;color:#AB9F8D!important;-webkit-tap-highlight-color:transparent}
+  .wi-close{position:fixed;top:min(calc(55.6vw - 3px),calc(100svh - 56px));right:max(calc(4.1vw - 3px),8px);z-index:30}
+  .journal-close{top:calc(56vw - 4px);right:0}
+}

@@ -810,6 +810,23 @@ document.querySelectorAll('[data-ext-href]').forEach(function(el){
     stage.style.transformOrigin='';stage.style.transition='';stage.style.opacity='';
     var w=modal.querySelector('.wi-wash');if(w)w.remove();
   });
+  // Tapping the painting around the open spread closes it. The sheet/stage/frame boxes are larger than the book
+  // (and fill the screen on mobile), so a tap on them closes unless it lands on an opaque pixel of the book art.
+  var hitCanvas=null,hitSrc='';
+  function onBook(x,y){
+    var r=frame.getBoundingClientRect(),nw=frame.naturalWidth,nh=frame.naturalHeight;if(!nw||!nh)return true;
+    var s=Math.min(r.width/nw,r.height/nh),ox=r.left+(r.width-nw*s)/2,oy=r.top+(r.height-nh*s)/2;
+    var ix=Math.floor((x-ox)/s),iy=Math.floor((y-oy)/s);if(ix<0||iy<0||ix>=nw||iy>=nh)return false;
+    try{
+      if(hitSrc!==frame.currentSrc){hitCanvas=document.createElement('canvas');hitCanvas.width=nw;hitCanvas.height=nh;hitCanvas.getContext('2d',{willReadFrequently:true}).drawImage(frame,0,0);hitSrc=frame.currentSrc;}
+      return hitCanvas.getContext('2d').getImageData(ix,iy,1,1).data[3]>40;
+    }catch(err){return true;}
+  }
+  modal.addEventListener('click',function(e){
+    if(diving||closing||!stage.classList.contains('is-open'))return;
+    var t=e.target;if(t!==modal&&t!==stage&&t!==frame&&t!==modal.querySelector('.wi-sheet')&&t!==modal.querySelector('.wi-list'))return;
+    if(t===modal||!onBook(e.clientX,e.clientY))closeAll();
+  });
   function fromHash(){if(window.location.hash==='#work-index'&&!modal.classList.contains('open'))openWorkIndex();}
   window.addEventListener('hashchange',fromHash);
   // Arriving from a case page ("↑ notebook"): the book plays its real opening flip into the spread.
