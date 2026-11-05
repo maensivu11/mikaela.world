@@ -314,7 +314,23 @@ document.querySelectorAll('.art').forEach(el => io ? io.observe(el) : el.classLi
     box.parentNode.insertBefore(tag, box);
     /* the app runs at a real device width and is fitted to the column: 390 (its phone layout) on a phone, 1280 on a laptop */
     var phone = window.matchMedia('(max-width:600px)');
-    function fit(){ if (frame) frame.style.transform = 'scale(' + (box.clientWidth / (phone.matches ? 390 : 1280)) + ')'; }
+    /* the frame grows to the app's full height, so nothing scrolls inside it */
+    var appH = 0;
+    function fit(){
+      if (!frame) return;
+      var vw = phone.matches ? 390 : 1280, base = phone.matches ? 844 : 800, sc = box.clientWidth / vw, extra = 0, doc = null;
+      try { doc = frame.contentDocument; } catch (e) {}
+      if (doc && doc.body) {
+        if (!doc.getElementById('no-inner-scroll')) { var st = doc.createElement('style'); st.id = 'no-inner-scroll'; st.textContent = '*{scrollbar-width:none!important}*::-webkit-scrollbar{display:none!important}'; (doc.head || doc.body).appendChild(st); }
+        doc.querySelectorAll('*').forEach(function(el){ var o = getComputedStyle(el).overflowY; if ((o === 'auto' || o === 'scroll') && el.scrollHeight > el.clientHeight + 1) extra = Math.max(extra, el.scrollHeight - el.clientHeight); });
+        extra = Math.max(extra, doc.documentElement.scrollHeight - doc.documentElement.clientHeight);
+        if (doc.readyState === 'complete') appH = Math.max(appH, (appH || base) + extra);
+      }
+      var h = appH || base;
+      frame.style.height = h + 'px'; frame.style.width = vw + 'px';
+      frame.style.transform = 'scale(' + sc + ')';
+      box.style.aspectRatio = 'auto'; box.style.height = Math.ceil(h * sc) + 'px';
+    }
     function mount(){
       if (frame) return;
       box.classList.add('on');
@@ -322,10 +338,10 @@ document.querySelectorAll('.art').forEach(el => io ? io.observe(el) : el.classLi
       frame.title = box.getAttribute('data-title');
       frame.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-forms');
       frame.src = APP + box.getAttribute('data-route');
-      box.appendChild(frame); fit();
+      box.appendChild(frame); appH = 0; fit(); frame.addEventListener('load', function(){ [600, 1500, 3000, 5000].forEach(function(t){ setTimeout(fit, t); }); });
     }
-    function unmount(){ if (!frame) return; frame.remove(); frame = null; box.classList.remove('on'); }
-    window.addEventListener('resize', fit); window.addEventListener('orientationchange', fit);
+    function unmount(){ if (!frame) return; frame.remove(); frame = null; box.classList.remove('on'); box.style.height = ''; box.style.aspectRatio = ''; }
+    window.addEventListener('resize', function(){ appH = 0; fit(); }); window.addEventListener('orientationchange', fit);
     if (!calm) box.classList.add('ready');
     if (calm) {
       var run = document.createElement('button'); run.type = 'button'; run.className = 'live-run'; run.textContent = 'run the live app';
