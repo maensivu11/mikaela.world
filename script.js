@@ -882,13 +882,16 @@ document.querySelectorAll('[data-ext-href]').forEach(function(el){
   }
 })();
 
-// touch devices can't hover: show the book's "open me" once, briefly, after the desk settles
+// touch devices can't hover: show the book's "open me" for ~3s after the desk settles, and again each time a modal closes back to the desk
 (function(){
   if(window.matchMedia('(hover:hover) and (pointer:fine)').matches)return;
   var arc=document.querySelector('.book-arc');if(!arc)return;
-  try{if(sessionStorage.getItem('book-hint'))return;sessionStorage.setItem('book-hint','1');}catch(e){}
-  function hint(){arc.classList.add('is-hint');setTimeout(function(){arc.classList.remove('is-hint');},2600);}
-  window.addEventListener('load',function(){setTimeout(hint,2600);},{once:true});
+  var t=0;
+  function hint(){clearTimeout(t);arc.classList.add('is-hint');t=setTimeout(function(){arc.classList.remove('is-hint');},3000);}
+  function atRest(){return !document.querySelector('.modal.open');}
+  window.addEventListener('load',function(){setTimeout(function(){if(atRest())hint();},1200);},{once:true});
+  var was=!atRest();
+  new MutationObserver(function(){var open=!atRest();if(was&&!open)setTimeout(function(){if(atRest())hint();},400);was=open;}).observe(document.body,{subtree:true,attributes:true,attributeFilter:['class']});
 })();
 
 // Work window: a windows 98 browser that grows out of the exact pixel you clicked on the notebook,
@@ -1138,6 +1141,3 @@ document.querySelectorAll('[data-ext-href]').forEach(function(el){
   window.closeWorkIndex=function(done){if(state!=='closed')close(true);if(/^#work\//.test(window.location.hash))history.replaceState(null,'','#work-index');return closeWI(done);};
   setInterval(function(){if(state==='min')clock();},30000);
 })();
-
-/* backdrop click closes the notebook (2026-11-05) */
-(function(){var m=document.getElementById('m-workindex');if(!m)return;m.addEventListener('click',function(e){if(e.target===m&&m.classList.contains('open')&&typeof window.closeWorkIndex==='function'){window.closeWorkIndex(function(){if(typeof finishThoughtsClose==='function')finishThoughtsClose();});}});})();

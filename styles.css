@@ -366,7 +366,11 @@ body{display:grid;min-height:100svh;place-items:center;overflow-x:hidden;backgro
 .book-arc text{font-family:'B-McE',cursive;font-size:17px;fill:#fff;letter-spacing:.5px}
 .book-peek-hit:hover~.book-arc,.book-peek-hit:focus-visible~.book-arc,.book-arc.is-hint{opacity:1;clip-path:inset(0 0 0 0)}
 .layer-book.is-dragging .book-arc{opacity:0}
-@media(max-width:600px){.book-arc{left:4%;top:4%;width:18%}}
+@media(max-width:600px){
+  /* mobile: the book fills the width, so the arc sits above its top-left corner on the painting, larger, with a soft paper glow */
+  .book-arc{left:9%;top:-11%;width:36%;filter:drop-shadow(0 0 1px #f6f0e0) drop-shadow(0 0 2px #f6f0e0) drop-shadow(0 0 3px #f6f0e0) drop-shadow(0 0 6px rgba(246,240,224,.9)) drop-shadow(0 0 12px rgba(246,240,224,.6))}
+  .book-arc text{font-size:15px;fill:#2b2f55;letter-spacing:.4px}
+}
 
 /* ===== Work window: a windows 98 browser that opens from the click point (script.js w98 window) ===== */
 .ww-dim{position:fixed;inset:0;z-index:110;background:rgba(0,0,40,.38);opacity:0;pointer-events:none;transition:opacity 160ms linear}
@@ -463,7 +467,20 @@ body{display:grid;min-height:100svh;place-items:center;overflow-x:hidden;backgro
   .journal-close{top:calc(56vw - 4px);right:0}
 }
 
-/* mobile notebook escape hatch: X always on screen (2026-11-05) */
-@media (max-width:600px){
-  .work-index-modal.open .wi-close{position:fixed!important;top:14px!important;right:12px!important;width:48px!important;height:48px!important;opacity:1!important;visibility:visible!important;pointer-events:auto!important;z-index:40!important;font:40px/1 var(--hand)!important}
+/* desktop: the notebook spread (open-comp-blank.png) sits smaller and lower in its canvas than the reader's open book
+   (openpage*.png). shift + scale the spread (frame and its handwriting list together) so the book lands on the reader
+   book's rendered box; both x buttons then sit on the same page corner at the same screen point. individual
+   translate/scale properties so the js frame jitter (transform) and the zoom animations on the stage still compose. */
+@media(min-width:601px){
+  .wi-stage>.wi-frame,.wi-stage>.wi-list{transform-origin:0 0;translate:-2.086% -3.092%;scale:1.0185}
+  .wi-close,.journal-close{width:36px!important;height:36px!important;padding:0!important;font:32px/1 var(--hand)!important;letter-spacing:0!important;border-radius:0!important;color:#AB9F8D!important}
 }
+
+/* "open me" always visible on every width, ink on a soft paper glow, slow 4.5s pulse
+   (deliberately off the daisy's 2.4s sway / 4s glow / 6s stroke / 7s label so they never beat together) */
+.book-arc{clip-path:none;opacity:.45;animation:open-me-pulse 4.5s ease-in-out .6s infinite;filter:drop-shadow(0 0 1px #f6f0e0) drop-shadow(0 0 2px #f6f0e0) drop-shadow(0 0 3px #f6f0e0) drop-shadow(0 0 6px rgba(246,240,224,.9)) drop-shadow(0 0 12px rgba(246,240,224,.6))}
+.book-arc text{fill:#2b2f55}
+.book-peek-hit:hover~.book-arc,.book-peek-hit:focus-visible~.book-arc,.book-arc.is-hint{animation:none;opacity:1}
+.layer-book.is-dragging .book-arc{animation:none;opacity:0}
+@keyframes open-me-pulse{0%,100%{opacity:.45}50%{opacity:.9}}
+@media(prefers-reduced-motion:reduce){.book-arc{animation:none;opacity:.8}}
