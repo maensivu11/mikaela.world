@@ -446,6 +446,7 @@ body{display:grid;min-height:100svh;place-items:center;overflow-x:hidden;backgro
 .ww-task button:active{box-shadow:inset 1px 1px 0 #000,inset -1px -1px 0 #fff,inset 2px 2px 0 #808080,inset -2px -2px 0 #dfdfdf}
 .ww-task .ww-start{font-weight:bold;padding:0 5px 0 3px}
 .ww-task .ww-tb{width:min(180px,46vw);justify-content:flex-start}
+.ww-task .ww-tb.act{font-weight:bold;background:repeating-conic-gradient(#c0c0c0 0 25%,#fff 0 50%) 0 0/2px 2px;box-shadow:inset 1px 1px 0 #000,inset -1px -1px 0 #fff,inset 2px 2px 0 #808080,inset -2px -2px 0 #dfdfdf}
 .ww-task .ww-tb span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ww-task .ww-clock{margin-left:auto;height:22px;padding:0 10px;display:flex;align-items:center;box-shadow:inset 1px 1px 0 #808080,inset -1px -1px 0 #fff}
 .ww-task svg{width:16px;height:16px;flex:none}

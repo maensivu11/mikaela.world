@@ -935,7 +935,7 @@ document.querySelectorAll('[data-ext-href]').forEach(function(el){
   var $=function(s){return w.querySelector(s);};
   var titleEl=$('.ww-title'),urlEl=$('.ww-url'),msgEl=$('.ww-msg span'),progEl=$('.ww-prog i'),frame=$('iframe');
   var bPrev=$('.ww-prev'),bNext=$('.ww-next'),bMax=$('.ww-max'),tb=task.querySelector('.ww-tb');
-  var state='closed',cur=-1,rect=null,saved=null,isMax=false,loadTimer=0,pollTimer=0,progAnim=null,anim=null,origin=null;
+  var TASK_H=28,state='closed',cur=-1,rect=null,saved=null,isMax=false,loadTimer=0,pollTimer=0,progAnim=null,anim=null,origin=null;
   var reduce=function(){return window.matchMedia('(prefers-reduced-motion: reduce)').matches;};
   var mobile=function(){return window.matchMedia('(max-width:600px)').matches;};
   function caseOf(slug){for(var i=0;i<cases.length;i++)if(cases[i].slug===slug||cases[i].link.getAttribute('data-wi-slug')===slug)return i;return -1;}
@@ -944,13 +944,14 @@ document.querySelectorAll('[data-ext-href]').forEach(function(el){
   function vh(){return window.innerHeight;}
   function place(r){w.style.left=r.x+'px';w.style.top=r.y+'px';w.style.width=r.w+'px';w.style.height=r.h+'px';}
   function clamp(r){
-    var W=vw(),H=vh(),minW=Math.min(380,W),minH=Math.min(260,H);
+    var W=vw(),H=vh()-(mobile()?0:TASK_H),minW=Math.min(380,W),minH=Math.min(260,H);
     r.w=Math.max(minW,Math.min(r.w,W));r.h=Math.max(minH,Math.min(r.h,H));
     r.x=Math.max(0,Math.min(r.x,W-r.w));r.y=Math.max(0,Math.min(r.y,H-r.h));return r;
   }
   function defRect(){var W=vw(),H=vh(),ww=Math.min(1120,W-96),hh=Math.min(820,H-72);return {x:Math.round((W-ww)/2),y:Math.round((H-hh)/2),w:ww,h:hh};}
   function applyGeom(){
-    if(mobile()||isMax){w.classList.add('max');place({x:0,y:0,w:vw(),h:vh()});}
+    // desktop keeps the taskbar on screen under a maximized window, like windows 98
+    if(mobile()||isMax){w.classList.add('max');place({x:0,y:0,w:vw(),h:vh()-(mobile()?0:TASK_H)});}
     else{w.classList.remove('max');rect=clamp(rect||defRect());place(rect);}
     bMax.innerHTML=(isMax||mobile())?SV.rest:SV.max;bMax.setAttribute('aria-label',isMax?'restore':'maximize');bMax.title=isMax?'Restore':'Maximize';
     bMax.disabled=mobile();
@@ -1018,7 +1019,8 @@ document.querySelectorAll('[data-ext-href]').forEach(function(el){
     cases.forEach(function(k){k.link.classList.remove('ww-from');});
     origin={x:x,y:y};
     var wasClosed=state==='closed';
-    state='open';task.classList.remove('on');
+    if(wasClosed&&!mobile())isMax=true; // desktop opens at full size; restore/drag bring back a normal window
+    state='open';taskSync();
     w.classList.add('open');w.classList.remove('inactive');dim.classList.add('on');
     applyGeom();
     if(wasClosed||cur!==i)load(i);
@@ -1031,7 +1033,7 @@ document.querySelectorAll('[data-ext-href]').forEach(function(el){
     if(state==='closed')return;
     var i=cur,p=(i>=0&&cases[i].link.getClientRects().length)?entryPoint(i):(origin||{x:vw()/2,y:vh()/2});
     var wasMin=state==='min';
-    state='closed';task.classList.remove('on');dim.classList.remove('on');
+    state='closed';taskSync();dim.classList.remove('on');
     var end=function(){
       w.classList.remove('open','loading');finishLoad();freshFrame();cur=-1;
       if(i>=0){var l=cases[i].link;l.classList.add('ww-from');l.focus({preventScroll:true});setTimeout(function(){l.classList.remove('ww-from');},1400);}
@@ -1041,16 +1043,18 @@ document.querySelectorAll('[data-ext-href]').forEach(function(el){
   }
   function minimize(){
     if(state!=='open')return;
-    state='min';clock();task.classList.add('on');dim.classList.remove('on');
+    state='min';clock();taskSync();dim.classList.remove('on');
     var r=tb.getBoundingClientRect();
     grow(r.left+r.width/2,r.top+r.height/2,true,function(){if(state==='min'){w.classList.remove('open');tb.focus({preventScroll:true});}});
   }
   function restore(){
     if(state!=='min')return;
     var r=tb.getBoundingClientRect();
-    state='open';task.classList.remove('on');dim.classList.add('on');w.classList.add('open');applyGeom();
+    state='open';taskSync();dim.classList.add('on');w.classList.add('open');applyGeom();
     grow(r.left+r.width/2,r.top+r.height/2,false);w.focus({preventScroll:true});
   }
+  // taskbar: always there on desktop while the window exists (its button pressed while the window is up); phones only when minimized
+  function taskSync(){clock();task.classList.toggle('on',state==='min'||(state==='open'&&!mobile()));tb.classList.toggle('act',state==='open');}
   function toggleMax(){if(mobile())return;isMax=!isMax;applyGeom();}
   function go(d){var j=cur+d;if(state!=='open'||!cases[j])return;load(j);setHash(true);}
   window.wwOpen=function(link,x,y){var i=-1;for(var k=0;k<cases.length;k++)if(cases[k].link===link)i=k;if(i<0)return false;open(i,x,y);return true;};
@@ -1076,7 +1080,7 @@ document.querySelectorAll('[data-ext-href]').forEach(function(el){
     }
     var sx=e.clientX,sy=e.clientY,r0={x:rect.x,y:rect.y,w:rect.w,h:rect.h},el=e.currentTarget;
     el.setPointerCapture(e.pointerId);w.classList.add('busy');
-    var W=vw(),H=vh(),minW=Math.min(380,W),minH=Math.min(260,H);
+    var W=vw(),H=vh()-(mobile()?0:TASK_H),minW=Math.min(380,W),minH=Math.min(260,H);
     function mv(ev){
       var dx=ev.clientX-sx,dy=ev.clientY-sy,r={x:r0.x,y:r0.y,w:r0.w,h:r0.h};
       if(!edge){r.x=Math.max(0,Math.min(r0.x+dx,W-r0.w));r.y=Math.max(0,Math.min(r0.y+dy,H-r0.h));}
@@ -1094,7 +1098,7 @@ document.querySelectorAll('[data-ext-href]').forEach(function(el){
   $('.ww-bar').addEventListener('pointerdown',function(e){grab(e,'');});
   $('.ww-bar').addEventListener('dblclick',function(e){if(!e.target.closest('button'))toggleMax();});
   Array.prototype.forEach.call(w.querySelectorAll('[data-e]'),function(h){h.addEventListener('pointerdown',function(e){grab(e,h.getAttribute('data-e'));});});
-  window.addEventListener('resize',function(){if(state!=='closed')applyGeom();});
+  window.addEventListener('resize',function(){if(state!=='closed'){applyGeom();taskSync();}});
   // keys: esc minimizes / restores before anything else; tab stays inside it
   document.addEventListener('keydown',function(e){
     // esc tucks the window into the taskbar like a real computer; esc again brings it back. only X closes.
