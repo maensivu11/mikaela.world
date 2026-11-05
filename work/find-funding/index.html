@@ -53,7 +53,7 @@ p+p{margin-top:20px}
 /* phone visitors: every embed renders its own mobile layout at a real phone width, in a phone-shaped frame */
 .frame picture{display:contents}
 @media (max-width:600px){.hero .frame{flex:none;aspect-ratio:390/844}.hero .w98{flex:none}}
-.premise{font-size:17px;line-height:26px;color:var(--ink);margin-top:10px;max-width:640px;white-space:normal}
+.premise{font-size:17px;line-height:26px;color:var(--ink);margin-top:10px;max-width:none;white-space:normal}
 .hero .cap{margin-top:12px}
 
 /* 3 design system strip */
@@ -61,7 +61,7 @@ p+p{margin-top:20px}
 .sw{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-top:8px}
 .sw>div>div{height:96px;border-radius:12px;border:1px solid var(--line)}
 .sw p{font-family:var(--mono);font-size:13px;line-height:20px;color:var(--muted);margin-top:8px}
-.ds-intro{max-width:var(--prose);margin-bottom:48px}
+.ds-intro{max-width:none;margin-bottom:48px}
 .why{font-family:var(--mono);font-size:12px;line-height:18px;color:var(--muted);margin-top:4px}
 .hv{border:1.5px dotted var(--muted);border-radius:6px;padding:1px 6px}
 .type{margin-top:72px}
@@ -171,7 +171,7 @@ footer.wide{padding-left:var(--pad);padding-right:var(--pad)}
 section.prose{max-width:1280px;margin-left:auto;margin-right:auto}
 section.prose,.ed{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);column-gap:var(--s3);align-items:start}
 .ds-intro.ed{max-width:none}
-section.prose>*,.ed>*{grid-column:2;max-width:700px;min-width:0}
+section.prose>*,.ed>*{grid-column:2;max-width:none;min-width:0}
 section.prose>h2,.ed>h2{grid-column:1;grid-row:1;margin-top:0}
 section.prose>h2+.hand,.ed>h2+.hand{grid-column:1;grid-row:2/span 30;margin:0}
 section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-child{margin-top:0}

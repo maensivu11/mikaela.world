@@ -29,6 +29,7 @@
     /* shared layout rules for every case page */
     /* 1 text spans the full content column: no narrow caps on any text block */
     'section.prose>*,.ed>*{max-width:none!important}',
+    '.cap,figcaption,.why,.note,.note p,.hers,.logic,blockquote{max-width:none!important}',
     '.premise,.hero-head .claim,.claim,.stage,.ds-intro,.framing,.blk.solo{max-width:none!important}',
     '.hero-head>div:first-child{flex:1;min-width:0}',
     '.hero-head .claim{white-space:normal!important}',

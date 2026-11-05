@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>winged max · mikaela maensivu</title>
 <meta name="description" content="Winged Max: a dating agent that runs entirely on your own Mac. A case study about the mechanisms, by Mikaela Maensivu, design engineer &amp; founder.">
-<link rel="icon" href="assets/AppIcon.svg">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/winged-max-logo-64.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
@@ -56,13 +56,13 @@ p+p{margin-top:20px}
 /* 1 hero */
 .hero{padding:40px var(--pad) 0;max-width:1280px;margin:0 auto}
 .hero-head{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;margin-bottom:40px}
-.hero-head .claim{font-size:22px;line-height:32px;margin-top:12px;max-width:620px}
+.hero-head .claim{font-size:22px;line-height:32px;margin-top:12px;max-width:none}
 .hero-head img{width:64px;height:64px;border-radius:14px}
-.stage{font-family:var(--mono);font-size:13px;line-height:20px;color:var(--muted);margin-top:16px;max-width:620px}
+.stage{font-family:var(--mono);font-size:13px;line-height:20px;color:var(--muted);margin-top:16px;max-width:none}
 
 /* 3 system strip, smaller than the template's */
 .ds{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:64px 0}
-.ds-intro{max-width:var(--prose);margin-bottom:36px}
+.ds-intro{max-width:none;margin-bottom:36px}
 .knobs{display:grid;grid-template-columns:repeat(4,1fr);gap:28px 32px}
 .knob b{display:block;font-family:var(--mono);font-weight:400;font-size:22px;line-height:30px}
 .knob .what{font-size:14px;line-height:20px;margin-top:2px}
@@ -198,7 +198,7 @@ footer.wide{padding-left:var(--pad);padding-right:var(--pad)}
 section.prose{max-width:1280px;margin-left:auto;margin-right:auto}
 section.prose,.ed{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);column-gap:var(--s3);align-items:start}
 .ds-intro.ed{max-width:none}
-section.prose>*,.ed>*{grid-column:2;max-width:700px;min-width:0}
+section.prose>*,.ed>*{grid-column:2;max-width:none;min-width:0}
 section.prose>h2,.ed>h2{grid-column:1;grid-row:1;margin-top:0}
 section.prose>h2+.hand,.ed>h2+.hand{grid-column:1;grid-row:2/span 30;margin:0}
 section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-child{margin-top:0}
@@ -216,7 +216,7 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
       <p class="claim">i'm the design engineer &amp; founder. i designed it and built it.</p>
       <p class="stage">stage: working build, unfinished interface. this page shows how it works, not how it looks.</p>
     </div>
-    <img src="assets/AppIcon.svg" alt="Winged Max app icon" width="64" height="64">
+    <img src="assets/winged-max-logo.png" alt="The Winged Max logo, a silver chrome wing" width="64" height="64">
   </div>
   <span class="hand r2">taste outvotes the brief</span>
   <div class="code art">
@@ -395,7 +395,7 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
     <h2>the audit</h2>
     <p class="intro">i traced every training input end to end, from the screen to the decision. sixteen inputs, each followed until i could say exactly what it changes in what the agent does.</p>
   </div>
-  <div class="art" style="max-width:860px;margin-top:var(--s3)">
+  <div class="art" style="margin-top:var(--s3)">
     <div class="inputs" aria-label="16 training inputs: 7 change behavior, 4 open gates, 5 not wired in yet">
       <i class="a"></i><i class="a"></i><i class="a"></i><i class="a"></i><i class="a"></i><i class="a"></i><i class="a"></i>
       <i class="g"></i><i class="g"></i><i class="g"></i><i class="g"></i>
