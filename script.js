@@ -785,8 +785,16 @@ document.querySelectorAll('[data-ext-href]').forEach(function(el){
   // Back from a case page ("notebook"): the reverse of the dive. The spread is already open, the camera starts
   // close on that project's tile and pulls back out to the whole page. No close, no re-open flip.
   function zoomOutFrom(slug){
-    openWorkIndex(true);
-    stage.classList.add('is-open');
+    // the page arrives covered in the same paper the case page faded to; the cover lifts only once the
+    // spread is decoded and the zoom is already running, so there is no flash of the desk or the closed book
+    var root=document.documentElement,spreadSrc='assets/tabletop/open-comp-blank.png',pre=new Image();pre.src=spreadSrc;
+    (pre.decode?pre.decode():Promise.resolve()).catch(function(){}).then(function(){
+      openWorkIndex(true);frame.src=spreadSrc;stage.classList.add('is-open');
+      zoomRun(slug);
+      requestAnimationFrame(function(){root.classList.remove('wi-boot');});
+    });
+  }
+  function zoomRun(slug){
     var link=slug&&stage.querySelector('.wi-entry[data-wi-slug="'+slug+'"]');
     if(!link||!stage.animate||window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
     var sr=stage.getBoundingClientRect(),lr=link.getBoundingClientRect();

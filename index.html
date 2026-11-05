@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<script>if(location.hash==='#work-index')document.documentElement.classList.add('skip-loader');</script>
-<style>html.skip-loader #loader,html.skip-loader .site-loader{display:none!important}</style>
+<script>if(location.hash==='#work-index'){document.documentElement.classList.add('skip-loader');document.documentElement.classList.add('wi-boot');setTimeout(function(){document.documentElement.classList.remove('wi-boot');},3000);}</script>
+<style>html.skip-loader #loader,html.skip-loader .site-loader{display:none!important}html.wi-boot,html.wi-boot body{background:#f6f0e0!important}html.wi-boot::after{content:"";position:fixed;inset:0;z-index:2147483647;background:#f6f0e0}</style>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mikaela Mäensivu</title>
 <meta name="description" content="Mikaela Maensivu. Design engineer who built the world's first autonomous dating agent. Co-founder of Winged, a headless matchmaking agent that runs on voice and text. San Francisco.">
