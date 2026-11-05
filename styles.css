@@ -321,7 +321,7 @@ body{display:grid;min-height:100svh;place-items:center;overflow-x:hidden;backgro
 @media(max-width:600px){
   .work-index-modal{padding:0;overflow:hidden;overflow:clip}
   .wi-sheet{width:100vw;max-width:100vw;height:180vw;overflow:hidden;overflow:clip}
-  .wi-stage{position:absolute;left:-96vw;top:-30vw;width:200vw;height:200vw}
+  .wi-stage{position:absolute;left:-88vw;top:-26vw;width:190vw;height:190vw}
   .wi-label{font-size:clamp(20px,5.6cqw,40px)}
   .wi-close{position:fixed;top:55.6vw;right:4.1vw}
 }
