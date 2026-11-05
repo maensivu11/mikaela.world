@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" role="img" aria-label="Find Funding">
+  <!-- The Find Funding mark for dark backgrounds: white glass, violet pixel. -->
+  <circle cx="10" cy="10" r="7" fill="none" stroke="#ffffff" stroke-width="3"/>
+  <rect x="8.1" y="8.1" width="3.8" height="3.8" rx="0.5" fill="#7668FF"/>
+  <path d="M15.2 15.2L21 21" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+</svg>

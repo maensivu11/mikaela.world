@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 196 32" role="img" aria-labelledby="title">
+  <title id="title">Find Funding</title>
+  <!-- Lockup: the magnifier mark with its violet pixel + "Find Funding",
+       Instrument Sans 600, tracking -0.045em. -->
+  <g transform="translate(0 2) scale(1.1667)">
+    <circle cx="10" cy="10" r="7" fill="none" stroke="#ffffff" stroke-width="3"/>
+    <rect x="8.1" y="8.1" width="3.8" height="3.8" rx="0.5" fill="#7668FF"/>
+    <path d="M15.2 15.2L21 21" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+  </g>
+  <text x="38" y="23.5" fill="#ffffff" font-family="'Instrument Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="24" font-weight="600" letter-spacing="-1.08">Find Funding</text>
+</svg>

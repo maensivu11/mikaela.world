@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>mikaela.world · mikaela maensivu</title>
+<meta name="description" content="mikaela.world: a portfolio that starts as my real childhood journal. Hand-coded, handwritten, case study by Mikaela Maensivu.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;600&family=JetBrains+Mono:wght@400&family=Caveat:wght@500&display=swap" rel="stylesheet">
+<style>
+/* container system: the template for every case page */
+:root{
+  --bg:#FAFAF7; --ink:#1A1A18; --muted:#8A8A82; --line:#E5E5DF;
+  --violet:#7668FF; --paper:#FBF6EA;
+  --sans:'Instrument Sans',system-ui,sans-serif; --mono:'JetBrains Mono',ui-monospace,monospace;
+  --gap:120px; --prose:720px; --pad:40px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:28px;font-weight:400;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+img{display:block;max-width:100%;height:auto}
+.prose{max-width:var(--prose);margin:0 auto 0 max(0px,calc((100% - 1280px) / 2));padding:0 var(--pad)}
+.wide{max-width:1280px;margin:0 auto;padding:0 var(--pad)}
+section,section.wide,section.prose{margin-top:var(--gap)}
+h1{font-size:44px;line-height:1.1;font-weight:600;letter-spacing:-.02em}
+h2{font-size:13px;line-height:20px;font-family:var(--mono);font-weight:400;color:var(--muted);text-transform:lowercase;margin-bottom:20px}
+.intro{font-size:22px;line-height:32px}
+p+p{margin-top:20px}
+.mono{font-family:var(--mono);font-size:13px;line-height:20px}
+.cap{font-family:var(--mono);font-size:13px;line-height:20px;color:var(--muted);margin-top:14px}
+.frame{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 24px 48px rgba(0,0,0,.06)}
+.v{color:var(--violet)}
+.hers{font-size:17px;line-height:28px;color:var(--ink);margin-top:28px;padding-left:22px;border-left:2px solid var(--line);font-style:italic}
+.hv{border:1.5px dotted var(--muted);border-radius:6px;padding:1px 6px}
+.art{opacity:0;transform:translateY(12px);transition:opacity 240ms ease-out,transform 240ms ease-out}
+.art.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.art{opacity:1;transform:none;transition:none}}
+.no-js .art{opacity:1;transform:none}
+
+/* 1 hero: the journal on its own paper */
+.hero{display:flex;flex-direction:column;padding:40px var(--pad) 40px}
+.hero-head{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;margin-bottom:32px}
+.hero-head .claim{font-size:22px;line-height:32px;margin-top:12px}
+.live{font-family:var(--mono);font-size:13px;line-height:20px;white-space:nowrap;padding-top:14px}
+.hero .frame{flex:none;width:min(100%,420px);margin:0 auto;display:flex;background:var(--paper)}
+.hero .frame img{width:100%;height:auto}
+.hero .cap{margin-top:12px;text-align:center}
+.hero-pair{display:flex;justify-content:center;gap:var(--s4);flex-wrap:wrap}
+.hero-pair figure{width:min(100%,420px)}
+.hero-pair .frame{width:100%}
+/* hero stack, as the homepage layers it: painting, then book, then note */
+/* landscape stage so the book's name label and the note both read: book left, note overlapping its right edge */
+.hero-art{width:min(100%,640px);margin:0}
+.hero-stage{position:relative;aspect-ratio:4/3;border-radius:12px;overflow:hidden;box-shadow:0 24px 48px rgba(0,0,0,.06)}
+.hero-stage img{display:block;width:100%;height:100%}
+.hero-painting{position:absolute;inset:0;object-fit:cover}
+.hero-journal,.hero-page{position:absolute;top:0;width:56.25%;height:100%}
+.hero-journal{left:2%;transform:rotate(-3deg)}
+.hero-page{left:41%;transform:rotate(4deg)}
+.hero-journal img{filter:drop-shadow(0 5px 4px rgba(34,15,5,.34)) drop-shadow(0 18px 14px rgba(34,15,5,.38))}
+.hero-page img{filter:drop-shadow(0 4px 3px rgba(34,15,5,.34)) drop-shadow(0 20px 16px rgba(34,15,5,.4))}
+.hero .hero-art .cap{text-align:left}
+.framing{max-width:560px;margin:32px auto 0;font-size:19px;line-height:31px;text-align:center}
+
+/* 2 manifesto */
+.manifesto p{font-size:19px;line-height:31px}
+.manifesto p.intro{font-size:22px;line-height:32px}
+
+/* 3 how it's made */
+.blk{display:grid;grid-template-columns:3fr 2fr;gap:56px;align-items:start}
+.blk>*{min-width:0}
+.blk+.blk{margin-top:96px}
+.blk .note p:first-child{font-weight:600}
+.reel{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;background:var(--paper);padding:24px;align-items:center}
+.reel figure{display:flex;flex-direction:column;align-items:center}
+.reel img{height:180px;width:auto;object-fit:contain}
+.reel figcaption{font-family:var(--mono);font-size:12px;line-height:18px;color:var(--muted);margin-top:8px;text-align:center}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pair>*{min-width:0}
+pre{background:#16161a;color:#e7e5dc;border-radius:12px;padding:24px;font-family:var(--mono);font-size:12.5px;line-height:20px;overflow-x:auto;white-space:pre}
+pre .c{color:#8a8a82}
+pre .k{color:#f4e21f}
+
+/* 4 system strip */
+.ds{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:80px 0}
+.sw{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:8px}
+.sw .chip{height:96px;border-radius:12px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center}
+.sw p{font-family:var(--mono);font-size:13px;line-height:20px;color:var(--muted);margin-top:8px}
+.why{font-family:var(--mono);font-size:12px;line-height:18px;color:var(--muted);margin-top:4px}
+
+footer,footer.wide{margin-top:var(--gap);border-top:1px solid var(--line);padding-top:48px;padding-bottom:64px}
+.hers+p{margin-top:28px}
+.built{color:var(--muted)}
+.built span{color:var(--ink)}
+.nav{display:flex;justify-content:space-between;margin-top:48px}
+.nav a{font-family:'B-McE',cursive;font-size:19px;letter-spacing:0;text-transform:lowercase;text-decoration:none;color:inherit}
+.nav a:hover{text-decoration:underline;text-underline-offset:4px}
+
+@media (max-width:760px){
+  :root{--gap:64px;--pad:20px}
+  h1{font-size:36px}
+  .intro,.hero-head .claim,.manifesto p.intro{font-size:19px;line-height:28px}
+  .manifesto p{font-size:17px;line-height:28px}
+  .hero{min-height:auto}
+  .hero-head{flex-direction:column}
+  .live{padding-top:0}
+  .hero .frame{width:78%}
+  .framing{font-size:17px;line-height:28px}
+  .blk{grid-template-columns:1fr;gap:24px}
+  .blk+.blk{margin-top:64px}
+  .reel{grid-template-columns:repeat(2,1fr);padding:16px}
+  .reel img{height:130px}
+  .sw{grid-template-columns:repeat(2,1fr)}
+  .ds{padding:56px 0}
+  pre{font-size:11.5px;line-height:18px;padding:16px}
+}
+
+/* her hand: margin notes in B-McE, an adopted font close to her hand; her real handwriting is in the note, journal and notebook images */
+@font-face{font-family:'B-McE';src:url('../../assets/fonts/B-McE.ttf') format('truetype');font-display:swap}
+.hand{display:block;width:fit-content;max-width:100%;font-family:'B-McE',cursive;text-transform:lowercase;font-size:23px;line-height:26px;font-weight:400;font-style:normal;color:#3d3a8c;transform:rotate(-1.5deg);transform-origin:left center;margin:0 0 12px}
+.hand.r1{transform:rotate(-2deg)}.hand.r2{transform:rotate(-.8deg)}.hand.r3{transform:rotate(.6deg)}.hand.r4{transform:rotate(1deg)}
+.hand.after{margin:14px 0 0}
+.logic{color:var(--ink)}
+@media (max-width:760px){.hand{font-size:21px;line-height:24px}}
+/* spacing pass: one scale */
+/* desktop 160 section / 120 block / 64 group / 40 element / 24 note / 16 caption
+   mobile   96 section /  80 block / 48 group / 40 element / 24 note / 16 caption */
+:root{--s1:160px;--s2:120px;--s3:64px;--s4:40px;--s5:24px;--s6:16px;--gap:var(--s1)}
+h2{margin-bottom:var(--s5)}
+.cap{margin-top:var(--s6)}
+.cap+.logic,.cap+p:not(.cap):not(.why){margin-top:var(--s5)}
+.hers{margin-top:var(--s4)}
+.ds{padding:var(--s2) 0}
+section.ds,.ds+section,.ds+footer{margin-top:var(--s3)}
+.ds-intro{margin-bottom:var(--s3)}
+.blk+.blk,.mech+.mech{margin-top:var(--s2)}
+.hand{margin:var(--s4) 0 12px}
+.hand:first-child{margin-top:0}
+.hand.after{margin:var(--s5) 0 0}
+.hand+.hers,.hand+p,.hand+blockquote{margin-top:0}
+footer,footer.wide{margin-top:var(--s1);padding-top:var(--s3);padding-bottom:var(--s2)}
+footer.wide{padding-left:var(--pad);padding-right:var(--pad)}
+.nav{margin-top:var(--s3)}
+@media (max-width:760px){
+  :root{--s1:96px;--s2:80px;--s3:48px;--s4:40px;--s5:24px;--s6:16px;--gap:var(--s1)}
+  .blk,.mech{row-gap:var(--s4)}
+  .cards{row-gap:var(--s3)}
+  .nav{flex-wrap:wrap;gap:var(--s6) var(--s5)}
+}
+.framing{margin-top:var(--s4)}
+.hers+p{margin-top:var(--s4)}
+.hero-head{margin-bottom:var(--s3)}
+.hero .cap{margin-top:var(--s6)}
+.ds+footer,.ds+footer.wide{border-top:0}
+/* editorial grid: label left 1/3, reading column right 2/3, one edge with the 1280 container */
+section.prose{max-width:1280px;margin-left:auto;margin-right:auto}
+section.prose,.ed{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);column-gap:var(--s3);align-items:start}
+.ds-intro.ed{max-width:none}
+section.prose>*,.ed>*{grid-column:2;max-width:700px;min-width:0}
+section.prose>h2,.ed>h2{grid-column:1;grid-row:1;margin-top:0}
+section.prose>h2+.hand,.ed>h2+.hand{grid-column:1;grid-row:2/span 30;margin:0}
+section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-child{margin-top:0}
+@media (max-width:900px){section.prose,.ed{display:block}section.prose>h2+.hand,.ed>h2+.hand{margin:0 0 12px}}
+/* hero-head align: title on the shared left edge */
+.hero-head{padding-left:max(0px,calc((100vw - 1280px) / 2))}
+</style>
+</head>
+<body class="no-js">
+
+<!-- 1. hero -->
+<header class="hero">
+  <div class="hero-head">
+    <div>
+      <h1>mikaela.world</h1>
+      <p class="claim">my portfolio opens on a handwritten note, sitting on my real childhood journal. i drew it, wrote it and coded it by hand.</p>
+    </div>
+    <a class="live" href="https://mikaela.world" rel="noopener">visit live ↗ mikaela.world</a>
+  </div>
+  <figure class="art hero-art">
+    <div class="hero-stage">
+      <img class="hero-painting" src="assets/00-hero-painting.jpg" alt="Her painting, a hot-pink field of hand-painted flowers" width="1000" height="1333">
+      <picture class="hero-journal"><source srcset="assets/00-hero-journal.webp" type="image/webp"><img src="assets/00-hero-journal.png" alt="Her black and white composition book, her name written on the label as a kid, sitting on the painting" width="1000" height="1333"></picture>
+      <picture class="hero-page"><source srcset="assets/00-hero-page.webp" type="image/webp"><img src="assets/00-hero-page.png" alt="Her handwritten note, hi!!! i'm mikaela, on grid paper, on top of the book" width="1000" height="1333"></picture>
+    </div>
+    <figcaption class="cap">the note the site opens on. my hand, my words, no font<br>my real painting, my real childhood journal</figcaption>
+  </figure>
+  <p class="framing">the first thing you see is a note i wrote by hand, to you. under it is the journal i kept as a kid, drawings and all. the painting in the back is mine, the video inside the book i designed, and the handwriting across the whole site is my own. nothing here was picked from a list.</p>
+</header>
+
+<!-- 2. the manifesto -->
+<section class="prose manifesto">
+  <h2>why i made it this way</h2>
+  <span class="hand r2">no one can replicate me</span>
+  <p class="intro">anyone can design a site. anyone can make something that looks good, follow the standards, learn the skill set. but no one can replicate me and my own work.</p>
+  <p>that matters more now than it ever has. a model can produce a competent landing page in seconds. clean grid, sensible type, the right amount of whitespace. competence used to be the bar. now anyone gets it for free, and when everything is competent, everything looks the same. even when it looks good. especially then.</p>
+  <p>what can't be generated is the part before the pixels. taste is knowing which of a hundred correct options is mine. authorship is my name on the decisions, including the ones i got wrong. and time is the hours it takes to photograph a notebook frame by frame until it opens the way a real one does.</p>
+  <div class="hers">i'd rather it look like me than look right.</div>
+  <p>so no template, no site builder, no framework. index.html, styles.css and script.js, written by hand, line by line. i'm not avoiding tools to make a point. i use them every day. but if i say i care about craft, the site is where you check, and view-source is part of the portfolio.</p>
+  <p>the margins are set in b-mce, a font close enough to my hand that i adopted it as mine. the handwriting in the note, the journal and the notebook is actually mine. the note on top is my hand today. the composition book under it is my hand as a kid, same name on the cover, only younger. the yellow highlights were traced over my own ink, stroke by stroke. there's even a voice agent on the site that speaks in my voice, because if i'm going to say "this is me," it should be all the way.</p>
+  <p>i wanted it to feel human and authentic, like someone took their time. because someone did. you can't fake that with a prompt. you can only spend it.</p>
+  <div class="hers">this is just me, as organically and honestly as i could make it.</div>
+</section>
+
+<!-- 3. how it's made -->
+<section class="wide">
+  <div class="ed" style="margin:0 0 var(--s3)">
+    <h2>how it's made</h2>
+    <p class="intro">three pieces of mechanics. each one is small, each one is real, and each one only works because i did it by hand.</p>
+  </div>
+
+  <div class="blk">
+    <div class="art">
+      <div class="frame reel">
+        <figure><img src="assets/01-frame-book-closed.png" alt="frame 1: the book closed" loading="lazy"><figcaption>1 · closed</figcaption></figure>
+        <figure><img src="assets/02-frame-book-slightly-open.png" alt="frame 2: the cover lifting" loading="lazy"><figcaption>2 · lifting</figcaption></figure>
+        <figure><img src="assets/03-frame-book-half-open.png" alt="frame 3: half open, pages fanning" loading="lazy"><figcaption>3 · half open</figcaption></figure>
+        <figure><img src="assets/04-frame-open-spread.png" alt="frame 4: the open spread" loading="lazy"><figcaption>4 · spread</figcaption></figure>
+      </div>
+      <p class="cap">the four real photographs that make up the opening, 130ms apart</p>
+    </div>
+    <div class="note"><span class="hand r1">four photos. no tweening.</span><p>stop-motion, not animation.</p><p>when you open the book, nothing is interpolated. i photographed the journal closed, lifting, half open and open, and the script swaps those frames like a flipbook. every frame is decoded before the first swap, so it never flashes blank on a phone. phones get their own set of crops.</p><p class="logic">i chose four frames over a smooth css flip because a real book doesn't open smoothly. it catches and fans. the stutter is what makes it read as paper, and a tween would have made it read as software.</p></div>
+  </div>
+
+  <div class="blk">
+    <div class="art">
+<pre><span class="c">// work index: reuses the book-opening frame sequence</span>
+<span class="k">var</span> root=mobile?<span class="k">'assets/tabletop/mobile/'</span>:<span class="k">'assets/tabletop/'</span>;
+<span class="k">var</span> frames=reduce?[spread]:[root+<span class="k">'book-closed.png'</span>,
+  root+<span class="k">'book-slightly-open.png'</span>,root+<span class="k">'book-half-open.png'</span>,spread];
+...
+<span class="k">function</span> show(){
+  frame.src=frames[step];step+=1;
+  <span class="k">if</span>(step&lt;frames.length){timer=setTimeout(show,mobile?110:130);<span class="k">return</span>;}
+  ...
+}
+Promise.all(frames.map(<span class="k">function</span>(src){<span class="k">var</span> img=<span class="k">new</span> Image();img.src=src;
+  <span class="k">return</span> (img.decode?img.decode():Promise.resolve()).catch(<span class="k">function</span>(){});})).then(show);</pre>
+      <p class="cap">script.js, the work index opening, excerpt</p>
+    </div>
+    <div class="note"><span class="hand r3">reduced motion gets the open book</span><p>the whole flipbook is a few lines.</p><p>that's the frame loop, verbatim. if your device asks for reduced motion, the sequence collapses to the last frame and the book is simply open. the craft shouldn't cost anyone their comfort.</p></div>
+  </div>
+
+  <div class="blk">
+    <div class="art">
+      <div class="pair">
+        <div class="frame"><img src="assets/09-note-rest.jpg" alt="Her handwritten note on grid paper: hi!!! i'm mikaela, with linkedin, email me, whatsapp me" loading="lazy"></div>
+        <div class="frame"><img src="assets/09-note-design-highlight.jpg" alt="The same note with a yellow highlighter trace over design engineer" loading="lazy"></div>
+      </div>
+      <p class="cap">the note at rest, and with the design highlight on</p>
+    </div>
+    <div class="note"><span class="hand r4">traced over my own ink</span><p>highlights are drawn, not styled.</p><p>every link on the note has its own highlight layer. linkedin, email, whatsapp, and each role i'd take. each one is a marker stroke i traced by hand at the exact size of the page, laid over the paper with a multiply blend so the ink shows through the yellow the way it does under a real highlighter. on hover it wipes in left to right in 460ms, the direction a hand would draw it.</p><p class="logic">i didn't use a css background-color because a rectangle under a word looks like software. a stroke that wobbles past the word looks like me.</p></div>
+  </div>
+
+  <div class="blk">
+    <div class="art">
+<pre><span class="c">// the note slides off the book in four held steps</span>
+<span class="k">var</span> noteFrames=[
+  {transform:<span class="k">'translate3d(0,0,0) rotate(0deg)'</span>},
+  {transform:<span class="k">'translate3d(-2px,28%,0) rotate(.25deg)'</span>,offset:.28},
+  {transform:<span class="k">'translate3d(2px,67%,0) rotate(-.2deg)'</span>,offset:.66},
+  {transform:<span class="k">'translate3d(0,108%,0) rotate(0deg)'</span>}
+];
+<span class="k">var</span> noteMoves=noteStack.map(<span class="k">function</span>(layer){
+  <span class="k">return</span> layer.animate(noteFrames,
+    {duration:560,easing:<span class="k">'steps(4,end)'</span>,fill:<span class="k">'forwards'</span>});});</pre>
+      <p class="cap">script.js, lifting the note off the journal, excerpt</p>
+    </div>
+    <div class="note"><span class="hand r2">steps(4), on purpose</span><p>no framework, and even the easing is hand-set.</p><p>no react, no build step, no library. one html file, one stylesheet, one script, and the browser's own animation api. even the note leaving the book runs in four held steps with a two-pixel wobble, so it moves like a stop-motion object instead of sliding like an interface panel.</p></div>
+  </div>
+</section>
+
+<!-- 4. the system strip -->
+<section class="ds">
+  <div class="wide">
+    <div class="ed" style="margin-bottom:var(--s3)"><h2>the system</h2><p class="intro">four materials, and every one of them is something you could hold.</p></div>
+    <span class="hand r2">paper, ink, my hand</span>
+    <div class="sw">
+      <div><div class="chip" style="background:#FBF6EA"></div><p>paper #FBF6EA</p><p class="why">warm, not white. the color of a page that's been kept, not printed</p></div>
+      <div><div class="chip" style="background:#22303a"></div><p>ink #22303a</p><p class="why">blue-black ballpoint, never pure black, because no pen is</p></div>
+      <div><div class="chip" style="background:#FBF6EA;font-family:'B-McE',cursive;font-size:34px;color:#22303a">mikaela</div><p>b-mce ("mikaela")</p><p class="why">an adopted hand, close to mine</p></div>
+      <div><div class="chip" style="background:#FBF6EA;font-family:'Caveat',cursive;font-weight:500;font-size:30px;color:#22303a">open me</div><p>caveat ("open me")</p><p class="why">the quick hand for small ui hints, so the margins stay mine</p></div>
+    </div>
+  </div>
+</section>
+
+<footer class="wide">
+  <div class="built mono">
+    <p>built by hand</p>
+    <p><span>live</span> · <a href="https://mikaela.world" rel="noopener">mikaela.world</a></p>
+    <p><span>stack</span> · index.html, styles.css, script.js. no framework, no build step</p>
+    <p><span>evidence</span> · view-source</p>
+  </div>
+</footer>
+
+<script>
+document.body.classList.remove('no-js');
+const io = 'IntersectionObserver' in window ? new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -8% 0px' }) : null;
+document.querySelectorAll('.art').forEach(el => io ? io.observe(el) : el.classList.add('in'));
+</script>
+<script src="../case-chrome.js" data-notebook="../../index.html#work-index" data-prev="../winged-max/index.html" data-prev-name="winged max"></script>
+</body>
+</html>

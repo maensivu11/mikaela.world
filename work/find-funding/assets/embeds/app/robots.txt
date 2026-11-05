@@ -1,0 +1,20 @@
+# The public surfaces are the entry screen, the register gate and the funding
+# segment pages (/grants, /loans, /other). Everything else on this host requires sign-in: a
+# crawler that follows those paths gets a redirect, never the screen, so there
+# is nothing there to index.
+User-agent: *
+Allow: /$
+Allow: /register
+# /opportunities was taken down 2026-10-24 and answers 307 to the entry
+# screen. Disallowed rather than allowed, so a crawler does not spend a visit
+# learning that. Reversible with the redirect that put it here.
+Disallow: /opportunities
+Disallow: /login
+Disallow: /start
+Disallow: /home
+Disallow: /plan/
+Disallow: /compose/
+Disallow: /ops
+Disallow: /api/
+
+Sitemap: https://findfunding.ai/sitemap.xml

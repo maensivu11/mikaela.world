@@ -1,0 +1,504 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>winged max · mikaela maensivu</title>
+<meta name="description" content="Winged Max: a dating agent that runs entirely on your own Mac. A case study about the mechanisms, by Mikaela Maensivu, design engineer &amp; founder.">
+<link rel="icon" href="assets/AppIcon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+/* container system: same template as every case page */
+:root{
+  --bg:#FAFAF7; --ink:#1A1A18; --muted:#8A8A82; --line:#E5E5DF;
+  --violet:#7668FF; --lime:#dbf570;
+  --ed:#1C1C1A; --ed-ink:#E6E4DC; --ed-mute:#7E7D76; --ed-num:#dbf570;
+  --sans:'Instrument Sans',system-ui,sans-serif; --mono:'JetBrains Mono',ui-monospace,monospace;
+  --gap:120px; --prose:720px; --pad:40px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:28px;font-weight:400;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+img{display:block;max-width:100%;height:auto}
+.prose{max-width:var(--prose);margin:0 auto 0 max(0px,calc((100% - 1280px) / 2));padding:0 var(--pad)}
+.wide{max-width:1280px;margin:0 auto;padding:0 var(--pad)}
+section,section.wide,section.prose{margin-top:var(--gap)}
+h1{font-size:44px;line-height:1.1;font-weight:600;letter-spacing:-.02em}
+h2{font-size:13px;line-height:20px;font-family:var(--mono);font-weight:400;color:var(--muted);text-transform:lowercase;margin-bottom:20px}
+.intro{font-size:22px;line-height:32px}
+p+p{margin-top:20px}
+.mono{font-family:var(--mono);font-size:13px;line-height:20px}
+.cap{font-family:var(--mono);font-size:13px;line-height:20px;color:var(--muted);margin-top:14px}
+.frame{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 24px 48px rgba(0,0,0,.06)}
+.v{color:var(--violet)}
+/* her voice: plain italic prose */
+.hers{font-size:17px;line-height:28px;color:var(--ink);margin-top:28px;padding-left:22px;border-left:2px solid var(--line);font-style:italic}
+.art{opacity:0;transform:translateY(12px);transition:opacity 240ms ease-out,transform 240ms ease-out}
+.art.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.art{opacity:1;transform:none;transition:none}}
+.no-js .art{opacity:1;transform:none}
+
+/* code frames: quiet dark editor, the only dark surface on the page */
+.code{background:var(--ed);color:var(--ed-ink);border:1px solid #2A2A27;border-radius:12px;box-shadow:0 24px 48px rgba(0,0,0,.08);font-family:var(--mono);font-size:13px;line-height:21px;overflow-x:auto}
+.mech>*,.curve>*{min-width:0}
+.code{max-width:100%}
+.code .path{color:var(--ed-mute);padding:14px 20px 0}
+.code pre{padding:12px 20px 18px;font:inherit;white-space:pre}
+.code .c{color:var(--ed-mute)}
+.code .n{color:var(--ed-num)}
+.code .k{color:#B9B7AE}
+.code .mk{display:inline-block;width:16px;height:16px;line-height:16px;text-align:center;border-radius:50%;background:var(--ed-num);color:var(--ed);font-size:10px;margin-left:8px;vertical-align:1px}
+.mk-l{display:inline-block;width:16px;height:16px;line-height:16px;text-align:center;border-radius:50%;background:var(--ink);color:#fff;font-family:var(--mono);font-size:10px;margin-right:8px;vertical-align:2px}
+
+/* 1 hero */
+.hero{padding:40px var(--pad) 0;max-width:1280px;margin:0 auto}
+.hero-head{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;margin-bottom:40px}
+.hero-head .claim{font-size:22px;line-height:32px;margin-top:12px;max-width:620px}
+.hero-head img{width:64px;height:64px;border-radius:14px}
+.stage{font-family:var(--mono);font-size:13px;line-height:20px;color:var(--muted);margin-top:16px;max-width:620px}
+
+/* 3 system strip, smaller than the template's */
+.ds{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:64px 0}
+.ds-intro{max-width:var(--prose);margin-bottom:36px}
+.knobs{display:grid;grid-template-columns:repeat(4,1fr);gap:28px 32px}
+.knob b{display:block;font-family:var(--mono);font-weight:400;font-size:22px;line-height:30px}
+.knob .what{font-size:14px;line-height:20px;margin-top:2px}
+.why{font-family:var(--mono);font-size:12px;line-height:18px;color:var(--muted);margin-top:6px}
+.curve{margin-top:48px;display:grid;grid-template-columns:3fr 2fr;gap:40px;align-items:end}
+.curve svg{width:100%;height:auto;display:block}
+.curve svg text{font-family:var(--mono);font-size:11px;fill:var(--muted)}
+
+/* 4 mechanisms */
+.mech{display:grid;grid-template-columns:3fr 2fr;gap:56px;align-items:start}
+.mech+.mech{margin-top:96px}
+.note p:first-child{font-weight:600}
+.note ol{list-style:none;margin-top:16px}
+.note li{font-size:15px;line-height:24px;padding-left:24px;text-indent:-24px}
+.note li+li{margin-top:10px}
+
+/* pipeline */
+.pipe{display:grid;grid-template-columns:180px 1fr;gap:32px;align-items:start;padding:28px}
+.pipe img{border-radius:8px;border:1px solid var(--line)}
+.steps{list-style:none;font-family:var(--mono);font-size:13px;line-height:20px}
+.steps li{display:grid;grid-template-columns:28px 1fr;padding:9px 0;border-top:1px solid var(--line)}
+.steps li:first-child{border-top:0}
+.steps .i{color:var(--muted)}
+.steps .d{color:var(--muted);display:block}
+.steps .loc{color:var(--violet)}
+
+/* in motion: the autonomy ladder */
+.ladder{padding:28px}
+.rungs{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.rung{border:1px solid var(--line);border-radius:8px;padding:12px;min-height:118px;transition:background 240ms ease-out,border-color 240ms ease-out}
+.rung .t{font-size:14px;line-height:20px;font-weight:600}
+.rung .r{font-family:var(--mono);font-size:12px;line-height:18px;color:var(--muted);margin-top:6px}
+.rung.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.rung.on .r{color:#BDBBB3}
+.rung.rev.on{background:#fff;border:1.5px dashed var(--ink);color:var(--ink)}
+.rung.rev.on .r{color:var(--ink)}
+.read{margin-top:18px;font-family:var(--mono);font-size:13px;line-height:20px;display:grid;grid-template-columns:120px 1fr;gap:6px 16px}
+.read span:nth-child(odd){color:var(--muted)}
+.meter{height:6px;background:var(--line);border-radius:3px;margin-top:10px;overflow:hidden}
+.meter i{display:block;height:100%;width:0;background:var(--ink);transition:width 240ms linear}
+
+/* 5 audit */
+.inputs{display:grid;grid-template-columns:repeat(16,1fr);gap:6px;margin-top:8px}
+.inputs i{aspect-ratio:1;border-radius:4px;display:block}
+.inputs .a{background:var(--ink)}
+.inputs .g{background:#BDBBB3}
+.inputs .x{border:1.5px dashed var(--muted)}
+.ilab{display:grid;grid-template-columns:7fr 4fr 5fr;gap:6px;font-family:var(--mono);font-size:12px;line-height:18px;margin-top:10px}
+.ilab span:nth-child(2),.ilab span:nth-child(3){color:var(--muted)}
+.funnel{display:flex;gap:40px;align-items:baseline;margin:40px 0 28px;font-family:var(--mono)}
+.funnel b{font-weight:400;font-size:44px;line-height:1;letter-spacing:-.02em;font-family:var(--sans)}
+.funnel span{display:block;font-size:13px;line-height:20px;color:var(--muted);margin-top:8px}
+.bars{display:grid;grid-template-columns:96px 1fr;gap:8px 16px;align-items:center;font-family:var(--mono);font-size:13px;line-height:20px}
+.bars .b{height:14px;background:var(--ink);border-radius:2px;position:relative}
+.bars .b em{position:absolute;left:calc(100% + 8px);top:-3px;font-style:normal;color:var(--muted)}
+.disc{list-style:none;margin-top:28px}
+.disc li{padding-left:20px;position:relative}
+.disc li::before{content:"–";position:absolute;left:0;color:var(--muted)}
+
+/* 6 lessons */
+.lessons p b{font-weight:600}
+
+footer{margin-top:var(--gap);border-top:1px solid var(--line);padding:48px 0 64px}
+.built{color:var(--muted)}
+.built span{color:var(--ink)}
+.nav{display:flex;justify-content:space-between;margin-top:48px}
+.nav a{font-family:'B-McE',cursive;font-size:19px;letter-spacing:0;text-transform:lowercase;text-decoration:none;color:inherit}
+.nav a:hover{text-decoration:underline;text-underline-offset:4px}
+
+@media (max-width:760px){
+  :root{--gap:64px;--pad:20px}
+  h1{font-size:36px}
+  .intro,.hero-head .claim{font-size:19px;line-height:28px}
+  .hero-head{flex-direction:column-reverse}
+  .hero-head img{width:48px;height:48px;border-radius:11px}
+  .code{font-size:11.5px;line-height:19px}
+  .code pre,.code .path{padding-left:14px;padding-right:14px}
+  .knobs{grid-template-columns:1fr 1fr;gap:24px 20px}
+  .curve,.mech{grid-template-columns:1fr;gap:24px}
+  .mech+.mech{margin-top:64px}
+  .pipe{grid-template-columns:1fr;padding:20px}
+  .pipe img{width:140px}
+  .ladder{padding:16px}
+  .rungs{grid-template-columns:1fr;gap:6px}
+  .rung{min-height:0;display:grid;grid-template-columns:140px 1fr;gap:12px;padding:10px 12px}
+  .rung .r{margin-top:0}
+  .read{grid-template-columns:96px 1fr}
+  .inputs{grid-template-columns:repeat(8,1fr)}
+  .ilab{grid-template-columns:1fr;gap:2px}
+  .funnel{gap:24px}
+  .funnel b{font-size:32px}
+  .ds{padding:48px 0}
+}
+
+/* her hand: margin notes in B-McE, an adopted hand, close to hers (her real handwriting is in the images). reasons only, never body prose */
+@font-face{font-family:'B-McE';src:url('../../assets/fonts/B-McE.ttf') format('truetype');font-display:swap}
+.hand{display:block;width:fit-content;max-width:100%;font-family:'B-McE',cursive;text-transform:lowercase;font-size:23px;line-height:26px;font-weight:400;font-style:normal;color:#1A1A18;transform:rotate(-1.5deg);transform-origin:left center;margin:0 0 12px}
+.hand.r1{transform:rotate(-2deg)}.hand.r2{transform:rotate(-.8deg)}.hand.r3{transform:rotate(.6deg)}.hand.r4{transform:rotate(1deg)}
+.hand.after{margin:14px 0 0}
+/* the logic, stated: one plain sentence in her voice where a decision showed no reason */
+.logic{color:var(--ink)}
+@media (max-width:760px){.hand{font-size:21px;line-height:24px}}
+/* spacing pass: one scale */
+/* desktop 160 section / 120 block / 64 group / 40 element / 24 note / 16 caption
+   mobile   96 section /  80 block / 48 group / 40 element / 24 note / 16 caption */
+:root{--s1:160px;--s2:120px;--s3:64px;--s4:40px;--s5:24px;--s6:16px;--gap:var(--s1)}
+h2{margin-bottom:var(--s5)}
+.cap{margin-top:var(--s6)}
+.cap+.logic,.cap+p:not(.cap):not(.why){margin-top:var(--s5)}
+.hers{margin-top:var(--s4)}
+.ds{padding:var(--s2) 0}
+section.ds,.ds+section,.ds+footer{margin-top:var(--s3)}
+.ds-intro{margin-bottom:var(--s3)}
+.blk+.blk,.mech+.mech{margin-top:var(--s2)}
+.hand{margin:var(--s4) 0 12px}
+.hand:first-child{margin-top:0}
+.hand.after{margin:var(--s5) 0 0}
+.hand+.hers,.hand+p,.hand+blockquote{margin-top:0}
+footer,footer.wide{margin-top:var(--s1);padding-top:var(--s3);padding-bottom:var(--s2)}
+footer.wide{padding-left:var(--pad);padding-right:var(--pad)}
+.nav{margin-top:var(--s3)}
+@media (max-width:760px){
+  :root{--s1:96px;--s2:80px;--s3:48px;--s4:40px;--s5:24px;--s6:16px;--gap:var(--s1)}
+  .blk,.mech{row-gap:var(--s4)}
+  .cards{row-gap:var(--s3)}
+  .nav{flex-wrap:wrap;gap:var(--s6) var(--s5)}
+}
+.funnel{margin:0 0 var(--s4)}
+.curve{margin-top:var(--s3)}
+.hers+.hers{margin-top:var(--s5)}
+.ds+footer,.ds+footer.wide{border-top:0}
+/* editorial grid: label left 1/3, reading column right 2/3, one edge with the 1280 container */
+section.prose{max-width:1280px;margin-left:auto;margin-right:auto}
+section.prose,.ed{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);column-gap:var(--s3);align-items:start}
+.ds-intro.ed{max-width:none}
+section.prose>*,.ed>*{grid-column:2;max-width:700px;min-width:0}
+section.prose>h2,.ed>h2{grid-column:1;grid-row:1;margin-top:0}
+section.prose>h2+.hand,.ed>h2+.hand{grid-column:1;grid-row:2/span 30;margin:0}
+section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-child{margin-top:0}
+@media (max-width:900px){section.prose,.ed{display:block}section.prose>h2+.hand,.ed>h2+.hand{margin:0 0 12px}}
+</style>
+</head>
+<body class="no-js">
+
+<!-- 1. hero: the work here is the mechanism, so the hero is code, not a screen -->
+<header class="hero">
+  <div class="hero-head">
+    <div>
+      <h1>winged max</h1>
+      <p class="claim">winged max is the agent running entirely on your own mac. it mirrors your iphone, learns your taste, and acts on your behalf locally.</p>
+      <p class="claim">i'm the design engineer &amp; founder. i designed it and built it by hand.</p>
+      <p class="stage">stage: working build, unfinished interface. this page shows how it works, not how it looks.</p>
+    </div>
+    <img src="assets/AppIcon.svg" alt="Winged Max app icon" width="64" height="64">
+  </div>
+  <span class="hand r2">taste outvotes the brief</span>
+  <div class="code art">
+    <div class="path">WingedMaxCore/CandidateRanker.swift</div>
+<pre><span class="c">// Your visual taste is most of every decision. What you wrote in the</span>
+<span class="c">// brief counts, but it can never outvote what you actually chose.</span>
+<span class="k">if let</span> visualScore {
+    score = min(<span class="n">1</span>, max(<span class="n">0</span>, visualScore * <span class="n">0.8</span> + preference.score * <span class="n">0.2</span>))<span class="mk">1</span>
+} <span class="k">else</span> {
+    <span class="c">// A neutral 0.5 for someone whose preferences could not be checked is a</span>
+    <span class="c">// real reading; the same 0.5 for someone who set none is not.</span>
+    score = softPreferences.isEmpty ? <span class="n">nil</span> : preference.score<span class="mk">2</span>
+}</pre>
+  </div>
+  <p class="cap"><span class="mk-l">1</span>taste is 80% of every autonomous decision &nbsp; <span class="mk-l">2</span>no data stays "no data", never a fake middle score · excerpt from the repo, comments shortened</p>
+  <p class="logic">what you actually swipe on is evidence. what you write in a brief is a guess about yourself. and a fake 0.5 would let the agent act on nothing and call it a decision.</p>
+</header>
+
+<!-- 2. the idea -->
+<section class="prose">
+  <h2>the idea</h2>
+  <p class="intro">dating apps are a second job. the deciding part takes seconds. the swiping, the reading, the opening lines and finding a thursday that works take hours. so the pitch was short: an agent that does the labor, while you stay the one who decides.</p>
+  <p>winged max is a macos app that mirrors your iphone on your mac and operates the dating apps inside that window. no scraping, no fake account. it's your hinge, on your phone, under your account, driven by something that learned what you like, where you can watch it work.</p>
+  <div class="hers">the deciding part takes seconds. the rest takes hours. max is built around that gap, and the decision stays on your side of it.</div>
+  <div class="hers">before max, winged was the agent that texts and calls to set up your dates. max takes the same split into your own phone screen. the agent does the labor, you decide.</div>
+  <div class="hers">the interface isn't finished and i'm not going to dress it up. the part that has to be right first is the mechanism: what the agent may do, when it earns more, and what it can never do. a pretty screen on top of a wrong permission is the worst version of this product. so this page shows the permissions.</div>
+</section>
+
+<!-- 3. the system: the numbers that carry the product -->
+<section class="ds">
+  <div class="wide">
+    <div class="ds-intro ed">
+    <h2>the system</h2>
+      <p class="intro">winged max doesn't have a finished visual system yet. its real design system is a handful of numbers, each one a decision about how much the agent may do on your behalf.</p>
+    </div>
+    <span class="hand r1">every number is a permission</span>
+    <div class="knobs">
+      <div class="knob"><b>0.8 / 0.2</b><p class="what">taste vs. stated preferences</p><p class="why">what you chose outweighs what you said you'd choose</p></div>
+      <div class="knob"><b>120 days</b><p class="what">rating half-life</p><p class="why">taste moves; the model tracks who you are now</p></div>
+      <div class="knob"><b>×3</b><p class="what">weight of a correction</p><p class="why">overruling the agent is the most informative thing you do</p></div>
+      <div class="knob"><b>50 · AUC &gt; 0.6</b><p class="what">to unlock autopilot</p><p class="why">it has to predict ratings it never saw, better than a coin flip</p></div>
+      <div class="knob"><b>25 a day</b><p class="what">unattended actions, default</p><p class="why">a bad night stays small</p></div>
+      <div class="knob"><b>≥ 0.72 · ≤ 0.35</b><p class="what">auto-like · auto-pass</p><p class="why">the agent acts only when it's sure; the middle stays yours</p></div>
+      <div class="knob"><b>0</b><p class="what">messages sent without you</p><p class="why">a wrong like costs nothing; a wrong message costs trust</p></div>
+      <div class="knob"><b>on the mac</b><p class="what">ratings, reasons, taste model</p><p class="why">your taste stays yours: it never leaves the machine</p></div>
+    </div>
+    <div class="curve">
+      <div>
+        <svg viewBox="0 0 620 200" role="img" aria-label="Weight of a rating by age: 1 at day 0, half at 120 days, a quarter at 240, then a floor of 0.15 from about 330 days.">
+          <line x1="30" y1="180" x2="590" y2="180" stroke="#E5E5DF"/>
+          <path d="M30 20 L76.7 45.4 L123.3 66.9 L170 84.8 L216.7 100 L263.3 112.8 L310 123.4 L356.7 132.5 L403.3 140 L450 146.4 L496.7 151.7 L541.8 156 L590 156" fill="none" stroke="#1A1A18" stroke-width="2"/>
+          <circle cx="216.7" cy="100" r="3.5" fill="#1A1A18"/>
+          <text x="226" y="96">120 days: counts half</text>
+          <circle cx="403.3" cy="140" r="3" fill="#1A1A18"/>
+          <text x="410" y="132">240: a quarter</text>
+          <text x="500" y="172">floor 0.15</text>
+          <text x="36" y="16">1.0  a rating today</text>
+          <text x="30" y="196">0</text><text x="200" y="196">120</text><text x="386" y="196">240</text><text x="560" y="196">360 days</text>
+        </svg>
+      </div>
+      <div>
+        <p class="why" style="font-size:13px;line-height:20px">weight = max(0.5<sup>age/120</sup>, 0.15) × (corrected ? 3 : 1)</p>
+        <p class="why">old ratings fade but never vanish: the early corpus is the only evidence of long-standing taste. drawn from RatingWeightPolicy.swift, axis from zero.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. how the agent works: the spine of the page -->
+<section class="wide">
+  <div class="ed" style="margin:0 0 var(--s3)">
+    <h2>how the agent works</h2>
+    <p class="intro">an agent that sees who you find attractive and writes as you has to earn trust mechanically, not with copy. three rules, each enforced in code: the human confirms anything consequential, autonomy is earned and revocable, and your taste stays yours.</p>
+  </div>
+
+  <div class="mech">
+    <div class="art">
+      <div class="frame pipe">
+        <img src="assets/synthetic-hinge-profile.png" alt="Synthetic test profile: Alex, 31, with a placeholder figure" width="844" height="844" loading="lazy">
+        <ol class="steps">
+          <li><span class="i">1</span><span>mirror<span class="d">your iPhone's screen in a window on the Mac</span></span></li>
+          <li><span class="i">2</span><span>capture + stitch<span class="d">scroll the profile, join it into one image</span></span></li>
+          <li><span class="i">3</span><span>read facts <span class="loc">· cloud</span><span class="d">age, height, prompts read from the screenshot</span></span></li>
+          <li><span class="i">4</span><span>hard filters<span class="d">age, distance, smoking, drinking, children: real vetoes</span></span></li>
+          <li><span class="i">5</span><span>score <span class="loc">· on the Mac</span><span class="d">0.8 your taste model + 0.2 your stated preferences</span></span></li>
+          <li><span class="i">6</span><span>act or ask<span class="d">like, pass, or hand it back to you</span></span></li>
+        </ol>
+      </div>
+      <p class="cap">one profile through the agent · the profile is the synthetic test fixture, not a real person</p>
+    </div>
+    <div class="note">
+      <span class="hand r3">you can watch it work</span><p>it works inside your real app, where you can watch.</p>
+      <p>winged max drives apple's iphone mirroring, so the agent sees and taps the same window you would. that was a product choice as much as a technical one: an agent you can watch is one you can trust with your account. only one step leaves the mac, reading facts off a profile screenshot. i documented exactly what leaves and what doesn't.</p>
+      <p>mirroring needs macos 15 and isn't available in the eu, so availability, not capture, was the real constraint.</p>
+    </div>
+  </div>
+
+  <div class="mech">
+    <div class="art">
+      <div class="frame ladder" id="ladder">
+        <div class="rungs">
+          <div class="rung"><p class="t">supervised</p><p class="r">every like, pass and message is yours</p></div>
+          <div class="rung"><p class="t">training</p><p class="r">rate profiles; each rating refits the model</p></div>
+          <div class="rung"><p class="t">validated</p><p class="r">≥ 50 out-of-fold predictions, AUC &gt; 0.6</p></div>
+          <div class="rung"><p class="t">bounded autopilot</p><p class="r">auto-like ≥ 0.72 · auto-pass ≤ 0.35 · 25 a day</p></div>
+          <div class="rung rev"><p class="t">revoked</p><p class="r">model invalid: back to supervised, and the app says so</p></div>
+        </div>
+        <div class="read">
+          <span>ratings</span><span id="r-n">0 / 50</span>
+          <span>held-out AUC</span><span id="r-auc">not measured</span>
+          <span>agent may</span><span id="r-may">nothing on its own</span>
+        </div>
+        <div class="meter"><i id="r-m"></i></div>
+      </div>
+      <p class="cap">live recreation of the autonomy ladder · states and thresholds from the repo, values illustrative</p>
+    </div>
+    <div class="note">
+      <span class="hand r4">earned, and taken back</span><p>autonomy is a ladder, not a toggle.</p>
+      <p>the agent starts with no permission at all. after enough ratings a small model is fitted on the mac, and it only unlocks auto-like and auto-pass if it predicts choices it was never shown better than chance. even then it acts only at the confident ends, under a daily cap. if the model goes invalid, autopilot is taken away and the app says so.</p>
+      <div class="code" style="margin-top:20px"><pre><span class="k">public var</span> unlocksAgent: Bool {
+    validationCount >= <span class="n">50</span> &amp;&amp; auc > <span class="n">0.6</span>
+}</pre></div>
+      <p class="cap">AttractionClassifier.swift · every rating contributes one prediction from a model that never saw it</p><p class="logic">a model graded on profiles it trained on can pass by memorizing you. grading it only on ones it never saw is the honest test. a toggle would skip the test entirely, and an agent that can be switched on can't be earned.</p>
+    </div>
+  </div>
+
+  <div class="mech">
+    <div class="art">
+      <div class="code">
+        <div class="path">WingedMaxCore/RatingWeightPolicy.swift</div>
+<pre><span class="c">/// A correction is the user deliberately overruling the agent,</span>
+<span class="c">/// which is the most informative thing they ever do. And taste</span>
+<span class="c">/// moves, so a rating from months ago describes who they were,</span>
+<span class="c">/// not who they are.</span>
+<span class="k">public func</span> weight(ageDays: Double, corrected: Bool) -> Double {
+    <span class="k">let</span> decayed = pow(<span class="n">0.5</span>, age / halfLifeDays)<span class="mk">1</span>
+    <span class="k">let</span> recency = max(decayed, minimumWeight)<span class="mk">2</span>
+    <span class="k">return</span> recency * (corrected ? correctionMultiplier : <span class="n">1</span>)<span class="mk">3</span>
+}</pre>
+      </div>
+      <p class="cap"><span class="mk-l">1</span>120-day half-life &nbsp; <span class="mk-l">2</span>floor 0.15 &nbsp; <span class="mk-l">3</span>a correction counts three times</p>
+    </div>
+    <div class="note">
+      <span class="hand r1">corrections count triple</span><p>training refits on every rating, and listens hardest to corrections.</p>
+      <p>watch mode ("learn while i browse") turns a habit you already have into training. you browse hinge as usual. winged captures each profile as you scroll and asks three short questions: your visual reaction, like or pass, and a reason.</p>
+      <p>i separated "not my type" from "wrong life plans", so passing on someone who doesn't want kids never teaches the model you don't find them attractive.</p><p class="logic">a half-life with a floor, not a cutoff: a hard window would forget your long-standing taste the day it turned old. the floor keeps the early ratings as a quiet vote. and a correction counts triple because the moment you overrule the agent is the only moment it learns it was wrong.</p>
+    </div>
+  </div>
+
+  <div class="mech">
+    <div class="art">
+      <div class="code">
+        <div class="path">WingedMaxCore/DraftApprovalQueue.swift</div>
+<pre><span class="c">/// Skipping removes an item. Approval is NOT delivery: the old `.sent`</span>
+<span class="c">/// spelling is retained for source compatibility but always fails closed.</span>
+<span class="k">private func</span> resolveLocked(_ id: UUID, decision: DraftApprovalDecision) <span class="k">throws</span> {
+    <span class="k">guard case</span> .skipped = decision <span class="k">else</span> {
+        <span class="k">throw</span> DraftDeliveryError.deliveryVerificationRequired<span class="mk">1</span>
+    }
+    ...
+}</pre>
+      </div>
+      <p class="cap"><span class="mk-l">1</span>until delivery can be proved, "send" is an error, not an action · excerpt, body shortened</p>
+    </div>
+    <div class="note">
+      <span class="hand r2">approve is not send</span><p>drafts are review-first. sending fails closed.</p>
+      <p>the agent writes in your voice. three style answers (emoji, formality, reply length) are enforced on every draft, and writing samples or a consent-gated scan of your own past messages teach the rest. but in the build i audited, no message could leave the machine. approving a draft is not sending it, and the code refuses to pretend otherwise.</p><p class="logic">until delivery can be proved, an agent that says "sent" might be lying to you. an error is honest. a fake success isn't.</p>
+      <div class="hers">this is the call i'd defend to anyone. no message leaves without you. a wrong like costs nothing. a wrong message costs trust, in your name, to a real person. approving a draft is not sending it, and i won't let the code pretend it is.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. the audit: the instrument -->
+<section class="wide">
+  <div class="ed">
+    <h2>the audit</h2>
+    <p class="intro">i traced every training input end to end, from the screen to the decision. sixteen inputs, each followed until i could say exactly what it changes in what the agent does.</p>
+  </div>
+  <div class="art" style="max-width:860px;margin-top:var(--s3)">
+    <div class="inputs" aria-label="16 training inputs: 7 change behavior, 4 open gates, 5 not wired in yet">
+      <i class="a"></i><i class="a"></i><i class="a"></i><i class="a"></i><i class="a"></i><i class="a"></i><i class="a"></i>
+      <i class="g"></i><i class="g"></i><i class="g"></i><i class="g"></i>
+      <i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i>
+    </div>
+    <div class="ilab"><span>7 change behavior</span><span>4 open gates</span><span>5 not wired in yet</span></div>
+    <p class="cap">about 16 inputs, traced from the screen to the decision · approximate counts from the trace</p>
+  </div>
+  <div class="ed" style="margin-top:var(--s3)">
+    <p>the trace paid for itself fast. it showed that the mandatory "why" on all 50 ratings is stored and waiting for a reader, and that the inspect-and-correct strip, the one screen where you can see what the model learned about you and correct it, is already in the code and never renders. human-in-the-loop training isn't collecting input. it's showing people what the machine concluded and letting them argue with it. that surface is the loop, and now i know exactly where it plugs in.</p>
+    <div class="hers">this is the part of the case i'm proudest of. i can follow every input to the decision it changes, and i know where the loop closes: the screen where someone sees what the agent concluded and argues back. i built the trace that shows it.</div>
+  </div>
+
+  <div class="mech" style="margin-top:var(--s2)">
+    <div class="art">
+      <div class="code">
+        <div class="path">WingedMaxCore/MirrorController.swift</div>
+<pre><span class="k">public static func</span> hasVisibleDifference(
+    between beforeURL: URL, and afterURL: URL,
+    sampleSize: Int = <span class="n">48</span>,<span class="mk">1</span>
+    threshold: Double = <span class="n">0.01</span><span class="mk">2</span>
+) -> Bool {
+    ...
+    <span class="k">return</span> meanAbsoluteDifference > threshold
+}</pre>
+      </div>
+      <p class="cap"><span class="mk-l">1</span>a 48-pixel thumbnail &nbsp; <span class="mk-l">2</span>a 1% change counts as a new screen: an autoplay video or the clock ticking is enough</p>
+    </div>
+    <div class="note">
+      <span class="hand r2">a ticking clock is not a new profile</span><p>start from what i felt as a user, then prove it in the code.</p>
+      <p>i used winged max like a new user and wrote down everything that felt off. a screen counter that climbed while my phone sat still. a "connected" state that never turned false. an agent that said "try again" when the truth was "hinge isn't installed."</p>
+      <p>then i treated each one as a fixture, not a complaint, and had the code explain it. the climbing counter is on the left.</p><p class="logic">the idea was sound: compare screens cheaply before paying for inference. the threshold was the bug. at 1% of a thumbnail, anything moving looks like a new screen.</p>
+    </div>
+  </div>
+
+  <div class="art" style="margin-top:var(--s2)">
+    <div class="funnel">
+      <div><b>13</b><span>things I caught as a user</span></div>
+      <div><b>67</b><span>findings, each with file and line</span></div>
+      <div><b>62</b><span>tasks, one plain verb each</span></div>
+    </div>
+    <div class="bars" style="max-width:640px">
+      <span>agent</span><div class="b" style="width:calc(100% * 20/20 - 40px)"><em>20</em></div>
+      <span>ux</span><div class="b" style="width:calc((100% - 40px) * 17/20)"><em>17</em></div>
+      <span>mirroring</span><div class="b" style="width:calc((100% - 40px) * 12/20)"><em>12</em></div>
+      <span>onboarding</span><div class="b" style="width:calc((100% - 40px) * 11/20)"><em>11</em></div>
+      <span>preferences</span><div class="b" style="width:calc((100% - 40px) * 2/20)"><em>2</em></div>
+    </div>
+    <p class="cap">the 62 tasks by area, one scale</p>
+  </div>
+  <div class="ed" style="margin-top:var(--s3)">
+    <p>three code auditors ran in parallel, each in its own lane: onboarding and connection, agent logic, and a simplicity sweep against my own style guide. a fourth went under the ui into the mirroring layer. every finding needed a file and line. anything only provable on a live phone was labeled a hypothesis. a second round caught the app screenshotting and calling paid inference every 5 seconds on a static screen, about 720 calls an hour.</p>
+    <div class="hers">the auditors were ai agents reading the repo. i set the lanes, the fixtures and the bar: my thirteen defects first, a file and line for every finding, and anything only provable on a live phone marked a hypothesis. they found things. i decided what mattered.</div>
+    <ul class="disc" style="margin-top:var(--s4)">
+      <li>every claim has a receipt, every guess is labeled a guess</li>
+      <li>one defect, one task, one plain sentence anyone on the team can pick up</li>
+      <li>keep the design calls that are actually mine, and hand off the rest</li>
+    </ul>
+    <div class="hers">what came out was a board, not a report. 62 tasks, each a plain verb with a root cause and a proposed owner. i kept one for myself as design direction: rebuilding matching preferences as one page. the order was safety first.</div>
+  </div>
+</section>
+
+<!-- 6. my design laws -->
+<section class="prose lessons">
+  <h2>my design laws for agentic products</h2>
+  <p>tracing the training loop left me with these. i design by them now.</p>
+  <p><b>show the agent's conclusions, not just its inputs.</b> if people train something, they need to see what it learned and correct it. that surface is the loop.</p>
+  <p><b>never ask for input you won't use.</b> fifty forced justifications that nothing reads burn exactly the goodwill training depends on.</p>
+  <p><b>honest state beats optimistic state.</b> "connected" has to go false when it's false. a counter has to count the thing it names.</p>
+  <p><b>price the work up front.</b> training is roughly an hour of careful rating before anything changes. say so on the first screen.</p>
+  <div class="hers">i carried these into the agentic products i built after this one. if the agent concludes something about a person, show it and let them argue with it.</div>
+</section>
+
+<footer class="wide">
+  <div class="built mono">
+    <p>built by hand</p>
+    <p><span>stage</span> · working macos build, interface unfinished</p>
+    <p><span>source</span> · winged-max repo (private); excerpts quoted, comments shortened</p>
+    <p><span>evidence</span> · 62-task audit board, receipts per task</p>
+  </div>
+</footer>
+
+<script>
+document.body.classList.remove('no-js');
+const io = 'IntersectionObserver' in window ? new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -8% 0px' }) : null;
+document.querySelectorAll('.art').forEach(el => io ? io.observe(el) : el.classList.add('in'));
+
+/* live recreation: the ladder steps through its real states */
+(function(){
+  const rungs = [...document.querySelectorAll('#ladder .rung')];
+  const n = document.getElementById('r-n'), auc = document.getElementById('r-auc'), may = document.getElementById('r-may'), m = document.getElementById('r-m');
+  const S = [
+    {i:0, n:0,  auc:'not measured',          may:'nothing on its own'},
+    {i:1, n:31, auc:'not measured',          may:'nothing on its own'},
+    {i:2, n:54, auc:'0.71 (above 0.6)',      may:'nothing yet; unlock offered'},
+    {i:3, n:54, auc:'0.71',                  may:'like ≥ 0.72, pass ≤ 0.35, 7 of 25 today'},
+    {i:4, n:54, auc:'model invalid',         may:'nothing on its own; you are told why'}
+  ];
+  const show = s => { rungs.forEach((r,j)=>r.classList.toggle('on', j===s.i)); n.textContent = s.n + ' / 50'; auc.textContent = s.auc; may.textContent = s.may; m.style.width = Math.min(100, s.n*2) + '%'; };
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches || location.search.includes('still')) { show(S[3]); return; }
+  let k = 0; show(S[0]); setInterval(() => { k = (k+1) % S.length; show(S[k]); }, 2200);
+})();
+</script>
+<script src="../case-chrome.js" data-notebook="../../index.html#work-index" data-prev="../winged-web/index.html" data-prev-name="winged web" data-next="../mikaela-world/index.html" data-next-name="this site"></script>
+</body>
+</html>

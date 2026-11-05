@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>intranest · mikaela maensivu</title>
+<meta name="description" content="IntraNest: 110 CMMC requirements, one calm screen. Case study by Mikaela Maensivu, co-founder and CPO.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;600&family=JetBrains+Mono:wght@400&family=Geist:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* container system: same as every case page */
+:root{
+  --bg:#FAFAF7; --ink:#1A1A18; --muted:#8A8A82; --line:#E5E5DF;
+  /* IntraNest's world, used only inside artifact frames */
+  --in-bg:#0b0c14; --in-surface:#14151f; --in-raised:#1d1f2c; --in-accent:#5a63e8; --in-accent-tx:#9aa2ff; --in-wash:#191b36; --in-plum:#d583c2; --in-ink:#eeeef4;
+  --sans:'Instrument Sans',system-ui,sans-serif; --mono:'JetBrains Mono',ui-monospace,monospace;
+  --gap:120px; --prose:720px; --pad:40px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:28px;font-weight:400;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+img{display:block;max-width:100%;height:auto}
+.prose{max-width:var(--prose);margin:0 auto 0 max(0px,calc((100% - 1280px) / 2));padding:0 var(--pad)}
+.wide{max-width:1280px;margin:0 auto;padding:0 var(--pad)}
+section,section.wide,section.prose{margin-top:var(--gap)}
+h1{font-size:44px;line-height:1.1;font-weight:600;letter-spacing:-.02em}
+h2{font-size:13px;line-height:20px;font-family:var(--mono);font-weight:400;color:var(--muted);text-transform:lowercase;margin-bottom:20px}
+.intro{font-size:22px;line-height:32px}
+p+p{margin-top:20px}
+.mono{font-family:var(--mono);font-size:13px;line-height:20px}
+.cap{font-family:var(--mono);font-size:13px;line-height:20px;color:var(--muted);margin-top:14px}
+.frame{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--in-bg);box-shadow:0 24px 48px rgba(0,0,0,.06)}
+/* her voice: plain italic prose */
+.hers{font-size:17px;line-height:28px;color:var(--ink);margin-top:28px;padding-left:22px;border-left:2px solid var(--line);font-style:italic}
+blockquote{border-left:2px solid var(--in-accent);padding-left:20px;margin-top:24px}
+.art{opacity:0;transform:translateY(12px);transition:opacity 240ms ease-out,transform 240ms ease-out}
+.art.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.art{opacity:1;transform:none;transition:none}}
+.no-js .art{opacity:1;transform:none}
+
+/* hero */
+.hero{min-height:100vh;display:flex;flex-direction:column;padding:40px var(--pad)}
+.hero-head{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;margin-bottom:32px}
+.hero-head .claim{font-size:22px;line-height:32px;margin-top:12px;max-width:600px}
+.live{font-family:var(--mono);font-size:13px;line-height:20px;white-space:nowrap;padding-top:14px}
+.hero .frame{flex:1;min-height:0;display:flex;position:relative}
+.hero .frame img{width:100%;height:100%;object-fit:cover;object-position:top left}
+.hero .frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block;background:#0b0c14}
+.premise{font-size:17px;line-height:26px;color:var(--ink);margin-top:10px;max-width:640px}
+
+/* system strip */
+.ds{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:80px 0}
+.ds-intro{max-width:var(--prose);margin-bottom:48px}
+.tok{display:grid;grid-template-columns:56px 200px 1fr;column-gap:24px;align-items:center;padding:12px 0;border-top:1px solid var(--line)}
+.tok:last-of-type{border-bottom:1px solid var(--line)}
+.chip{width:56px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--in-ink);font-family:'Geist',var(--sans);font-size:15px}
+.tok .name{font-family:var(--mono);font-size:13px;line-height:20px}
+.tok .why{font-family:var(--mono);font-size:13px;line-height:20px;color:var(--muted)}
+.status{display:flex;gap:8px;flex-wrap:wrap;margin-top:40px;padding:24px;border-radius:12px;background:var(--in-bg);font-family:'Geist',var(--sans);font-size:13px;line-height:20px}
+.status span{padding:4px 12px;border-radius:999px;color:var(--in-ink)}
+
+/* motion frame */
+.motion .frame{display:flex;align-items:center;justify-content:center;aspect-ratio:16/9;position:relative}
+.motion canvas{width:100%;height:100%;display:block}
+.hud{position:absolute;left:24px;bottom:20px;font-family:var(--mono);font-size:12px;line-height:18px;color:#9b9eb8;display:flex;align-items:center;gap:10px}
+.pulse{width:8px;height:8px;border-radius:50%;background:var(--in-accent);animation:p 2s ease-in-out infinite}
+@keyframes p{0%,100%{box-shadow:0 0 0 0 rgba(90,99,232,.55)}50%{box-shadow:0 0 0 6px rgba(90,99,232,0)}}
+@media (prefers-reduced-motion:reduce){.pulse{animation:none}}
+
+/* blocks */
+.blk{display:grid;grid-template-columns:3fr 2fr;gap:56px;align-items:start}
+.blk+.blk{margin-top:96px}
+.blk .note p:first-child{font-weight:600}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.call p{font-size:19px;line-height:30px}
+
+footer,footer.wide{margin-top:var(--gap);border-top:1px solid var(--line);padding:48px 0 64px}
+.built{color:var(--muted)}
+.built span{color:var(--ink)}
+.nav{display:flex;justify-content:space-between;margin-top:48px}
+.nav a{font-family:'B-McE',cursive;font-size:19px;letter-spacing:0;text-transform:lowercase;text-decoration:none;color:inherit}
+.nav a:hover{text-decoration:underline;text-underline-offset:4px}
+
+@media (max-width:760px){
+  :root{--gap:64px;--pad:20px}
+  h1{font-size:36px}
+  .intro,.hero-head .claim{font-size:19px;line-height:28px}
+  .hero{min-height:auto}
+  .hero-head{flex-direction:column}
+  .live{padding-top:0}
+  .hero .frame{flex:none}
+  .hero .frame img{height:auto}
+  .tok{grid-template-columns:56px 1fr;row-gap:4px}
+  .tok .why{grid-column:2}
+  .blk,.pair{grid-template-columns:1fr}
+  .blk{gap:24px}
+  .blk+.blk{margin-top:64px}
+  .ds{padding:56px 0}
+  .call p{font-size:18px;line-height:28px}
+  .motion .frame{aspect-ratio:4/3}
+}
+
+/* her hand: margin notes in B-McE, an adopted hand, close to hers (her real handwriting is in the images). reasons only, never body prose */
+@font-face{font-family:'B-McE';src:url('../../assets/fonts/B-McE.ttf') format('truetype');font-display:swap}
+.hand{display:block;width:fit-content;max-width:100%;font-family:'B-McE',cursive;text-transform:lowercase;font-size:23px;line-height:26px;font-weight:400;font-style:normal;color:#3a3f9e;transform:rotate(-1.5deg);transform-origin:left center;margin:0 0 12px}
+.hand.r1{transform:rotate(-2deg)}.hand.r2{transform:rotate(-.8deg)}.hand.r3{transform:rotate(.6deg)}.hand.r4{transform:rotate(1deg)}
+.hand.after{margin:14px 0 0}
+.hand.inrow{margin:18px 0 10px 80px}
+@media (max-width:760px){.hand.inrow{margin-left:0}}
+/* the logic, stated: one plain sentence in her voice where a decision showed no reason */
+.logic{color:var(--ink)}
+@media (max-width:760px){.hand{font-size:21px;line-height:24px}}
+/* phone visitors: every embed renders its own mobile layout at a real phone width, in a phone-shaped frame */
+.frame picture{display:contents}
+@media (max-width:600px){.hero .frame{flex:none;aspect-ratio:390/844}}
+/* spacing pass: one scale */
+/* desktop 160 section / 120 block / 64 group / 40 element / 24 note / 16 caption
+   mobile   96 section /  80 block / 48 group / 40 element / 24 note / 16 caption */
+:root{--s1:160px;--s2:120px;--s3:64px;--s4:40px;--s5:24px;--s6:16px;--gap:var(--s1)}
+h2{margin-bottom:var(--s5)}
+.cap{margin-top:var(--s6)}
+.cap+.logic,.cap+p:not(.cap):not(.why){margin-top:var(--s5)}
+.hers{margin-top:var(--s4)}
+.ds{padding:var(--s2) 0}
+section.ds,.ds+section,.ds+footer{margin-top:var(--s3)}
+.ds-intro{margin-bottom:var(--s3)}
+.blk+.blk,.mech+.mech{margin-top:var(--s2)}
+.hand{margin:var(--s4) 0 12px}
+.hand:first-child{margin-top:0}
+.hand.after{margin:var(--s5) 0 0}
+.hand+.hers,.hand+p,.hand+blockquote{margin-top:0}
+footer,footer.wide{margin-top:var(--s1);padding-top:var(--s3);padding-bottom:var(--s2)}
+footer.wide{padding-left:var(--pad);padding-right:var(--pad)}
+.nav{margin-top:var(--s3)}
+@media (max-width:760px){
+  :root{--s1:96px;--s2:80px;--s3:48px;--s4:40px;--s5:24px;--s6:16px;--gap:var(--s1)}
+  .blk,.mech{row-gap:var(--s4)}
+  .cards{row-gap:var(--s3)}
+  .nav{flex-wrap:wrap;gap:var(--s6) var(--s5)}
+}
+.status{margin-top:var(--s4)}
+.hand.after{margin:var(--s4) 0 12px}
+.note .logic,p+.logic{margin-top:var(--s5)}
+.ds+footer,.ds+footer.wide{border-top:0}
+.call p+p{margin-top:var(--s5)}
+/* editorial grid: label left 1/3, reading column right 2/3, one edge with the 1280 container */
+section.prose{max-width:1280px;margin-left:auto;margin-right:auto}
+section.prose,.ed{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);column-gap:var(--s3);align-items:start}
+.ds-intro.ed{max-width:none}
+section.prose>*,.ed>*{grid-column:2;max-width:700px;min-width:0}
+section.prose>h2,.ed>h2{grid-column:1;grid-row:1;margin-top:0}
+section.prose>h2+.hand,.ed>h2+.hand{grid-column:1;grid-row:2/span 30;margin:0}
+section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-child{margin-top:0}
+@media (max-width:900px){section.prose,.ed{display:block}section.prose>h2+.hand,.ed>h2+.hand{margin:0 0 12px}}
+/* hero-head align: title on the shared left edge */
+.hero-head{padding-left:max(0px,calc((100vw - 1280px) / 2))}
+</style>
+</head>
+<body class="no-js">
+
+<header class="hero">
+  <div class="hero-head">
+    <div>
+      <h1>intranest</h1>
+      <p class="premise">intranest turns the paperwork of cmmc certification for defense contractors into a guided, agentic experience: the agent reads and drafts, a person confirms.</p>
+      <p class="claim">i'm the design engineer, cpo &amp; co-founder. i designed the entire product and made it agentic: 110 requirements, one calm screen.</p>
+    </div>
+    <a class="live" href="https://intranest.ai" rel="noopener">visit live ↗ intranest.ai</a>
+  </div>
+  <div class="frame art"><picture><source media="(max-width:600px)" srcset="assets/00-live-landing-390.png"><img src="assets/00-live-landing-1440.png" alt="The live intranest.ai landing page: Get to CMMC Level 2 without the six-figure consultant, beside the glyph globe." width="2880" height="1800"></picture><iframe data-src="https://intranest.ai" title="intranest.ai, live" loading="lazy" sandbox="allow-scripts allow-same-origin" referrerpolicy="no-referrer"></iframe></div>
+  <p class="cap">live product, intranest.ai, scroll inside it</p>
+</header>
+
+<section class="prose">
+  <h2>the problem</h2>
+  <p class="intro">there's a ball bearing shop in wisconsin with 40 people. it makes parts that end up in things the department of defense buys. lockheed has a security team. the bearing shop does not.</p>
+  <p>since cmmc landed in defense contracts, that shop has to prove it meets nist 800-171: 110 security requirements, each with its own evidence, policies and a written system security plan. the dod's own rule counts about 221,000 companies in this position. most are small. today they hire a consultant for somewhere between $50k and $150k. fail the assessment and the contract is gone.</p>
+  <p>the person doing this work is almost never a security person. in our sample data she's dana. she runs operations. the prime sent a letter, the owner forwarded it, and now there's a binder on her desk with 110 rows in it and a deadline. she doesn't know what an ssp is. she does know that if the assessor says no, 40 people lose their biggest customer. that's who i designed for, every screen.</p>
+  <p>one more thing shapes everything: the evidence she collects is itself controlled information. she can't paste it into a public chatbot. so the obvious shortcut is off the table for her, and the product has to do the reading inside her own boundary.</p>
+  <div class="hers">the rule was written for companies with a security team, and the people it lands on don't have one. a shop of 40, a binder, a contract on the line. that gap is the product. dana is who i held in my head on every screen.</div>
+</section>
+
+<section class="ds">
+  <div class="wide">
+    <div class="ds-intro ed">
+    <h2>the system</h2>
+      <p class="intro">compliance software usually looks like government software: gray tables, traffic-light badges, forty buttons on one screen. it looks like a penalty because nobody designed it for the person serving it. i built the system first. it's called indigo ink, and it's binding for everything we make: the app, the landing page, the deck.</p>
+      <div class="hers">dana didn't choose this job. the least the product can do is not look like a penalty. a calm screen is a way of respecting the person doing the work, so i made the product look like a modern one that happens to do compliance.</div>
+    </div>
+    <span class="hand r2">depth, not borders. one fill.</span>
+    <div class="tok"><div class="chip" style="background:#0b0c14;border:1px solid var(--line)"></div><span class="name">ground #0b0c14</span><span class="why">indigo-tinted near-black, not gray. gray reads as a form. a navy night reads as a place, and the whole product, deck and site share it.</span></div>
+    <div class="tok"><div class="chip" style="background:#14151f"></div><span class="name">surface #14151f · #1d1f2c</span><span class="why">three steps of depth instead of strokes. a border is a box drawn around a thing to say "this is a thing." tone says it without the line, and the screen stays quiet.</span></div>
+    <div class="tok"><div class="chip" style="background:#5a63e8"></div><span class="name">accent #5a63e8</span><span class="why">the only fill. a primary action stands out by being the only filled thing on the screen, not by being big. if two things are filled, neither is primary.</span></div>
+    <span class="hand r1 inrow">red and green shout</span>
+    <div class="tok"><div class="chip" style="background:#191b36"></div><span class="name">status is indigo depth</span><span class="why">never red/green. solid means it needs you, accent means done, wash means in progress. traffic lights were made for people walking past a dashboard. dana isn't walking past. she's sitting in it all week, and red on 22 rows is just noise she learns to ignore.</span></div>
+    <div class="tok"><div class="chip" style="background:#d583c2"></div><span class="name">plum #d583c2</span><span class="why">the one non-indigo hue, kept for expired or blocked only. because it's the only other color, it can't be ignored. that's the whole point of rationing it.</span></div>
+    <div class="tok"><div class="chip" style="background:#14151f">Aa</div><span class="name">geist, 11 → 48</span><span class="why">one family, one scale. size carries the hierarchy, not a second typeface. mono only for hashes and control ids, because those are the things she'll copy and compare character by character.</span></div>
+    <div class="tok"><div class="chip" style="background:#14151f;font-family:var(--mono);font-size:10px">AC311</div><span class="name">glyph globe</span><span class="why">land typed from the 110 requirement ids. a planet from far, the actual work up close.</span></div>
+    <div class="tok"><div class="chip" style="background:#14151f;font-family:var(--mono);font-size:11px">150</div><span class="name">motion 150/200/350/700</span><span class="why">each motion shows one fact changing. nothing moves to decorate.</span></div>
+    <div class="tok"><div class="chip" style="background:#14151f;font-size:13px">no “we”</div><span class="name">voice</span><span class="why">no "we." plain and calm, second person. never "certified," "compliant" or "guaranteed." a tool can't promise an assessment result, and a sentence that implies it is a liability dressed as encouragement.</span></div>
+    <div class="status" aria-label="Status chips rendered in Indigo Ink tokens">
+      <span style="background:#5a63e8">needs you</span>
+      <span style="background:#191b36;color:#9aa2ff">in progress</span>
+      <span style="background:transparent;color:#9aa2ff;box-shadow:inset 0 0 0 1px #3e4260">done</span>
+      <span style="background:transparent;color:#d583c2;box-shadow:inset 0 0 0 1px #d583c2">expired</span>
+    </div>
+    <p class="cap">status chips · rebuilt from the indigo ink tokens</p>
+    <p style="margin-top:var(--s4)">a reject-on-sight list that every screen gets checked against: no strokes around cards, no little dots or icon chips, no two-tone text, no eyebrow labels, no huge buttons. each item on that list is a way a screen tries to look busy or important. together they protect one thing: that the page carries one claim and the rest stays quiet. the list exists because "it looks vibe-coded" is a real failure and you need a test for it that doesn't depend on taste in the room.</p>
+    <p class="logic">one rule under all of it: every glyph or number in decoration must be real. the land on the globe is the requirement ids at their true proportions. the only digits allowed in texture are 1, 3 and 5, the sprs weights. if it's on the screen, it's true.</p>
+  </div>
+</section>
+
+<section class="wide motion">
+  <div class="ed" style="margin:0 0 var(--s3)">
+    <h2>in motion</h2>
+    <p>the landing page's signature is the glyph globe. the land isn't painted, it's typed: the character stream is the 110 requirement ids strung together, ac311 through si3147, with the defense hubs labeled on it.</p>
+    <span class="hand r3 after">the texture is the work</span>
+    <p>a defense buyer should feel two things in the first second: this is serious, and this is calm. not a startup gradient, not a government form. dana should feel something simpler: someone made this for her. so the texture couldn't be arbitrary. it had to be the work itself.</p>
+    <div class="hers">the texture had to be the work itself, so the requirement ids became the land. from far away it's a planet with an indigo rim. up close it's the actual job, 110 lines of it.</div>
+  </div>
+  <div class="art"><div class="frame"><canvas id="globe" aria-label="A dark sphere turning slowly, its surface written in CMMC requirement IDs"></canvas><div class="hud"><span class="pulse"></span>next step · ac311</div></div>
+  <p class="cap">live recreation, canvas · drawn after the site's own globe script; the id stream wraps the whole sphere</p></div>
+</section>
+
+<section class="wide">
+  <div class="ed" style="margin:0 0 var(--s3)">
+    <h2>agent-first</h2>
+    <p class="intro">the first dashboards were normal dashboards: charts, a score, an ask box tucked in the corner. i rejected them. the trouble with that shape is that it still asks dana to drive. she has to know which page to open, which row matters, what to ask. a chatbot in the corner doesn't fix that, it just adds a ninth place to be lost in.</p>
+    <p>so my ruling was that the full agentic product is the mvp, not a later stage. the agent reads her documents, matches evidence to requirements, and drafts. the fifteen pages become the thing the agent works through, and review surfaces she opens when she wants to check something herself. a person confirms every decision someone has to answer for. that ruling cost us: it meant building the agent loop and the approval gate before polishing a single page. i'd make the same call again, because the other version ships faster and doesn't work.</p>
+    <div class="hers">a dashboard with a chatbot in the corner is still a human-driven product, and that's the one i didn't want to build. so the call was: the full agent is the mvp, not a later stage. it does the reading and the drafting. the person keeps every decision somebody has to answer for.</div>
+  </div>
+  <div class="blk">
+    <div class="art"><div class="pair"><div><div class="frame"><img src="assets/03-home-v3-direction-a.png" alt="Home v3 direction A, composer first" loading="lazy"></div></div><div><div class="frame"><img src="assets/04-home-v3-direction-b.png" alt="Home v3 direction B, agent thread" loading="lazy"></div></div></div><p class="cap">home v3, directions a and b · design mocks, sample data · both rejected</p></div>
+    <div class="note"><span class="hand r4">the agent speaks first</span><p>home as a briefing.</p><p>pure chat fails a novice: a blank box asks her to know the question. a pure dashboard fails her too: numbers with no voice. home went through six rounds to find the middle. direction a put the composer first, which is chat. direction b put an agent thread first, which is a log. v4 was flat and i said so: the agent should send the first message, not wait for one. what it did overnight, what's waiting, where to start.</p>
+      <div class="hers">oura's today screen is the bar. i called it absolutely the best in class design example. it speaks first and tells you where to start, and that is what home had to do.</div></div>
+  </div>
+  <div class="blk">
+    <div class="art"><div class="frame"><img src="assets/06-home-v5-rest.png" alt="Home v5: 88 of 110 on a true-ratio arc" loading="lazy"></div><p class="cap">home v5 at rest · design mock, sample data</p></div>
+    <div class="note"><span class="hand r1">true ratio. no flattering arcs.</span><p>88 + 19 + 3 = 110.</p><p>one big number on a soft arc: 88 of 110 met. "almost there." one sentence: intranest is on 19 of the 22 left; the other 3 need you. the arc is drawn at the true ratio, so approving 3 items moves it a small step, because that's what happened. the pull to flatten it is real; progress bars that lie feel good. but dana is about to sit across from an assessor who will count. a chart that exaggerates progress is lying to someone about to be audited, and she'd find out the one day it matters most.</p><p class="logic">the same rule runs through the whole product: no number she sees is computed to make her feel better. a connector that found nothing says it found nothing. an empty result is a finding, not a pass.</p></div>
+  </div>
+  <div class="blk">
+    <div class="art"><div class="frame"><img src="assets/07-home-v5-review-all.png" alt="Review all: three items with evidence" loading="lazy"></div><p class="cap">review all, the needs-you stack · design mock, sample data</p></div>
+    <div class="note"><span class="hand r2">one yes. the rest stays quiet.</span><p>one filled button for yes.</p><p>every surface uses the same grammar: the agent has done the work, one filled button for the human's yes, and the manual path is a quiet text button, "do it myself." needs-you items fold into one place and can be approved together. the agent never marks a requirement met or signs on its own. it proposes; the proposal is single-use and expires; she confirms. that gate is enforced in the tool registry, not in a prompt.</p><p class="logic">i made the manual path a quiet text button, not a hidden one, because taking over has to stay possible without becoming the default. if both buttons were filled she'd have to choose every time, and choosing every time is the job we're removing. if it were hidden she'd stop trusting the product the first time the agent got something wrong.</p></div>
+  </div>
+  <div class="blk">
+    <div class="art"><div class="frame"><img src="assets/08-library-needs-you.png" alt="Library row open: good proof next to not enough" loading="lazy"></div><p class="cap">library, a needs-you row open · design mock, sample data</p></div>
+    <div class="note"><p>a library of what the assessor will ask.</p><p>small shops get rejected mostly for undated or cropped screenshots. so the library isn't a file browser: it's the list of requests, in plain words. drop a file anywhere and intranest matches it to a request. a row that needs you opens with one good example beside one "not enough," and one action, usually "pull a new report."</p><p class="logic">i put a good example beside a "not enough" one because people learn the bar faster from seeing it than from reading a rule. dana will never read nist 800-171. she will look at two screenshots and know which one hers looks like.</p></div>
+  </div>
+  <div class="blk">
+    <div class="art"><div class="pair"><div><div class="frame"><img src="assets/09-library-empty.png" alt="Library empty state for a new org" loading="lazy"></div></div><div><div class="frame"><img src="assets/10-home-failed.png" alt="Home failure state" loading="lazy"></div></div></div><p class="cap">empty and failure states · design mocks, sample data</p></div>
+    <div class="note"><span class="hand r3">never a dead end</span><p>honest when there's nothing, honest when it breaks.</p><p>a new org at 0 of 110 lands on a guided first step, not a dead page. every failure says what's safe, the last good value, and the one thing to do next. the agent follows the same rule in its own words: if grounding is unavailable, if a connector has never run, if a count is partial, it says so in the same turn, unprompted.</p>
+      <div class="hers">this is the decision i'd defend first. an empty page or a vague error makes a tired person feel stuck. so every empty state gets one action, and every failure says what's safe and what to do next. we drew at least one of each for home, controls, library and package.</div></div>
+  </div>
+</section>
+
+<section class="wide">
+  <div class="blk">
+    <div class="art"><div class="frame"><img src="assets/11-motion-approve.gif" alt="Approve motion: card folds, arc fills, count ticks 88 to 89" loading="lazy"></div><p class="cap">approve motion · recorded from an html mock, sample data</p></div>
+    <div class="note"><p>designing in code.</p><p>the design lives in code: mocks are html on the real tokens, rendered dark and light, desktop and mobile, with real timings. approve is a 280ms fold, the arc fills, the score ticks 88 to 89. each motion shows one fact changing, and the timing is the real timing, so what i approve is what ships.</p>
+      <div class="hers">i don't hand off a figma file and wait. the mock is html on the real tokens, so what i approve is what gets built, in react, vite and tailwind for layout. and an approved mock isn't done until i've checked it live at real width, both themes, every link.</div></div>
+  </div>
+</section>
+
+<section class="wide">
+  <div class="ed" style="margin:0 0 var(--s3)">
+    <h2>the deck, as proof of the system</h2>
+    <p>the investor deck was the test of whether indigo ink was a system or a dashboard skin: twelve slides in the same globe, sky, indigo and geist. a screenshot proves a screen looks good. a deck in a different medium, with different content and a different reader, proves the rules hold when nobody's looking at the app. i wrote the laws down as we built it.</p>
+    <blockquote><p>"no two-tone or multi-color text anywhere. text is one color; emphasis is carried by weight."</p></blockquote>
+  </div>
+  <div class="pair art">
+    <div><div class="frame"><img src="assets/01-hero-deck-title.png" alt="Deck title slide: wordmark over the glyph globe" loading="lazy"></div><p class="cap">deck title slide · pitch deck export</p></div>
+    <div><div class="frame"><img src="assets/12-deck-agent.png" alt="Deck slide: the agent does the work first, a person confirms" loading="lazy"></div><p class="cap">deck slide, the agent · pitch deck export</p></div>
+  </div>
+  <div class="ed"><div class="hers">the deck is the proof. the same globe, the same sky, the same indigo and geist, in a different medium, and nothing had to be translated. that's when indigo ink stopped being a dashboard skin and became a system.</div></div>
+</section>
+
+<section class="prose call">
+  <h2>where it stands</h2>
+  <p>intranest is live at intranest.ai: the landing page with the globe, a free sprs score calculator for all 110 requirements, and the app behind login, with full ssp generation end to end, microsoft connectors in production, and agent drafting, human-confirmed. the pre-seed raise is in motion.</p>
+  <p>what the agent may never do is written down and enforced: it never signs, affirms or submits for anyone, because an affirmation is a senior official's name with legal weight. it never records a requirement as met without her word on it, for that requirement, in that session. it never says certified, compliant or guaranteed. and it never does the arithmetic in its head when the product has the number.</p>
+  <div class="hers">the people who use this didn't choose to be in the room. so the product stays plain and calm, never says certified or guaranteed, and the agent never signs for anyone. that's what i took from it: if somebody got handed the binder, design for them.</div>
+</section>
+
+<footer class="wide">
+  <div class="built mono">
+    <p>built by hand</p>
+    <p><span>live</span> · <a href="https://intranest.ai" rel="noopener">intranest.ai</a></p>
+    <p><span>note</span> · product screens are design mocks; dana ruiz and acme machining are fictional</p>
+  </div>
+</footer>
+
+<script>
+document.body.classList.remove('no-js');
+/* live embed: src set only when the hero frame nears view; reduced motion keeps the capture */
+(() => {
+  const f = document.querySelector('.hero iframe[data-src]'); if (!f) return;
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) { f.remove(); return; }
+  const go = () => { f.src = f.dataset.src; f.addEventListener('load', () => { const im = f.parentNode.querySelector('img'); if (im) im.style.visibility = 'hidden'; }, { once: true }); };
+  if ('IntersectionObserver' in window) { const o = new IntersectionObserver(es => { if (es.some(e => e.isIntersecting)) { o.disconnect(); go(); } }, { rootMargin: '400px 0px' }); o.observe(f); } else go();
+})();
+
+const io = 'IntersectionObserver' in window ? new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -8% 0px' }) : null;
+document.querySelectorAll('.art').forEach(el => io ? io.observe(el) : el.classList.add('in'));
+
+/* glyph globe, after the site's own drawing script: indigo body, bright rim, requirement IDs typed over the whole sphere,
+   lit by depth, risers past the rim with mono labels. Turns once every ~3 minutes. */
+(() => {
+  const FAM = [['AC',1,22],['AT',2,3],['AU',3,9],['CM',4,9],['IA',5,11],['IR',6,3],['MA',7,6],['MP',8,9],['PS',9,2],['PE',10,6],['RA',11,3],['CA',12,4],['SC',13,16],['SI',14,7]];
+  const STREAM = FAM.map(([f,n,c]) => Array.from({length:c},(_,i)=>f+'3'+n+(i+1)).join('')).join('');
+  const TONES = ['#1a3270','#2f6ad8','#6fb0ff','#eef6ff','#2e3380','#5a63e8','#9aa2ff'];
+  const MARKS = [['AC.L2-3.1.1',38,-30],['SC.L2-3.13.11',12,40],['IA.L2-3.5.3',-18,150],['AU.L2-3.3.1',30,-150]];
+  const cv = document.getElementById('globe'), cx = cv.getContext('2d');
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const D = Math.PI/180, tilt = -18*D, st = Math.sin(tilt), ct = Math.cos(tilt);
+  let W, H, R, dpr, ox, oy, cells = [], GC = {}, raf = 0, vis = false, ready = false;
+  let s0 = 110171; const rnd = () => (s0 = (s0*16807) % 2147483647) / 2147483647;
+  const glyph = (ch, k) => { const key = ch+k; if (GC[key]) return GC[key];
+    const c = document.createElement('canvas'); c.width = c.height = 40; const g = c.getContext('2d');
+    g.font = '600 26px "JetBrains Mono", ui-monospace, monospace'; g.textAlign = 'center'; g.textBaseline = 'middle';
+    g.fillStyle = TONES[k]; g.fillText(ch, 20, 21); return (GC[key] = c); };
+  function build(){ cells = []; let k = 0; const step = Math.max(1.6, 340/R);
+    for (let la = -84; la <= 84; la += step){ const dl = step/Math.max(.2, Math.cos(la*D));
+      for (let lo = -180; lo < 180; lo += dl){ cells.push([la*D, lo*D, STREAM[k++ % STREAM.length], Math.pow(rnd(),1.6), rnd() < .3, rnd(), rnd() < .015]); } }
+    cells.step = step; }
+  function size(){ dpr = Math.min(devicePixelRatio||1, 2); W = cv.clientWidth; H = cv.clientHeight; cv.width = W*dpr; cv.height = H*dpr; cx.setTransform(dpr,0,0,dpr,0,0);
+    R = Math.min(W,H)*0.36; ox = W/2; oy = H*0.54; s0 = 110171; build(); }
+  size(); addEventListener('resize', size);
+  const proj = (la, lo, rot) => { const cl = Math.cos(la), x = cl*Math.sin(lo+rot), y0 = Math.sin(la), z0 = cl*Math.cos(lo+rot);
+    const y = y0*ct - z0*st, z = y0*st + z0*ct; return [ox + x*R, oy - y*R, z, x, y]; };
+  function frame(t){
+    const rot = (t||0) * 0.000035;
+    cx.fillStyle = '#0b0c14'; cx.fillRect(0,0,W,H);
+    let g = cx.createRadialGradient(ox,oy,R*.99,ox,oy,R*1.16);
+    for (let i = 0; i <= 12; i++){ const u = i/12; g.addColorStop(u, `rgba(100,110,255,${(.34*Math.pow(1-u,3)).toFixed(4)})`); }
+    cx.fillStyle = g; cx.beginPath(); cx.arc(ox,oy,R*1.16,0,7); cx.fill();
+    g = cx.createRadialGradient(ox,oy,R*.55,ox,oy,R);
+    g.addColorStop(0,'rgba(4,8,24,1)'); g.addColorStop(.75,'rgba(10,16,52,1)'); g.addColorStop(.93,'rgba(22,30,110,1)'); g.addColorStop(1,'rgba(90,99,232,1)');
+    cx.fillStyle = g; cx.beginPath(); cx.arc(ox,oy,R,0,7); cx.fill();
+    const cell = R*cells.step*D*1.05;
+    for (const [la, lo, ch, b, ind, r2, spk] of cells){
+      const q = proj(la, lo, rot); if (q[2] <= .03) continue;
+      const lit = Math.max(0, q[3]*.18 + q[4]*.12 + q[2]*.97), edge = Math.pow(q[2], .5), sz = cell*(.55 + .45*edge)*1.5;
+      const lv = Math.min(1.2, b*.45 + r2*.55 + (spk?1.1:0)), I = Math.max(lit*lit, .6)*(.25 + .9*lv);
+      const tone = spk ? 3 : ind ? (I > .55 ? 6 : I > .22 ? 5 : 4) : (I > .7 ? 3 : I > .42 ? 2 : I > .16 ? 1 : 0);
+      const al = Math.min(1, (.08 + 1.15*I)*edge); if (al < .04) continue;
+      cx.globalAlpha = al*.8; cx.drawImage(glyph(ch, tone), q[0]-sz/2, q[1]-sz/2, sz, sz);
+    }
+    cx.globalAlpha = 1;
+    cx.strokeStyle = 'rgba(154,162,255,.75)'; cx.lineWidth = 1.2; cx.beginPath(); cx.arc(ox,oy,R,0,7); cx.stroke();
+    cx.font = '11px "JetBrains Mono", ui-monospace, monospace'; cx.textAlign = 'center'; cx.textBaseline = 'bottom';
+    for (const [name, la, lo] of MARKS){
+      const q = proj(la*D, lo*D, rot); if (q[2] <= .2) continue; const [x, y] = q, a = Math.min(1, (q[2]-.2)*3);
+      const dx = x - ox, rim = oy - Math.sqrt(Math.max(0, R*R - dx*dx)), top = Math.min(y - 24, rim - 28);
+      cx.globalAlpha = a; cx.strokeStyle = 'rgba(199,204,255,.7)'; cx.lineWidth = 1; cx.beginPath(); cx.moveTo(x+.5, y-5); cx.lineTo(x+.5, top); cx.stroke();
+      cx.strokeStyle = 'rgba(238,238,244,.95)'; cx.lineWidth = 1.3; cx.beginPath(); cx.arc(x, y, 4.5, 0, 7); cx.stroke();
+      cx.fillStyle = '#fff'; cx.beginPath(); cx.arc(x, y, 1.8, 0, 7); cx.fill();
+      cx.fillStyle = '#9b9eb8'; cx.fillText(name.split('').join(String.fromCharCode(8202)), x, top - 4);
+    }
+    cx.globalAlpha = 1;
+    raf = (!still && vis) ? requestAnimationFrame(frame) : 0;
+  }
+  /* the globe runs only while it is on screen */
+  const go = () => { if (vis && ready && !raf) raf = requestAnimationFrame(frame); };
+  new IntersectionObserver(es => es.forEach(e => { vis = e.isIntersecting; go(); })).observe(cv);
+  (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => { GC = {}; ready = true; go(); });
+})();
+</script>
+<script src="../case-chrome.js" data-notebook="../../index.html#work-index" data-prev="../find-funding/index.html" data-prev-name="find funding" data-next="../winged-web/index.html" data-next-name="winged web"></script>
+</body>
+</html>

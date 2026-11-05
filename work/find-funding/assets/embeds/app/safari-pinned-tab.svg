@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-labelledby="title">
+  <title id="title">Find Funding</title>
+  <circle cx="10" cy="10" r="7" fill="none" stroke="#000" stroke-width="3"/>
+  <rect x="8.1" y="8.1" width="3.8" height="3.8" rx="0.5" fill="#000"/>
+  <path d="M15.2 15.2L21 21" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+</svg>

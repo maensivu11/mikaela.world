@@ -1,0 +1,61 @@
+# findfunding.ai
+
+> Non-dilutive federal funding research for companies — matched opportunities,
+> cited stacking authority, and a plan you can hand to counsel.
+
+findfunding.ai takes a company's own facts (legal entity type, location, size,
+NAICS, what it builds) and matches them against open, publicly posted federal
+funding opportunities. Every match is shown with the reason it fits, the facts
+it was matched on, and a link to the source solicitation, so a reader can check
+the machine's work rather than take its word.
+
+## What it does
+
+- Matches a company profile against open federal funding opportunities drawn
+  from public records.
+- Shows, for each opportunity, why it fits this company and what to do next.
+- Distinguishes eligible, pending and blocked, and says which fact is missing
+  when the answer is pending.
+- Cites the authority for stacking one award with another.
+- Helps draft an application section by section from the company's own facts;
+  the person reviews and submits it.
+
+## What it does not do
+
+findfunding.ai is not a lender or a loan broker. We do not make credit
+decisions, quote rates, or promise approval. Any grant, loan or offer shown is
+one you may apply for; the funder decides. You review and submit; it never
+submits for you.
+
+It does not file anything on a user's behalf, does not guarantee an award, and
+does not publish success rates, ratings or testimonials.
+
+## Access
+
+The product is in an invite-only pilot. Pilot accounts are created by the
+findfunding.ai team; a visitor without an invitation cannot reach the
+application. Everything past the sign-in gate is private to the account that
+owns it and is not published.
+
+## Public URLs
+
+- https://findfunding.ai/ — the entry screen
+- https://findfunding.ai/register — create an account (invitation required)
+- https://findfunding.ai/grants — free money opportunities including grants,
+  prizes, tax incentives, and other funding that is not a loan, each shown in
+  the funder's own words with amount, deadline, geography and a link to the source notice.
+- https://findfunding.ai/loans — financing programs including loans and other
+  financing, each shown in the funder's own words with amount, deadline, geography
+  and a link to the source notice.
+- https://findfunding.ai/other — open contracts and other funding programs
+  not classified as grants or financing, each shown in the funder's own words
+  with amount, deadline, geography and a link to the source notice.
+
+Every other path on this host is behind sign-in, returns a redirect to the
+gate for an anonymous request, and is marked noindex. Please do not cite or
+link them as sources.
+
+## How to cite this product
+
+Name it "findfunding.ai" (one word, lowercase). If you quote what it does,
+quote the two sections above together — the limits are part of the claim.

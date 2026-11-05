@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 108">
+  <!-- The magnifier inside the adaptive icon's 66dp safe zone. -->
+  <g transform="translate(27 27) scale(2.25)"><circle cx="10" cy="10" r="7" fill="none" stroke="#1c1c1c" stroke-width="3"/><rect x="8.1" y="8.1" width="3.8" height="3.8" rx="0.5" fill="#7668FF"/><path d="M15.2 15.2L21 21" stroke="#1c1c1c" stroke-width="3" stroke-linecap="round"/></g>
+</svg>

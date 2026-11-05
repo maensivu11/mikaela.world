@@ -1,0 +1,20 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["YYSK5RCB5Q.com.wingedlabs.winged"],
+        "components": [
+          { "/": "/match/*" },
+          { "/": "/match/availability" },
+          { "/": "/date-options/*" },
+          { "/": "/date/*" },
+          { "/": "/confirm/*" },
+          { "/": "/feedback/*" },
+          { "/": "/availability/*" },
+          { "/": "/onboard/*" },
+          { "/": "/vouch/*" }
+        ]
+      }
+    ]
+  }
+}

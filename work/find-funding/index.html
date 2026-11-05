@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>find funding · mikaela maensivu</title>
+<meta name="description" content="Find Funding: a funding product that reads your business for you. Case study by Mikaela Maensivu, cofounder and CPO.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+/* container system: the template for every case page */
+:root{
+  --bg:#FAFAF7; --ink:#1A1A18; --muted:#8A8A82; --line:#E5E5DF;
+  --violet:#7668FF; --lime:#dbf570;
+  --sans:'Instrument Sans',system-ui,sans-serif; --mono:'JetBrains Mono',ui-monospace,monospace;
+  --gap:120px; --prose:720px; --pad:40px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:28px;font-weight:400;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+img{display:block;max-width:100%;height:auto}
+.prose{max-width:var(--prose);margin:0 auto 0 max(0px,calc((100% - 1280px) / 2));padding:0 var(--pad)}
+.wide{max-width:1280px;margin:0 auto;padding:0 var(--pad)}
+section,section.wide,section.prose{margin-top:var(--gap)}
+h1{font-size:44px;line-height:1.1;font-weight:600;letter-spacing:-.02em}
+h2{font-size:13px;line-height:20px;font-family:var(--mono);font-weight:400;color:var(--muted);text-transform:lowercase;margin-bottom:20px}
+.intro{font-size:22px;line-height:32px}
+p+p{margin-top:20px}
+.mono{font-family:var(--mono);font-size:13px;line-height:20px}
+.cap{font-family:var(--mono);font-size:13px;line-height:20px;color:var(--muted);margin-top:14px}
+.frame{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 24px 48px rgba(0,0,0,.06)}
+.v{color:var(--violet)}
+/* her-voice placeholders: visibly hers to write */
+.hers{font-size:17px;line-height:28px;color:var(--ink);margin-top:28px;padding-left:22px;border-left:2px solid var(--line);font-style:italic}
+/* motion: artifacts only, fade + rise 12px, 240ms ease-out */
+.art{opacity:0;transform:translateY(12px);transition:opacity 240ms ease-out,transform 240ms ease-out}
+.art.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.art{opacity:1;transform:none;transition:none}}
+.no-js .art{opacity:1;transform:none}
+
+/* 1 hero */
+.hero{min-height:100vh;display:flex;flex-direction:column;padding:40px var(--pad) 40px}
+.hero-head{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;margin-bottom:32px}
+.hero-head .claim{font-size:22px;line-height:32px;margin-top:12px;max-width:none;white-space:nowrap}
+@media (max-width:900px){.hero-head .claim{white-space:normal}}
+.hero-head .dates{margin-top:14px;color:var(--muted)}
+.live{font-family:var(--mono);font-size:13px;line-height:20px;white-space:nowrap;padding-top:14px}
+.hero .frame{flex:1;min-height:0;display:flex;position:relative}
+.hero .frame img{width:100%;height:100%;object-fit:cover;object-position:top left}
+.hero .frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block;background:#fff}
+/* phone visitors: every embed renders its own mobile layout at a real phone width, in a phone-shaped frame */
+.frame picture{display:contents}
+@media (max-width:600px){.hero .frame{flex:none;aspect-ratio:390/844}}
+.premise{font-size:17px;line-height:26px;color:var(--ink);margin-top:10px;max-width:640px;white-space:normal}
+.hero .cap{margin-top:12px}
+
+/* 3 design system strip */
+.ds{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:80px 0}
+.sw{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-top:8px}
+.sw>div>div{height:96px;border-radius:12px;border:1px solid var(--line)}
+.sw p{font-family:var(--mono);font-size:13px;line-height:20px;color:var(--muted);margin-top:8px}
+.ds-intro{max-width:var(--prose);margin-bottom:48px}
+.why{font-family:var(--mono);font-size:12px;line-height:18px;color:var(--muted);margin-top:4px}
+.hv{border:1.5px dotted var(--muted);border-radius:6px;padding:1px 6px}
+.type{margin-top:72px}
+.spec{display:grid;grid-template-columns:120px auto 1fr;column-gap:32px;row-gap:14px;align-items:baseline;color:#1c1c1c}
+.spec .why{margin-top:0}
+.spec .mono{color:var(--muted)}
+.cards{margin-top:56px;display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+.fc{background:#f5f4f0;border-radius:12px;padding:20px;font-size:14px;line-height:20px;color:#1c1c1c}
+.fc .t{font-size:16px;line-height:22px;font-weight:600}
+.fc .m{color:#6b6b66;margin-top:4px}
+.fc .s{margin-top:10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.fc .pill{display:inline-block;margin-top:12px;font-size:12px;line-height:18px;padding:2px 10px;border-radius:999px;background:var(--lime)}
+.fc .pill.u{background:none;border:1px dashed #9a9a92}
+.fc .why-box{margin-top:14px;padding-top:14px;border-top:1px solid #e3e2dc}
+.fc .why-box b{font-weight:600}
+.fc ul{list-style:none;margin-top:8px}
+.fc li{display:flex;justify-content:space-between;gap:12px;padding:4px 0}
+
+/* 4 agentic blocks */
+.blk{display:grid;grid-template-columns:3fr 2fr;gap:56px;align-items:start}
+.blk+.blk{margin-top:96px}
+.blk .note p:first-child{font-weight:600}
+/* live embeds: the real signed-in app at laptop width, scaled into the frame; stills stay as the fallback */
+.frame.live{position:relative}
+/* .ready is set by the script before anything mounts, so swapping still for app never moves the page */
+.frame.live.ready{aspect-ratio:16/10}
+.frame.live.ready img{width:100%;height:100%;object-fit:cover;object-position:top left}
+.frame.live.on img{display:none}
+.frame.live iframe{position:absolute;top:0;left:0;width:1280px;height:800px;border:0;transform-origin:0 0;background:#fff}
+@media (max-width:600px){.frame.live.ready{aspect-ratio:390/844}.frame.live iframe{width:390px;height:844px}}
+.live-tag{display:block;width:fit-content;margin:0 0 12px;font-family:var(--mono);font-size:12px;line-height:18px;letter-spacing:.04em;color:#fff;background:#000;border-radius:999px;padding:5px 14px}
+.live-tag::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:#4ADE80;margin-right:9px;vertical-align:1px}
+.live-run{display:block;margin:12px 0 0;font:inherit;font-family:var(--mono);font-size:12px;line-height:18px;background:transparent;border:1px solid var(--line);border-radius:999px;padding:6px 14px;cursor:pointer}
+.slot{aspect-ratio:16/10;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px}
+
+/* 5 recovery */
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+blockquote{border-left:2px solid var(--violet);padding-left:20px;margin-top:24px}
+.evidence{margin-top:64px}
+.evidence img{width:100%}
+
+
+/* 7 footer */
+footer,footer.wide{margin-top:var(--gap);border-top:1px solid var(--line);padding:48px 0 64px}
+.built{color:var(--muted)}
+.built span{color:var(--ink)}
+.nav{display:flex;justify-content:space-between;margin-top:48px}
+.nav a{font-family:'B-McE',cursive;font-size:19px;letter-spacing:0;text-transform:lowercase;text-decoration:none;color:inherit}
+.nav a:hover{text-decoration:underline;text-underline-offset:4px}
+
+@media (max-width:760px){
+  :root{--gap:64px;--pad:20px}
+  h1{font-size:36px}
+  .intro,.hero-head .claim{font-size:19px;line-height:28px}
+  .hero{min-height:auto}
+  .hero-head{flex-direction:column}
+  .live{padding-top:0}
+  .hero .frame{flex:none}
+  .hero .frame img{height:auto}
+  .sw{grid-template-columns:repeat(2,1fr)}
+  .spec{grid-template-columns:96px 1fr}
+  .spec .why{grid-column:2;margin-bottom:6px}
+  .cards,.blk,.pair{grid-template-columns:1fr}
+  .blk{gap:24px}
+  .blk+.blk{margin-top:64px}
+  .ds{padding:56px 0}
+}
+
+/* her hand: margin notes in B-McE, an adopted hand, close to hers (her real handwriting is in the images). reasons only, never body prose */
+@font-face{font-family:'B-McE';src:url('../../assets/fonts/B-McE.ttf') format('truetype');font-display:swap}
+.hand{display:block;width:fit-content;max-width:100%;font-family:'B-McE',cursive;text-transform:lowercase;font-size:23px;line-height:26px;font-weight:400;font-style:normal;color:#3d3a8c;transform:rotate(-1.5deg);transform-origin:left center;margin:0 0 12px}
+.hand.r1{transform:rotate(-2deg)}.hand.r2{transform:rotate(-.8deg)}.hand.r3{transform:rotate(.6deg)}.hand.r4{transform:rotate(1deg)}
+.hand.after{margin:14px 0 0}
+/* the logic, stated: one plain sentence in her voice where a decision showed no reason */
+.logic{color:var(--ink)}
+@media (max-width:760px){.hand{font-size:21px;line-height:24px}}
+/* spacing pass: one scale */
+/* desktop 160 section / 120 block / 64 group / 40 element / 24 note / 16 caption
+   mobile   96 section /  80 block / 48 group / 40 element / 24 note / 16 caption */
+:root{--s1:160px;--s2:120px;--s3:64px;--s4:40px;--s5:24px;--s6:16px;--gap:var(--s1)}
+h2{margin-bottom:var(--s5)}
+.cap{margin-top:var(--s6)}
+.cap+.logic,.cap+p:not(.cap):not(.why){margin-top:var(--s5)}
+.hers{margin-top:var(--s4)}
+.ds{padding:var(--s2) 0}
+section.ds,.ds+section,.ds+footer{margin-top:var(--s3)}
+.ds-intro{margin-bottom:var(--s3)}
+.blk+.blk,.mech+.mech{margin-top:var(--s2)}
+.hand{margin:var(--s4) 0 12px}
+.hand:first-child{margin-top:0}
+.hand.after{margin:var(--s5) 0 0}
+.hand+.hers,.hand+p,.hand+blockquote{margin-top:0}
+footer,footer.wide{margin-top:var(--s1);padding-top:var(--s3);padding-bottom:var(--s2)}
+footer.wide{padding-left:var(--pad);padding-right:var(--pad)}
+.nav{margin-top:var(--s3)}
+@media (max-width:760px){
+  :root{--s1:96px;--s2:80px;--s3:48px;--s4:40px;--s5:24px;--s6:16px;--gap:var(--s1)}
+  .blk,.mech{row-gap:var(--s4)}
+  .cards{row-gap:var(--s3)}
+  .nav{flex-wrap:wrap;gap:var(--s6) var(--s5)}
+}
+.type{margin-top:var(--s3)}
+.cards{margin-top:var(--s3)}
+.evidence{margin-top:var(--s3)}
+.ds+footer,.ds+footer.wide{border-top:0}
+/* editorial grid: label left 1/3, reading column right 2/3, one edge with the 1280 container */
+section.prose{max-width:1280px;margin-left:auto;margin-right:auto}
+section.prose,.ed{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);column-gap:var(--s3);align-items:start}
+.ds-intro.ed{max-width:none}
+section.prose>*,.ed>*{grid-column:2;max-width:700px;min-width:0}
+section.prose>h2,.ed>h2{grid-column:1;grid-row:1;margin-top:0}
+section.prose>h2+.hand,.ed>h2+.hand{grid-column:1;grid-row:2/span 30;margin:0}
+section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-child{margin-top:0}
+@media (max-width:900px){section.prose,.ed{display:block}section.prose>h2+.hand,.ed>h2+.hand{margin:0 0 12px}}
+/* hero-head align: title on the shared left edge */
+.hero-head{padding-left:max(0px,calc((100vw - 1280px) / 2))}
+</style>
+</head>
+<body class="no-js">
+
+<!-- 1. hero -->
+<header class="hero">
+  <div class="hero-head">
+    <div>
+      <h1>find funding</h1>
+      <p class="premise">find funding matches small businesses with the grants and loans they qualify for. it's agentic: it reads your documents, builds your profile, and plans your applications.</p>
+      <p class="claim">i'm the design engineer, cpo &amp; cofounder. i designed the product, built the front end, and made it agentic.</p>
+    </div>
+    <a class="live" href="https://findfunding.ai" rel="noopener">visit live ↗ findfunding.ai</a>
+  </div>
+  <div class="frame art"><picture><source media="(max-width:600px)" srcset="assets/00-live-landing-390.png"><img src="assets/00-live-landing-1440.png" alt="The live findfunding.ai landing page: Funding shouldn't depend on who you know." width="2880" height="1800"></picture><iframe data-src="https://findfunding.ai" title="findfunding.ai, live" loading="lazy" sandbox="allow-scripts allow-same-origin allow-forms" referrerpolicy="no-referrer"></iframe></div>
+  <p class="cap">live product, findfunding.ai, scroll inside it</p>
+</header>
+
+<!-- 2. the problem -->
+<section class="prose">
+  <h2>the problem</h2>
+  <p class="intro">there's public money set aside for small businesses. grants, sba loans, state programs. most owners never see it, and the ones who do usually find it through someone they know. the homepage says it plainly: <span class="v">"funding shouldn't depend on who you know."</span></p>
+  <p>so the product starts from what an owner already has. it reads the tax return, the p&amp;l, the business plan into a business profile, then ranks real programs by how many of each program's published rules the business already meets. not by what looks promising. by what's confirmed.</p>
+  <div class="hers">the owner i kept picturing runs a machine shop or a bakery. they have a tax return, a p&amp;l, and no spare time. they've heard grants exist and have never met anyone who got one. the thing i designed against is the week they'd lose applying for something they were never eligible for. one of those and they never come back. so the product had to be honest before it was anything else.</div>
+</section>
+
+<!-- 3. design system strip: every token carries its why -->
+<section class="ds">
+  <div class="wide">
+    <div class="ds-intro ed">
+    <h2>the system</h2>
+      <p class="intro">i wrote the system down as a few decisions that carry the whole product. size carries hierarchy, color has one job per surface, and an unknown always stays unknown. the canon says it in one line:</p>
+      <blockquote><p>"at rest a card or row holds: title (16/600), one sentence-case meta line, a summary clamped to two lines, and at most one status element plus the fixed metrics."</p></blockquote>
+      <p style="margin-top:var(--s5)">the point of writing it down: when the live product drifted, two color systems, bloated cards, an industry-code wall that never closed, i could fix it by citing a rule instead of arguing taste. every change pointed at a line in the canon.</p>
+      <div class="hers">the feeling i designed for, in one sentence: you should feel capable here, not audited.</div>
+    </div>
+    <span class="hand r2">one job per color, per surface</span>
+    <div class="sw">
+      <div><div style="background:#7668FF"></div><p>violet #7668ff</p><p class="why">the working accent and the logo pixel. one filled accent per surface, so your eye always knows what to do next.</p></div>
+      <div><div style="background:#dbf570"></div><p>lime #dbf570</p><p class="why">brand energy, violet's partner. it also marks known, so it's never decoration.</p></div>
+      <div><div style="background:#f5f4f0"></div><p>canvas #f5f4f0</p><p class="why">warm neutrals. a money product that feels approachable, not bank-cold.</p></div>
+      <div><div style="background:#ffffff"></div><p>surface #ffffff</p><p class="why">cards sit one step up from the canvas. no shadows needed to separate them.</p></div>
+      <div><div style="background:#1c1c1c"></div><p>ink #1c1c1c</p><p class="why">near-black, never pure. no yellow, blue, mint or lilac anywhere else, because every extra color would need a job and none of them had one.</p></div>
+    </div>
+    <div class="type">
+    <span class="hand r3">size does the shouting, not weight</span>
+    <div class="spec" style="margin-top:0">
+      <span class="mono">28 · title</span><span style="font-size:28px;line-height:34px">funding that could fit.</span><span class="why">size carries hierarchy, not weight or decoration.</span>
+      <span class="mono">16 · body</span><span style="font-size:16px;line-height:24px">ranked by the published rules you already meet.</span><span class="why">one reading size for everything a person decides on.</span>
+      <span class="mono">14 · label</span><span style="font-size:14px;line-height:20px">legal name.</span><span class="why">labels and helpers, quieter than what they label.</span>
+      <span class="mono">12 · caption</span><span style="font-size:12px;line-height:18px">read from page 2 of your tax return.</span><span class="why">provenance: small, but always there.</span>
+      <span class="mono">family</span><span style="font-size:16px;line-height:24px">instrument sans, and only instrument sans.</span><span class="why">the warmth lives in the letterforms, so the interface never has to perform friendliness.</span>
+    </div>
+    </div>
+    <div class="cards">
+      <div>
+        <div class="fc"><div class="t">Small Business Innovation Grant</div><div class="m">Ohio Development Services · grant · up to $50,000</div><div class="s">Supports small manufacturers buying equipment that raises output. Applications reviewed quarterly against published criteria.</div><span class="pill">Known · eligible state</span></div>
+        <p class="cap">resting card · design mock, sample data.</p>
+        <p class="why">compact at rest: density without noise.</p>
+      </div>
+      <div>
+        <span class="hand r1">unknown stays unknown. never rounded up.</span>
+        <div class="fc"><div class="t">Small Business Innovation Grant</div><div class="m">Ohio Development Services · grant · up to $50,000</div><div class="s">Supports small manufacturers buying equipment that raises output. Applications reviewed quarterly against published criteria.</div>
+          <div class="why-box"><b>Why this is on your list</b><ul><li>Located in Ohio <span class="pill" style="margin:0">Known</span></li><li>Under 500 staff <span class="pill u" style="margin:0">Unknown</span></li></ul></div></div>
+        <p class="cap">expanded · design mock, sample data.</p>
+        <p class="why">detail on demand. an unknown rule stays dashed. it never becomes a pass, because the owner's time is what a false pass costs.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. making it agentic: the spine of the page -->
+<section class="wide">
+  <div class="ed" style="margin:0 0 var(--s3)">
+    <h2>making it agentic</h2>
+    <p class="intro">the usual shape of a funding tool is forms and lists. you type your business into thirty fields, then scroll a catalog. i wanted the opposite: the product does the reading, and you do the deciding.</p>
+    <div class="hers">the forms-and-lists version asked owners to retype what their own documents already said. that was the moment. the product should do the reading. so i took a product and made it agentic: it reads, extracts, matches, and plans. it never states a fact about your business you haven't confirmed, and it never submits anything. it does the work, you keep the say.</div>
+  </div>
+  <div class="blk">
+    <div class="art"><div class="frame live" data-route="documents/5a3b1e00-0000-4000-8000-000000000001/" data-title="Find Funding document upload, the real app running with sample data"><picture><source media="(max-width:600px)" srcset="assets/02-upload-drop-390.png"><img src="assets/02-upload-drop.png" alt="The document drop screen: drop your files here, with the list of documents already given" loading="lazy"></picture></div><p class="cap">signed-in product, sample data</p></div>
+    <div class="note"><span class="hand r2">your documents already said it</span><p>drop documents, don't retype them.</p><p>onboarding starts with an upload. you drop what you already have, a tax return, a p&amp;l, a business plan, and readers propose facts from it: legal name, structure, revenue, team size. the owner's job changes from typing to checking. that's a smaller job, and it's the right one, because the owner knows their business better than any reader does.</p></div>
+  </div>
+  <div class="blk">
+    <div class="art"><div class="frame live" data-route="documents/5a3b1e00-0000-4000-8000-000000000001/?review=d1" data-title="Find Funding fact review, the real app running with sample data"><picture><source media="(max-width:600px)" srcset="assets/03-fact-review-390.png"><img src="assets/03-fact-review.png" alt="The fact review screen: each proposed fact with its page, verbatim excerpt, editable value and Confirm control" loading="lazy"></picture></div><p class="cap">signed-in product, sample data</p></div>
+    <div class="note"><span class="hand r4">a person looked. that's the point.</span><p>confirm, never accept-all.</p><p>each proposed fact shows what we read, where we read it, page and verbatim excerpt, what confirming it will do, and an editable box. nothing is pre-selected. there is no accept-all. the owner's correction is what lands, not the machine's reading. the comment at the top of that component says it in one line: "the whole point of this screen is that a person looked."</p>
+      <div class="hers">an accept-all button would have made the demo smoother and the profile wrong. this is financial data. one wrongly accepted fact feeds a rule, the rule counts as met, and a program you can't get sits at the top of your list. so you confirm each fact once, and from then on your word beats my extraction, always.</div></div>
+  </div>
+  <div class="blk">
+    <div class="art"><div class="frame live" data-route="profile/5a3b1e00-0000-4000-8000-000000000001/" data-title="Find Funding business profile, the real app running with sample data"><picture><source media="(max-width:600px)" srcset="assets/13-profile-redesign-390.png"><img src="assets/13-profile-redesign.png" alt="The redesigned business profile" loading="lazy"></picture></div><p class="cap">profile redesign, design mock in the real frontend</p></div>
+    <div class="note"><span class="hand r1">your word always wins</span><p>your saved value always wins.</p><p>the profile isn't a form you fill once. it's where everything the product learned about you lives, with provenance shown inside the field you're editing, and suggestions waiting in their own tab instead of silently overwriting what you saved. a projected revenue number from a business plan goes into projections, never into actual revenue.</p><p class="logic">the rule came from watching it break: a suggested business name from a test upload overwrote the saved one on screen. after that, a saved value outranks anything read from a document, no exceptions. and i kept projections out of actual revenue because a plan is a hope, and a program's rules are checked against what you actually earned.</p></div>
+  </div>
+  <div class="blk">
+    <div class="art"><div class="frame live" data-route="opportunities/matches/5a3b1e00-0000-4000-8000-000000000001/" data-title="Find Funding opportunities, the real app running with sample data"><picture><source media="(max-width:600px)" srcset="assets/08-opportunities-390.png"><img src="assets/08-dashboard-overview-1440.png" alt="Opportunities overview at 1440" loading="lazy"></picture></div><p class="cap">dashboard composition, design mock, sample data</p></div>
+    <div class="note"><span class="hand r3">ranked by rules met. no paid spots.</span><p>matching is a plan, not a catalog.</p><p>the page after sign-in is opportunities: funding that could fit, your next step, your drafts. grants, loans and all funding are filters on one page, not separate catalogs. ranking is by rules met. an unconfirmed rule never counts as met, and there's no paid placement. expand a card and it tells you why it's on your list, rule by rule.</p><p class="logic">i made grants and loans filters on one page because the owner's question is "what fits me," not "what kind of money is this." and i kept the ranking honest because the first time a top result turns out to be ineligible, the whole list stops meaning anything.</p>
+      <div class="hers">agentic means the product does the work. reads, extracts, matches, plans. it never asserts a fact about your business you haven't confirmed, and it never submits anything. the owner stays the one who decides, because it's their money and their name on the application.</div></div>
+  </div>
+</section>
+
+
+<!-- 7. footer -->
+<footer class="wide">
+  <div class="built mono">
+    <p>built by hand</p>
+    <p><span>live</span> · <a href="https://findfunding.ai" rel="noopener">findfunding.ai</a></p>
+    <p><span>evidence</span> · shipped to findfunding.ai</p>
+    <p><span>tests</span> · ProfileWorkspace.test.tsx, 387 lines</p>
+  </div>
+</footer>
+
+<script>
+document.body.classList.remove('no-js');
+/* live embed: src set only when the hero frame nears view; reduced motion keeps the capture */
+(() => {
+  const f = document.querySelector('.hero iframe[data-src]'); if (!f) return;
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) { f.remove(); return; }
+  const go = () => { f.src = f.dataset.src; f.addEventListener('load', () => { const im = f.parentNode.querySelector('img'); if (im) im.style.visibility = 'hidden'; }, { once: true }); };
+  if ('IntersectionObserver' in window) { const o = new IntersectionObserver(es => { if (es.some(e => e.isIntersecting)) { o.disconnect(); go(); } }, { rootMargin: '400px 0px' }); o.observe(f); } else go();
+})();
+
+const io = 'IntersectionObserver' in window ? new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -8% 0px' }) : null;
+document.querySelectorAll('.art').forEach(el => io ? io.observe(el) : el.classList.add('in'));
+</script>
+<script>
+/* live embeds: the real app (static build, sample data answered in-page) mounts while its frame is near view */
+(function(){
+  var APP = 'assets/embeds/app/';
+  var calm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll('.frame.live').forEach(function(box){
+    var frame = null;
+    var tag = document.createElement('span'); tag.className = 'live-tag'; tag.textContent = 'live app — click through';
+    box.parentNode.insertBefore(tag, box);
+    /* the app runs at a real device width and is fitted to the column: 390 (its phone layout) on a phone, 1280 on a laptop */
+    var phone = window.matchMedia('(max-width:600px)');
+    function fit(){ if (frame) frame.style.transform = 'scale(' + (box.clientWidth / (phone.matches ? 390 : 1280)) + ')'; }
+    function mount(){
+      if (frame) return;
+      box.classList.add('on');
+      frame = document.createElement('iframe');
+      frame.title = box.getAttribute('data-title');
+      frame.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-forms');
+      frame.src = APP + box.getAttribute('data-route');
+      box.appendChild(frame); fit();
+    }
+    function unmount(){ if (!frame) return; frame.remove(); frame = null; box.classList.remove('on'); }
+    window.addEventListener('resize', fit); window.addEventListener('orientationchange', fit);
+    if (!calm) box.classList.add('ready');
+    if (calm) {
+      var run = document.createElement('button'); run.type = 'button'; run.className = 'live-run'; run.textContent = 'run the live app';
+      run.onclick = function(){ run.remove(); mount(); };
+      box.parentNode.insertBefore(run, box.nextSibling); return;
+    }
+    if (!('IntersectionObserver' in window)) return;
+    new IntersectionObserver(function(es){ es.forEach(function(e){ e.isIntersecting ? mount() : unmount(); }); }, { rootMargin: '300px 0px' }).observe(box);
+  });
+})();
+</script>
+<script src="../case-chrome.js" data-notebook="../../index.html#work-index" data-next="../intranest/index.html" data-next-name="intranest"></script>
+</body>
+</html>

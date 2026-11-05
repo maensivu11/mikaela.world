@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Find Funding">
+  <!-- The Find Funding mark: the magnifying glass with the violet pixel.
+       Ink on light tabs, white on dark ones. -->
+  <style>.ink{stroke:#1c1c1c}@media (prefers-color-scheme:dark){.ink{stroke:#ffffff}}</style>
+  <circle class="ink" cx="10" cy="10" r="7" fill="none" stroke-width="3"/>
+  <rect x="8.1" y="8.1" width="3.8" height="3.8" rx="0.5" fill="#7668FF"/>
+  <path class="ink" d="M15.2 15.2L21 21" fill="none" stroke-width="3" stroke-linecap="round"/>
+</svg>
