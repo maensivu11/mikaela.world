@@ -26,6 +26,8 @@
     '.cc-ne{display:inline-block;width:14px;height:14px;vertical-align:-1px;stroke-width:3;margin:0 2px}',
     '@media (max-width:760px){.cc-arrow{width:30px;height:21px}.cc-top .cc-up{width:13px;height:17px}}',
     '@media print{.cc{display:none}}',
+    'html.touch-shield .phone:not(.iframe-on) iframe,html.touch-shield .frame:not(.iframe-on) iframe{pointer-events:none}',
+    'html.touch-shield .phone:has(iframe):not(.iframe-on)::after,html.touch-shield .frame:has(iframe):not(.iframe-on)::after{content:"tap to use";position:absolute;left:50%;bottom:14px;transform:translateX(-50%);z-index:5;font:12px/1 var(--mono,ui-monospace),monospace;color:#fff;background:rgba(0,0,0,.62);border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:7px 12px;pointer-events:none;white-space:nowrap}',
     /* no sideways scroll anywhere: code wraps inside its panel */
     '.code,pre{overflow-x:hidden!important;max-width:100%}',
     '.code pre,pre{white-space:pre-wrap!important;overflow-wrap:anywhere!important}',
@@ -155,6 +157,21 @@
     var k = document.createElement('span'); k.className = 'cc-key'; k.textContent = p[1];
     if (p[0].indexOf('prev') > -1) n.appendChild(k); else n.insertBefore(k, n.firstChild);
   });
+  /* touch: an embedded app or site never traps the page's scroll. it stays inert until tapped,
+     then goes inert again once it scrolls out of view */
+  if (matchMedia('(hover:none), (pointer:coarse)').matches) {
+    document.documentElement.classList.add('touch-shield');
+    var live = [];
+    document.addEventListener('click', function (e) {
+      var box = e.target.closest && e.target.closest('.phone, .frame');
+      if (!box || !box.querySelector('iframe') || box.classList.contains('iframe-on')) return;
+      e.preventDefault();
+      for (var el = box; el; el = el.parentElement) if (el.matches('.phone, .frame')) { el.classList.add('iframe-on'); live.push(el); }
+    }, true);
+    addEventListener('scroll', function () {
+      live = live.filter(function (b) { var r = b.getBoundingClientRect(); if (r.bottom < 0 || r.top > innerHeight) { b.classList.remove('iframe-on'); return false; } return true; });
+    }, { passive: true });
+  }
   /* "visit live" links: the typed arrow becomes the same hand-drawn stroke */
   document.querySelectorAll('a.live').forEach(function (a) {
     a.innerHTML = a.innerHTML.replace('\u2197', ARROW.ne);
