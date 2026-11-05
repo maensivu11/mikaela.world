@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>mikaela.world · mikaela maensivu</title>
-<meta name="description" content="mikaela.world: a portfolio that starts as my real childhood journal. Handwritten and hand-painted, case study by Mikaela Maensivu.">
+<meta name="description" content="a portfolio that opens on my own handwriting and the journal i kept as a kid. a case study by mikaela maensivu, design engineer.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;600&family=JetBrains+Mono:wght@400&family=Caveat:wght@500&display=swap" rel="stylesheet">
@@ -115,7 +115,7 @@ pre .k{color:#f4e21f}
 .daisy-label{width:86%;left:7%;top:6%;opacity:0;clip-path:inset(0 100% 0 0);transition:clip-path 500ms cubic-bezier(.23,1,.32,1),opacity 200ms ease}
 .daisy:hover .daisy-label,.daisy:focus-visible .daisy-label{opacity:1;clip-path:inset(0 0 0 0)}
 .daisy:hover .daisy-bloom,.daisy:focus-visible .daisy-bloom{animation:none;transform:scale(1.06) rotate(5deg)}
-.daisy.spin .daisy-bloom{animation:daisy-spin 900ms cubic-bezier(.22,.61,.36,1)}
+.daisy-bloom{rotate:var(--turn,0deg);transition:transform 420ms cubic-bezier(.23,1,.32,1),rotate 900ms cubic-bezier(.22,.61,.36,1)}
 @keyframes daisy-idle{0%,100%{transform:scale(1) rotate(-1deg)}50%{transform:scale(1.035) rotate(1deg)}}
 @keyframes daisy-spin{from{transform:rotate(0deg)}to{transform:rotate(150deg)}}
 .sticker img{width:34%;filter:drop-shadow(0 4px 4px rgba(0,0,0,.3));transform:rotate(-8deg)}
@@ -220,7 +220,7 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
   <div class="hero-head">
     <div>
       <h1>mikaela.world</h1>
-      <p class="claim">my portfolio opens on a handwritten note, sitting on my real childhood journal. i drew it and wrote it by hand.</p>
+      <p class="claim">my portfolio opens on a note in my handwriting, sitting on the journal i kept as a kid.</p>
     </div>
     <a class="live" href="https://mikaela.world" rel="noopener">visit live ↗ mikaela.world</a>
   </div>
@@ -230,23 +230,23 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
       <picture class="hero-journal"><source srcset="assets/00-hero-journal.webp" type="image/webp"><img src="assets/00-hero-journal.png" alt="Her black and white composition book, her name written on the label as a kid, sitting on the painting" width="1000" height="1333"></picture>
       <picture class="hero-page"><source srcset="assets/00-hero-page.webp" type="image/webp"><img src="assets/00-hero-page.png" alt="Her handwritten note, hi!!! i'm mikaela, on grid paper, on top of the book" width="1000" height="1333"></picture>
     </div>
-    <figcaption class="cap">the note the site opens on. my hand, my words, no font. my real painting, my real childhood journal</figcaption>
+    <figcaption class="cap">the note, the journal and the painting are all mine.</figcaption>
     <p class="hero-hint" aria-hidden="true">hover to lift the note, click to see it full size</p>
   </figure>
-  <p class="framing">the first thing you see is a note i wrote by hand, to you. under it is the journal i kept as a kid, drawings and all. the painting in the back is mine, the video inside the book i designed, and the handwriting on the note and in the journal is my own, from now and from when i was a kid. nothing here was picked from a list.</p>
+  <p class="framing">the note is my handwriting now. the journal under it is my handwriting as a kid. the painting behind them is mine too. open the book and there's a video of me actually working, because making things has always been my passion.</p>
 </header>
 
 <!-- 2. the manifesto -->
 <section class="prose manifesto">
-  <h2>why i made it this way</h2>
+  <h2>why it looks like this</h2>
   <span class="hand r2">no one can replicate me</span>
-  <p class="intro">anyone can make a good looking site now, so polish isn't what tells you who someone is anymore. effort is. the parts of this site that matter most to me are the parts no tool could make. the handwritten names in the notebook are my actual handwriting. the journal pages and drawings are from when i was a kid, before i knew design was a job. the painting is mine. the video is me working, so you can see the messy middle of how i make things. i left the wobble in on purpose. i think the sign of craft right now isn't how smooth something looks, it's whether you can tell a real person spent real time on it. the tools did a lot of the typing. the hand, the taste, and the years are mine.</p>
+  <p class="intro">anyone can make a good looking site now, so polish isn't what tells you who someone is anymore. effort is. the parts of this site that matter most to me are the parts no tool could make. the handwritten names in the notebook are my actual handwriting. the journal pages and drawings are from when i was a kid, before i knew design was a job. the painting is mine. the video is me working, so you can see the messy middle of how i make things. i left the wobble in on purpose. to me, the sign of craft right now is whether you can tell a person spent real time on something. the tools did a lot of the typing. the hand, the taste, and the years are mine.</p>
 </section>
 
 <!-- 3. how it's made -->
 <section class="wide">
   <div class="ed" style="margin:0 0 var(--s3)">
-    <h2>how it's made</h2>
+    <h2>the details</h2>
     <p class="intro">three pieces of mechanics. each one is small, each one is real, and each one only works because something real was photographed or traced.</p>
   </div>
 
@@ -258,9 +258,9 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
         <figure><img src="assets/03-frame-book-half-open.png" alt="frame 3: half open, pages fanning" loading="lazy"><figcaption>3 · half open</figcaption></figure>
         <figure><img src="assets/04-frame-open-spread.png" alt="frame 4: the open spread" loading="lazy"><figcaption>4 · spread</figcaption></figure>
       </div>
-      <p class="cap">the four real photographs that make up the opening, 130ms apart</p>
+      <p class="cap">the four photos behind the opening</p>
     </div>
-    <div class="note"><span class="hand r1">four photos. no tweening.</span><p>stop-motion, not animation.</p><p>when you open the book, nothing is interpolated. i photographed the journal closed, lifting, half open and open, and the script swaps those frames like a flipbook. every frame is decoded before the first swap, so it never flashes blank on a phone. phones get their own set of crops.</p><p class="logic">i chose four frames over a smooth css flip because a real book doesn't open smoothly. it catches and fans. the stutter is what makes it read as paper, and a tween would have made it read as software.</p></div>
+    <div class="note"><span class="hand r1">four photos, no tweening</span><p>the book opens like a flipbook.</p><p>i photographed my journal four times: closed, lifting, half open, open. the site flips through those four shots. a real book catches and fans as it opens, and that little stutter is what makes it read as paper.</p></div>
   </div>
 
   <div class="blk">
@@ -288,9 +288,9 @@ Promise.all(frames.map(<span class="k">function</span>(src){<span class="k">var<
         <div class="frame"><img src="assets/09-note-rest.jpg" alt="Her handwritten note on grid paper: hi!!! i'm mikaela, with linkedin, email me, whatsapp me" loading="lazy"></div>
         <div class="frame"><img src="assets/09-note-design-highlight.jpg" alt="The same note with a yellow highlighter trace over design engineer" loading="lazy"></div>
       </div>
-      <p class="cap">the note at rest, and with the design highlight on</p>
+      <p class="cap">the note at rest, and with "design engineer" highlighted</p>
     </div>
-    <div class="note"><span class="hand r4">traced over my own ink</span><p>highlights are drawn, not styled.</p><p>every link on the note has its own highlight layer. linkedin, email, whatsapp, and each role i'd take. each one is a marker stroke i traced by hand at the exact size of the page, laid over the paper with a multiply blend so the ink shows through the yellow the way it does under a real highlighter. on hover it wipes in left to right in 460ms, the direction a hand would draw it.</p><p class="logic">i didn't use a css background-color because a rectangle under a word looks like software. a stroke that wobbles past the word looks like me.</p></div>
+    <div class="note"><span class="hand r4">traced over my own ink</span><p>every highlight is a stroke i traced by hand.</p><p>each link on the note, and each role i'd take, has its own marker stroke. hover and it wipes in left to right, the way a hand would draw it. it wobbles past the word on purpose. a clean rectangle would have looked like software.</p></div>
   </div>
 
   <div class="blk">
@@ -314,13 +314,13 @@ Promise.all(frames.map(<span class="k">function</span>(src){<span class="k">var<
 <!-- 4. the system strip -->
 <section class="ds">
   <div class="wide">
-    <div class="ed" style="margin-bottom:var(--s3)"><h2>the system</h2><p class="intro">the site's real colors, textures and moving parts, each taken from something i made or kept.</p></div>
+    <div class="ed" style="margin-bottom:var(--s3)"><h2>the system</h2><p class="intro">every color and texture here comes from something i made or kept.</p></div>
     <span class="hand r2">paper, ink, my hand</span>
     <div class="sw">
-      <div><div class="chip" style="background:#e80756"></div><p>painting pink #e80756</p><p class="why">the ground of my painting, sampled. every page of the site sits on it</p></div>
-      <div><div class="chip" style="background:#FBF6EA"></div><p>paper #FBF6EA</p><p class="why">warm, not white. the color of a page that's been kept, not printed</p></div>
-      <div><div class="chip" style="background:#22303a"></div><p>ink #22303a</p><p class="why">blue-black ballpoint, never pure black, because no pen is</p></div>
-      <div><div class="chip" style="background:#FBF6EA;font-family:'B-McE',cursive;font-size:34px;color:#22303a">mikaela</div><p>b-mce ("mikaela")</p><p class="why">an adopted handwriting font, not my own hand. it sits in the margins; the real handwriting is in the note and the journal</p></div>
+      <div><div class="chip" style="background:#e80756"></div><p>painting pink #e80756</p><p class="why">sampled from my painting. every page sits on it.</p></div>
+      <div><div class="chip" style="background:#FBF6EA"></div><p>paper #FBF6EA</p><p class="why">warm, the color of a page that's been kept.</p></div>
+      <div><div class="chip" style="background:#22303a"></div><p>ink #22303a</p><p class="why">blue-black ballpoint. no pen is pure black.</p></div>
+      <div><div class="chip" style="background:#FBF6EA;font-family:'B-McE',cursive;font-size:34px;color:#22303a">mikaela</div><p>b-mce ("mikaela")</p><p class="why">an adopted handwriting font for the margin notes. my own hand is in the note and the journal.</p></div>
     </div>
     <span class="hand r1" style="margin-top:var(--s3)">textures you could touch</span>
     <div class="tex">
@@ -329,11 +329,11 @@ Promise.all(frames.map(<span class="k">function</span>(src){<span class="k">var<
       <figure><div class="t" style="background-image:url('assets/00-journal-cover.jpg');background-size:240%;background-position:30% 20%"></div><figcaption>marble cover, from the journal</figcaption></figure>
       <figure><div class="t" style="background-image:url('assets/09-note-design-highlight.jpg');background-size:cover;background-position:center 75%"></div><figcaption>highlighter, traced over my ink</figcaption></figure>
     </div>
-    <span class="hand r4" style="margin-top:var(--s3)">features you can poke</span>
+    <span class="hand r4" style="margin-top:var(--s3)">things you can poke</span>
     <div class="feat">
-      <figure><button class="daisy" type="button" aria-label="The see my work daisy, recreated: hover or tap to spin it"><img class="daisy-label" src="../../assets/source-flowers/see-my-work-trimmed.png" alt=""><img class="daisy-bloom" src="../../assets/source-flowers/flower1-cropped.png" alt=""></button><figcaption>the daisy is the "see my work" button. it sways while it waits, the label wipes in on hover, and it spins when you press it</figcaption></figure>
-      <figure><div class="sticker"><img src="../../assets/source-note/starsticker.png" alt="The star sticker from the note" loading="lazy"></div><figcaption>a real sticker, stuck to the note</figcaption></figure>
-      <figure><div class="orb-demo"><span>talk to me</span></div><figcaption>the voice button, glass on the painting. more on it below</figcaption></figure>
+      <figure><button class="daisy" type="button" aria-label="The see my work daisy, recreated: hover or tap to spin it"><img class="daisy-label" src="../../assets/source-flowers/see-my-work-trimmed.png" alt=""><img class="daisy-bloom" src="../../assets/source-flowers/flower1-cropped.png" alt=""></button><figcaption>the "see my work" button. it sways while it waits and spins when you press it. go on.</figcaption></figure>
+      <figure><div class="sticker"><img src="../../assets/source-note/starsticker.png" alt="The star sticker from the note" loading="lazy"></div><figcaption>a real sticker, from the note.</figcaption></figure>
+      <figure><div class="orb-demo"><span>talk to me</span></div><figcaption>the voice button. more below.</figcaption></figure>
     </div>
     <span class="hand r3" style="margin-top:var(--s3)">stills from the real things</span>
     <div class="stills">
@@ -349,10 +349,11 @@ Promise.all(frames.map(<span class="k">function</span>(src){<span class="k">var<
 <section class="wide voice">
   <div class="ed">
     <h2>the voice agent</h2>
-    <span class="hand r2">you can hear me</span>
-    <p class="intro">there's a voice agent of me on the homepage. tap "talk to me" in the corner and you're in a real conversation with an agent that speaks in my voice and answers questions about me and my work.</p>
-    <p>it runs on elevenlabs. the button starts a live session right in the browser, no app and no sign up. the glass ring breathes while it connects, pulses while it's listening, and quickens while it talks, so you always know whose turn it is. the same button ends the call.</p>
-    <p class="logic">a portfolio is usually something you read. i wanted one part of it to talk back, because if i'm going to say "this is me," it should be all the way.</p>
+    <span class="hand r2">come have a coffee with me</span>
+    <p class="intro">voice has been the cornerstone of my work since 2023. a voice carries more of a person than anything you can read: the warmth, the timing, the pauses, the way someone actually thinks out loud. people get it instantly. so when i wanted you to really know me, i didn't write you another page. i built you a conversation.</p>
+    <p>tap "talk to me" on the homepage and you'll hear me, in first person. it's meant to feel like running into me at a coffee shop: warm, direct, a little dry, happy to sit in a pause while you think. after it answers, it turns the conversation around and asks about your company, your team, the hardest problem on your plate. that part is just me. i'm curious about people.</p>
+    <p>i've built voice into every company i've been part of since 2023. at winged, your double introduces you in your own voice. at find funding, investors can talk to the financial model and get answers straight from it. this one is the smallest version of that idea, and it speaks in mine.</p>
+    <p class="cap">live in the browser. no app, no sign up.</p>
   </div>
 </section>
 
@@ -360,27 +361,27 @@ Promise.all(frames.map(<span class="k">function</span>(src){<span class="k">var<
 <section class="wide made">
   <div class="ed" style="margin:0 0 var(--s3)">
     <h2>the hand behind it</h2>
-    <p class="intro">the video in the book shows me actually working. making things has always been my passion, long before i knew design was a job.</p>
+    <p class="intro">i was making things long before i knew design was a job. this is the same hand, years apart.</p>
   </div>
-  <figure class="art"><video class="made-video" src="../../assets/source-book/book-video.m4v" poster="assets/11-still-working.jpg" controls playsinline muted preload="none" aria-label="Mikaela's video: her as a kid, then her desk mid-build"></video><figcaption>the video from inside the book, me as a kid and me at my desk, working</figcaption></figure>
+  <figure class="art"><video class="made-video" src="../../assets/source-book/book-video.m4v" poster="assets/11-still-working.jpg" controls playsinline muted preload="none" aria-label="Mikaela's video: her as a kid, then her desk mid-build"></video><figcaption>the video inside the book. me as a kid, then me at my desk.</figcaption></figure>
   <figure class="art"><div class="drawings">
     <img src="assets/10-journal-drawing-1.jpg" alt="Childhood journal page: my favorite cartoon is charlie brown, with a pencil drawing of a cartoon dog" loading="lazy" width="800" height="911">
     <img src="assets/10-journal-drawing-2.jpg" alt="Childhood journal page: my parents can be proud of me, with a crayon drawing of herself, a garden and a bunny" loading="lazy" width="800" height="844">
     <img src="assets/10-journal-drawing-3.jpg" alt="Childhood journal page about Finland and her garden, with pencil drawings of both" loading="lazy" width="800" height="911">
-  </div><figcaption>my childhood journal. naive, childlike drawings in my own hand, the first proof of hand i ever made</figcaption></figure>
-  <figure class="art painting"><img src="assets/12-painting.jpg" alt="Her painting from adulthood: a hot-pink canvas covered in hand-painted flowers" loading="lazy" width="900" height="1200"><figcaption>a painting i made as an adult. the same flowers, years later, now behind the whole site</figcaption></figure>
+  </div><figcaption>my childhood journal, drawn and written in my own hand.</figcaption></figure>
+  <figure class="art painting"><img src="assets/12-painting.jpg" alt="Her painting from adulthood: a hot-pink canvas covered in hand-painted flowers" loading="lazy" width="900" height="1200"><figcaption>a painting i made as an adult, now behind the whole site.</figcaption></figure>
 </section>
 
 <footer class="wide">
   <div class="built mono">
     <p><span>live</span> · <a href="https://mikaela.world" rel="noopener">mikaela.world</a></p>
-    <p><span>stack</span> · index.html, styles.css, script.js. no framework, no build step</p>
+    <p><span>me</span> · design engineer</p>
   </div>
 </footer>
 
 <script>
 document.body.classList.remove('no-js');
-document.querySelectorAll('.daisy').forEach(function(d){ d.addEventListener('click', function(){ if (d.classList.contains('spin')) return; d.classList.add('spin'); }); d.addEventListener('animationend', function(){ d.classList.remove('spin'); }); });
+document.querySelectorAll('.daisy').forEach(function(d){ var turn = 0, busy = false; d.addEventListener('click', function(){ if (busy) return; busy = true; turn += 150; d.style.setProperty('--turn', turn + 'deg'); setTimeout(function(){ busy = false; }, 900); }); d.addEventListener('animationend', function(){ d.classList.remove('spin'); }); });
 const io = 'IntersectionObserver' in window ? new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -8% 0px' }) : null;
 document.querySelectorAll('.art').forEach(el => io ? io.observe(el) : el.classList.add('in'));
 </script>
