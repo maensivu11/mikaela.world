@@ -217,6 +217,186 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
       <p class="stage">this page shows how it works under the hood: what the agent may do for you, and when.</p>
     </div>
   </div>
+<!-- wmax hero mock: mac window + iphone mirroring (sample data) -->
+<style>
+.wh{margin-top:0;position:relative}
+.wh-fit{position:relative;overflow:hidden;margin:0 -20px}
+.wh-s{position:absolute;left:0;top:0;width:1240px;height:740px;transform-origin:0 0;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Instrument Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased;color:#fff;font-size:13px;line-height:18px}
+.wh-s *{box-sizing:border-box}
+/* mac window */
+.wh-mac{position:absolute;left:20px;top:52px;width:860px;background:#000;border-radius:12px;border:1px solid rgba(255,255,255,.14);box-shadow:0 14px 28px rgba(0,0,0,.18),0 0 0 .5px rgba(0,0,0,.6);overflow:hidden}
+.wh-tb{height:32px;display:flex;align-items:center;padding:0 14px;gap:8px;border-bottom:1px solid rgba(255,255,255,.08);background:#141414}
+.wh-tb i{width:12px;height:12px;border-radius:50%;display:block}
+.wh-tb i:nth-child(1){background:#ff5f57}.wh-tb i:nth-child(2){background:#febc2e}.wh-tb i:nth-child(3){background:#28c840}
+.wh-tb b{flex:1;text-align:center;font-weight:600;font-size:13px;color:rgba(255,255,255,.55);margin-right:52px}
+.wh-body{padding:24px 28px}
+.wh-hd{display:flex;justify-content:space-between;align-items:center}
+.wh-hd h3{font-size:24px;line-height:30px;font-weight:700;letter-spacing:-.01em}
+.wh-hd p{font-size:14px;color:rgba(255,255,255,.5);margin-top:3px}
+.wh-cap{display:inline-flex;align-items:center;gap:7px;padding:6px 12px;border-radius:99px;background:rgba(155,113,232,.14);color:#b99cf0;font-weight:500}
+.wh-cap i{width:7px;height:7px;border-radius:50%;background:#9b71e8;display:block}
+.wh-grid{display:grid;grid-template-columns:1fr 300px;gap:16px;margin-top:22px}
+.wh-card{background:#101010;border:1px solid rgba(255,255,255,.10);border-radius:14px;padding:18px}
+.wh-eb{font-size:10.5px;font-weight:600;letter-spacing:.12em;color:#9b71e8;text-transform:uppercase}
+.wh-t{font-size:15px;font-weight:600;margin-top:4px}
+.wh-act{list-style:none;margin-top:12px}
+.wh-act li{display:grid;grid-template-columns:18px 1fr auto;gap:8px;align-items:center;padding:7px 0;border-top:1px solid rgba(255,255,255,.06);color:rgba(255,255,255,.7)}
+.wh-act li:first-child{border-top:0}
+.wh-act .ck{color:#50dc8c;font-size:12px}
+.wh-act time{font-size:11px;color:rgba(255,255,255,.4);font-variant-numeric:tabular-nums}
+.wh-act li.now{color:#fff}
+.wh-sp{width:12px;height:12px;border-radius:50%;border:2px solid rgba(155,113,232,.3);border-top-color:#9b71e8;display:block}
+.wh-big{font-size:30px;line-height:34px;font-weight:600;letter-spacing:-.02em;margin-top:10px;font-variant-numeric:tabular-nums}
+.wh-big small{font-size:13px;font-weight:500;color:rgba(255,255,255,.5);letter-spacing:0;margin-left:6px}
+.wh-bar{height:5px;border-radius:3px;background:rgba(255,255,255,.08);margin-top:10px;position:relative}
+.wh-bar i{position:absolute;left:0;top:0;bottom:0;border-radius:3px;background:#9b71e8}
+.wh-bar u{position:absolute;top:-4px;bottom:-4px;width:1.5px;background:rgba(255,255,255,.75)}
+.wh-sm{font-size:11.5px;line-height:16px;color:rgba(255,255,255,.5);margin-top:8px}
+.wh-dec{margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.08)}
+.wh-dec .row{display:flex;justify-content:space-between;align-items:baseline}
+.wh-like{display:inline-flex;gap:6px;align-items:center;font-weight:600;color:#fff;background:#9b71e8;border-radius:8px;padding:5px 10px;font-size:12px}
+.wh-auto{margin-top:16px;display:flex;align-items:center;gap:14px}
+.wh-auto .ic{width:36px;height:36px;border-radius:11px;background:rgba(80,220,140,.14);display:grid;place-items:center;flex:none}
+.wh-auto .tx{flex:1}
+.wh-auto .tx b{font-size:15px;font-weight:600;display:block}
+.wh-auto .tx span{color:rgba(255,255,255,.5);font-size:12.5px}
+.wh-tg{display:flex;align-items:center;gap:7px;color:rgba(255,255,255,.85)}
+.wh-tg i{width:30px;height:18px;border-radius:9px;background:#9b71e8;position:relative;display:block}
+.wh-tg i::after{content:"";position:absolute;right:2px;top:2px;width:14px;height:14px;border-radius:50%;background:#fff}
+.wh-tg.off{color:rgba(255,255,255,.35)}
+.wh-tg.off i{background:rgba(255,255,255,.12)}
+.wh-tg.off i::after{right:auto;left:2px;background:rgba(255,255,255,.4)}
+.wh-btn{border:1px solid rgba(255,255,255,.16);border-radius:7px;padding:4px 10px;color:#fff;background:rgba(255,255,255,.055)}
+.wh-lim{display:flex;gap:28px;margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,.06);color:rgba(255,255,255,.7);font-variant-numeric:tabular-nums}
+.wh-lim b{color:#fff;font-weight:600}
+.wh-foot{font-size:11.5px;color:rgba(255,255,255,.4);margin-top:12px}
+/* iphone mirroring window */
+.wh-ph{position:absolute;left:928px;top:56px;width:292px;height:640px;background:#1c1c1e;border-radius:52px;border:1px solid rgba(255,255,255,.18);box-shadow:0 14px 28px rgba(0,0,0,.2),0 0 0 .5px rgba(0,0,0,.6);padding:9px}
+.wh-ph .bar{position:absolute;left:36px;right:36px;top:-38px;height:28px;border-radius:9px;background:rgba(40,40,42,.92);display:flex;gap:7px;align-items:center;padding:0 11px;font-size:12px;font-weight:600;color:rgba(255,255,255,.6)}.wh-ph .bar i{width:11px;height:11px;border-radius:50%;display:block}.wh-ph .bar i:nth-child(1){background:#ff5f57}.wh-ph .bar i:nth-child(2){background:#febc2e}.wh-ph .bar i:nth-child(3){background:#28c840}.wh-ph .bar b{flex:1;text-align:center;font-weight:600;margin-right:40px}
+.wh-scr{position:relative;width:100%;height:100%;border-radius:44px;overflow:hidden;background:#fbf8f4;color:#1d1a17}
+.wh-st{display:flex;justify-content:space-between;padding:14px 26px 0;font-size:13px;font-weight:600}
+.wh-isl{position:absolute;left:50%;top:10px;width:86px;height:25px;margin-left:-43px;border-radius:13px;background:#000}
+.wh-top{display:flex;justify-content:space-between;align-items:center;padding:14px 18px 8px}
+.wh-top b{font-size:22px;font-weight:700;letter-spacing:-.02em}
+.wh-top span{font-size:12px;color:#8b8279}
+.wh-cardp{margin:0 12px;border-radius:18px;background:#fff;box-shadow:0 1px 0 rgba(0,0,0,.06),0 6px 18px rgba(60,40,20,.08);overflow:hidden;transform:rotate(-2.5deg) translateX(10px);transform-origin:50% 100%}
+.wh-photo{height:300px;position:relative;background:radial-gradient(120% 90% at 30% 20%,#f3d3b8 0%,#d99a7a 38%,#8c5a4b 72%,#3e2a2a 100%)}
+.wh-dots{position:absolute;top:10px;left:12px;right:12px;display:flex;gap:4px}
+.wh-dots i{flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,.45)}
+.wh-dots i:first-child{background:#fff}
+.wh-nm{position:absolute;left:16px;bottom:14px;color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.3)}
+.wh-nm b{font-size:24px;font-weight:700;display:block;letter-spacing:-.01em}
+.wh-nm span{font-size:12.5px;opacity:.9}
+.wh-pr{padding:14px 16px 16px}
+.wh-pr small{font-size:11px;color:#8b8279;font-weight:600}
+.wh-pr p{font-size:16px;line-height:21px;font-weight:600;margin-top:4px;letter-spacing:-.01em}
+.wh-acts{position:absolute;left:0;right:0;bottom:30px;display:flex;justify-content:center;gap:44px}
+.wh-acts i{width:56px;height:56px;border-radius:50%;background:#fff;box-shadow:0 4px 14px rgba(60,40,20,.14);display:grid;place-items:center;font-style:normal;position:relative}
+.wh-acts i.lk{background:#1d1a17}
+.wh-ring{position:absolute;inset:-7px;border-radius:50%;border:1.5px solid #9b71e8}
+.wh-cur{position:absolute;left:186px;bottom:22px}
+.wh-cur em{position:absolute;left:-14px;top:-66px;white-space:nowrap;font-style:normal;font-size:11px;font-weight:600;color:#fff;background:#9b71e8;border-radius:6px;padding:2px 7px}
+.wh-home{position:absolute;left:50%;bottom:8px;width:110px;height:4px;margin-left:-55px;border-radius:2px;background:#1d1a17}
+.wh-link{position:absolute;left:0;top:0;pointer-events:none}
+/* stacked: narrow window, phone below */
+.wh.st .wh-s{width:600px}
+.wh.st .wh-mac{width:560px;top:12px}
+.wh.st .wh-grid{grid-template-columns:1fr}
+.wh.st .wh-auto{flex-wrap:wrap}
+.wh.st .wh-auto .tx{flex-basis:calc(100% - 50px)}
+.wh.st .wh-tgs{margin-left:50px}
+.wh.st .wh-ph{left:154px;top:auto;bottom:24px}
+</style>
+<figure class="wh" id="wh" aria-label="A mock of the Winged Max window on a Mac beside the iPhone it drives through iPhone Mirroring: autopilot is on, the taste model passed validation, and it is liking a profile it predicts at 81 percent, above the 72 percent line.">
+<div class="wh-fit"><div class="wh-s">
+  <div class="wh-mac">
+    <div class="wh-tb"><i></i><i></i><i></i><b>Winged Max</b></div>
+    <div class="wh-body">
+      <div class="wh-hd">
+        <div><h3>Winged Max</h3><p>Working within the boundaries you chose</p></div>
+        <span class="wh-cap"><i></i>Analyzing</span>
+      </div>
+      <div class="wh-grid">
+        <div class="wh-card">
+          <div class="wh-t">Winged is working</div>
+          <ul class="wh-act">
+            <li><span class="ck">&#10003;</span>Connected to iPhone Mirroring<time>23:41</time></li>
+            <li><span class="ck">&#10003;</span>Verified the app is open<time>23:41</time></li>
+            <li><span class="ck">&#10003;</span>Cleared a routine screen and checked again<time>23:42</time></li>
+            <li><span class="ck">&#10003;</span>Captured the current iPhone screen (3/3)<time>23:44</time></li>
+            <li class="now"><span class="wh-sp"></span>Inspecting the visible screen<time>23:44</time></li>
+          </ul>
+        </div>
+        <div class="wh-card" id="wh-dec">
+          <div class="wh-eb">Taste model</div>
+          <div class="wh-big">50<small>of 50 profiles rated</small></div>
+          <div class="wh-sm">Prediction quality on choices Winged did not train on (AUC): 0.71 · required &gt; 0.60</div>
+          <div class="wh-dec">
+            <div class="row"><span style="color:rgba(255,255,255,.7)">This profile</span><span class="wh-like">Like</span></div>
+            <div class="wh-big" style="margin-top:6px">81%<small>predicted</small></div>
+            <div class="wh-bar"><i style="width:81%"></i><u style="left:35%"></u><u style="left:72%"></u></div>
+            <div class="wh-sm" style="display:flex;justify-content:space-between"><span style="margin-left:24%">pass &le; 35%</span><span style="margin-right:8%">like &ge; 72%</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="wh-card" style="margin-top:16px">
+        <div class="wh-auto">
+          <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="#50dc8c"><path d="M12 2 4 5v6c0 5 3.4 9.3 8 11 4.6-1.7 8-6 8-11V5l-8-3Zm-1 15v-5H8l5-7v5h3l-5 7Z"/></svg></div>
+          <div class="tx"><b>Profile autopilot is on</b><span>Winged handles high-confidence decisions within your operating targets. Uncertain profiles come back to you.</span></div>
+          <div class="wh-tgs" style="display:flex;gap:16px;align-items:center">
+            <span class="wh-tg"><i></i>Auto-like</span>
+            <span class="wh-tg"><i></i>Auto-pass</span>
+            <span class="wh-tg off"><i></i>Messages</span>
+            <span class="wh-btn">Pause all</span>
+          </div>
+        </div>
+        <div class="wh-lim"><span>Profiles/day: <b>25</b></span><span>Auto-like at <b>&ge; 72%</b></span><span>Auto-pass at <b>&le; 35%</b></span></div>
+        <div class="wh-foot">Writing training: 6/20 approved replies. Edit and approve drafts to unlock routine messaging.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wh-ph" id="wh-ph">
+    <div class="bar"><i></i><i></i><i></i><b>iPhone Mirroring</b></div>
+    <div class="wh-scr">
+      <div class="wh-isl"></div>
+      <div class="wh-st"><span>23:44</span><span>&#9679;&#9679;&#9679; 82%</span></div>
+      <div class="wh-top"><b>Discover</b><span>within 15 km</span></div>
+      <div class="wh-cardp">
+        <div class="wh-photo"><div class="wh-dots"><i></i><i></i><i></i><i></i><i></i></div><div class="wh-nm"><b>Sanna, 31</b><span>Architect · Kallio, 3 km</span></div></div>
+        <div class="wh-pr"><small>My simple pleasures</small><p>Sunday flea markets, then a cold swim and a long lunch.</p></div>
+      </div>
+      <div class="wh-acts">
+        <i><svg width="18" height="18" viewBox="0 0 24 24" stroke="#1d1a17" stroke-width="2.4" fill="none" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></i>
+        <i class="lk" id="wh-heart"><span class="wh-ring"></span><svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M12 21s-7.5-4.6-9.5-9.3C1 8 3.4 4.5 7 4.5c2.1 0 3.6 1.1 5 2.9 1.4-1.8 2.9-2.9 5-2.9 3.6 0 6 3.5 4.5 7.2C19.5 16.4 12 21 12 21Z"/></svg></i>
+      </div>
+      <div class="wh-cur"><svg width="20" height="24" viewBox="0 0 20 24"><path d="M2 2v18l5-5 3.5 7 3-1.5L10 13.5h7Z" fill="#1d1a17" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></svg><em>winged max</em></div>
+      <div class="wh-home"></div>
+    </div>
+  </div>
+  <svg class="wh-link" id="wh-link" width="1240" height="1500" aria-hidden="true"><path fill="none" stroke="#9b71e8" stroke-width="1.5" stroke-dasharray="4 5"/><circle r="3.5" fill="#9b71e8"/></svg>
+</div></div>
+<figcaption class="cap">a mock with sample data: the mac window, and the iphone it drives through iphone mirroring.</figcaption>
+</figure>
+<script>
+(function(){
+  var f=document.getElementById('wh'),fit=f.querySelector('.wh-fit'),s=f.querySelector('.wh-s');
+  function link(){
+    var d=document.getElementById('wh-dec'),h=document.getElementById('wh-heart'),p=f.querySelector('#wh-link path'),c=f.querySelector('#wh-link circle');
+    var o=s.getBoundingClientRect(),k=o.width/s.offsetWidth,a=d.getBoundingClientRect(),b=h.getBoundingClientRect(),x1,y1,x2,y2,dd;
+    if(f.classList.contains('st')){x1=(a.left+a.width*.75-o.left)/k;y1=(s.querySelector('.wh-mac').getBoundingClientRect().bottom-o.top)/k;x2=(b.left+b.width/2-o.left)/k;y2=(f.querySelector('#wh-ph').getBoundingClientRect().top-o.top)/k-44;dd='M'+x1+' '+y1+' C'+x1+' '+(y1+40)+' '+x2+' '+(y2-40)+' '+x2+' '+y2;}
+    else{x1=(a.right-o.left)/k;y1=(a.top+a.height*.62-o.top)/k;x2=(b.left-o.left)/k-8;y2=(b.top+b.height/2-o.top)/k;dd='M'+x1+' '+y1+' C'+(x1+90)+' '+y1+' '+(x2-120)+' '+y2+' '+x2+' '+y2;}
+    p.setAttribute('d',dd);c.setAttribute('cx',x1);c.setAttribute('cy',y1);
+  }
+  function fitit(){
+    var w=fit.clientWidth;f.classList.toggle('st',w<700);
+    s.style.height=f.classList.contains('st')?(f.querySelector('.wh-mac').offsetHeight+12+90+640+24)+'px':'';var dw=s.offsetWidth,dh=s.offsetHeight,k=w/dw;
+    s.style.transform='scale('+k+')';fit.style.height=(dh*k)+'px';link();
+  }
+  fitit();(window.ResizeObserver?new ResizeObserver(fitit).observe(fit):addEventListener('resize',fitit));
+  if(document.fonts)document.fonts.ready.then(fitit);
+})();
+</script>
 </header>
 
 <!-- 2. where it started -->
