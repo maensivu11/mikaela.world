@@ -26,6 +26,9 @@
     '.cc-ne{display:inline-block;width:14px;height:14px;vertical-align:-1px;stroke-width:3;margin:0 2px}',
     '@media (max-width:760px){.cc-arrow{width:30px;height:21px}.cc-top .cc-up{width:13px;height:17px}}',
     '@media print{.cc{display:none}}',
+    /* no sideways scroll anywhere: code wraps inside its panel */
+    '.code,pre{overflow-x:hidden!important;max-width:100%}',
+    '.code pre,pre{white-space:pre-wrap!important;overflow-wrap:anywhere!important}',
     '.cc-key{font-family:var(--mono,ui-monospace),monospace;font-size:11px;line-height:1;letter-spacing:.04em;opacity:0;margin:0 6px;padding:2px 5px;border:1px solid currentColor;border-radius:4px;transition:opacity 160ms ease-out;vertical-align:middle}',
     '.cc:hover .cc-key,.cc:focus-visible .cc-key{opacity:.8}',
     '@media (hover:none){.cc-key{display:none}}',
