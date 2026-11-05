@@ -34,9 +34,6 @@
     /* no sideways scroll anywhere: code wraps inside its panel */
     '.code,pre{overflow-x:hidden!important;max-width:100%}',
     '.code pre,pre{white-space:pre-wrap!important;overflow-wrap:anywhere!important}',
-    '.cc-key{font-family:var(--mono,ui-monospace),monospace;font-size:11px;line-height:1;letter-spacing:.04em;opacity:0;margin:0 6px;padding:2px 5px;border:1px solid currentColor;border-radius:4px;transition:opacity 160ms ease-out;vertical-align:middle}',
-    '.cc:hover .cc-key,.cc:focus-visible .cc-key{opacity:.8}',
-    '@media (hover:none){.cc-key{display:none}}',
     /* shared layout rules for every case page */
     /* 1 text spans the full content column: no narrow caps on any text block */
     'section.prose>*,.ed>*{max-width:none!important}',
@@ -152,13 +149,6 @@
     else if (e.key === 'ArrowLeft') go = document.querySelector('.cc-prev');
     else if (e.key === 'ArrowRight') go = document.querySelector('.cc-next');
     if (go) { e.preventDefault(); go.click(); }
-  });
-  var keyTop = document.querySelector('.cc-top');
-  if (keyTop) { var k = document.createElement('span'); k.className = 'cc-key'; k.textContent = 'esc'; keyTop.appendChild(k); }
-  [['.cc-prev .cc-name', '\u2190'], ['.cc-next .cc-name', '\u2192']].forEach(function (p) {
-    var n = document.querySelector(p[0]); if (!n) return;
-    var k = document.createElement('span'); k.className = 'cc-key'; k.textContent = p[1];
-    if (p[0].indexOf('prev') > -1) n.appendChild(k); else n.insertBefore(k, n.firstChild);
   });
   /* touch: an embedded app or site never traps the page's scroll. it stays inert until tapped,
      then goes inert again once it scrolls out of view */
