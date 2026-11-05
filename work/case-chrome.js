@@ -35,6 +35,18 @@
     /* 2 the hero sits on the same 1280 container as every other section */
     '.hero{max-width:1280px;margin-left:auto!important;margin-right:auto!important}',
     '.hero-head{padding-left:0!important}',
+    /* 2b hero type scale (instrument sans 400/600, jetbrains mono): title > lede > role > action */
+    '.hero-head h1{font-size:44px!important;line-height:48px!important;font-weight:600!important;letter-spacing:-.02em}',
+    '.hero-head h1+p{font-size:22px!important;line-height:32px!important;font-weight:400!important;color:var(--ink)!important;margin-top:16px!important}',
+    '.hero-head h1+p~.claim{font-size:17px!important;line-height:28px!important;font-weight:400!important;color:var(--ink)!important;margin-top:12px!important}',
+    '.hero-head a.live{flex:none;align-self:flex-start;display:inline-flex;align-items:center;gap:2px;margin-top:8px;padding:9px 16px!important;font-family:var(--mono);font-size:13px;line-height:20px;font-weight:400;color:var(--ink);text-decoration:none;border:1px solid var(--ink);border-radius:999px;white-space:nowrap;transition:background-color .15s,color .15s}',
+    '.hero-head:has(a.live){flex-direction:column;justify-content:flex-start;gap:0}',
+    '.hero-head:has(a.live)>div:first-child{width:100%}',
+    '.hero-head a.live{margin-top:24px!important}',
+    '@media (min-width:901px){.hero-head{position:relative}.hero-head>div:first-child~:not(a.live){position:absolute;top:0;right:0}}',
+    '.hero-head a.live .cc-ne{width:12px!important;height:12px!important;margin:0 4px!important}',
+    '.hero-head a.live:hover,.hero-head a.live:focus-visible{background:var(--ink);color:var(--bg)}',
+    '@media (max-width:900px){.hero-head h1{font-size:36px!important;line-height:40px!important}.hero-head h1+p{font-size:19px!important;line-height:28px!important}.hero-head h1+p~.claim{font-size:16px!important;line-height:26px!important}.hero-head a.live{margin-top:20px!important}}',
     /* 3 captions breathe before the text below them */
     '.cap+*:not(.cap):not(.why){margin-top:var(--s4)!important}',
     '.pair+.ed,.art+.ed{margin-top:var(--s3)!important}',
