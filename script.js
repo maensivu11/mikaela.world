@@ -844,8 +844,8 @@ document.querySelectorAll('[data-ext-href]').forEach(function(el){
   // Back from a case page ("notebook"): the reverse of the dive. The spread is already open, the camera starts
   // close on that project's tile and pulls back out to the whole page. No close, no re-open flip.
   function zoomOutFrom(slug){
-    // the page arrives covered in the same paper the case page faded to; the cover lifts only once the
-    // spread is decoded and the zoom is already running, so there is no flash of the desk or the closed book
+    // the page arrives covered in the desk canvas; the cover lifts only once the spread is decoded,
+    // so there is no flash of the desk scene or the closed book
     var root=document.documentElement,spreadSrc='assets/tabletop/open-comp-blank.png',pre=new Image();pre.src=spreadSrc;
     (pre.decode?pre.decode():Promise.resolve()).catch(function(){}).then(function(){
       openWorkIndex(true);frame.src=spreadSrc;stage.classList.add('is-open');
@@ -853,28 +853,15 @@ document.querySelectorAll('[data-ext-href]').forEach(function(el){
       requestAnimationFrame(function(){root.classList.remove('wi-boot');});
     });
   }
+  // Back from a case page: no paper wash. The desk canvas covers the arrival, the decoded spread settles in
+  // over 220ms (a slight pull-back), and the tile she came from keeps its marker for a moment.
   function zoomRun(slug){
     var link=slug&&stage.querySelector('.wi-entry[data-wi-slug="'+slug+'"]');
-    if(!link||!stage.animate||window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
-    var sr=stage.getBoundingClientRect(),lr=link.getBoundingClientRect();
-    var cx=lr.left+lr.width/2-sr.left,cy=lr.top+lr.height/2-sr.top;
-    var dx=window.innerWidth/2-(lr.left+lr.width/2),dy=window.innerHeight/2-(lr.top+lr.height/2);
-    var far=3.2,near=1.3,OUT=DIVE_MS;
-    var wash=document.createElement('div');wash.className='wi-wash';wash.style.opacity='1';modal.appendChild(wash);
-    var art=link.querySelector('.wi-art');
-    var anims=[];
-    stage.style.transformOrigin=cx+'px '+cy+'px';stage.style.transition='none';
-    anims.push(stage.animate([{translate:dx+'px '+dy+'px'},{translate:'0 0'}],{duration:OUT,easing:'cubic-bezier(.65,0,.75,.9)',fill:'both'}));
-    anims.push(stage.animate([{scale:String(far)},{scale:'1'}],{duration:OUT,easing:'cubic-bezier(.15,.65,.5,1)',fill:'both'}));
-    Array.prototype.forEach.call(stage.querySelectorAll('.wi-entry'),function(en){
-      if(en===link)return;
-      anims.push(en.animate([{opacity:0},{opacity:0,offset:.65},{opacity:1}],{duration:OUT,easing:'linear',fill:'both'}));
-    });
-    if(art)anims.push(art.animate([{transform:'scale('+near+')'},{transform:'scale(1)'}],{duration:OUT,easing:'cubic-bezier(.15,.65,.5,1)',fill:'both'}));
-    anims.push(wash.animate([{opacity:1},{opacity:0,offset:.28},{opacity:0}],{duration:OUT,easing:'ease-out',fill:'both'}));
-    Promise.all(anims.map(function(x){return x.finished;})).then(function(){
-      anims.forEach(function(x){x.cancel();});wash.remove();stage.style.transformOrigin='';stage.style.transition='';
-    },function(){wash.remove();});
+    if(link){link.classList.add('ww-from');setTimeout(function(){link.classList.remove('ww-from');},1400);}
+    if(!stage.animate||window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+    stage.style.transition='none';
+    var a=stage.animate([{opacity:0,scale:'1.04'},{opacity:1,scale:'1'}],{duration:220,easing:'cubic-bezier(.2,.7,.3,1)'});
+    a.finished.then(function(){stage.style.transition='';},function(){stage.style.transition='';});
   }
   if(window.location.hash==='#work-index'){
     var fromSlug=null;try{fromSlug=sessionStorage.getItem('wi-from');sessionStorage.removeItem('wi-from');}catch(e){}
@@ -1013,15 +1000,17 @@ document.querySelectorAll('[data-ext-href]').forEach(function(el){
     var h='#work/'+cases[cur].slug;if(window.location.hash===h)return;
     if(replace||history.state&&history.state.ww)history.replaceState({ww:1},'',h);else history.pushState({ww:1},'',h);
   }
+  var growSeq=0;
   function grow(fromX,fromY,reverse,done){
     var r=w.getBoundingClientRect();
-    if(reduce()||!w.animate){if(done)done();return;}
+    if(reduce()||!w.animate){growSeq++;if(done)done();return;}
     var dx=fromX-r.left,dy=fromY-r.top;
     var k=[{transform:'translate('+dx+'px,'+dy+'px) scale(.02)',opacity:.4},{transform:'translate(0,0) scale(1)',opacity:1}];
     w.style.transformOrigin='0 0';
     if(anim)anim.cancel();
-    anim=w.animate(reverse?k.slice().reverse():k,{duration:reverse?190:260,easing:reverse?'cubic-bezier(.5,0,.9,.5)':'cubic-bezier(.15,.75,.3,1)'});
-    anim.onfinish=function(){anim=null;if(done)done();};
+    var ms=reverse?190:260,fired=false,my=++growSeq,fin=function(){if(fired||my!==growSeq)return;fired=true;anim=null;if(done)done();};
+    anim=w.animate(reverse?k.slice().reverse():k,{duration:ms,easing:reverse?'cubic-bezier(.5,0,.9,.5)':'cubic-bezier(.15,.75,.3,1)'});
+    anim.onfinish=fin;setTimeout(fin,ms+120); // a busy main thread can starve onfinish; the window must still settle
   }
   function clock(){var d=new Date(),h=d.getHours(),mm=('0'+d.getMinutes()).slice(-2);task.querySelector('.ww-clock').textContent=((h%12)||12)+':'+mm+' '+(h<12?'AM':'PM');}
   function open(i,x,y){
