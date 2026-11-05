@@ -360,3 +360,10 @@ body{display:grid;min-height:100svh;place-items:center;overflow-x:hidden;backgro
 .close,.copybtn,.sheet div[style*="display:flex"]>a,.work-copy a{font-family:var(--mono)!important;font-size:13px!important;line-height:20px!important;font-weight:400!important;letter-spacing:.02em!important;padding:9px 16px!important;border-radius:999px!important}
 .copybtn,.close{border-width:1px!important}
 @media (max-width:900px){.work-copy p{font-size:19px!important;line-height:28px!important}.sheet>p,.note p,#connote,#emailnote,#elsenote{font-size:16px!important;line-height:26px!important}}
+
+/* "open me": a small handwritten arc around the composition book's top-left corner, revealed like the daisy label */
+.book-arc{position:absolute;left:7.6%;top:12.2%;width:15.5%;height:auto;aspect-ratio:1;z-index:3;overflow:visible;pointer-events:none;opacity:0;clip-path:inset(0 100% 0 0);transition:clip-path 500ms var(--ease-out),opacity 200ms ease;filter:drop-shadow(0 1px 2px rgba(60,10,30,.45))}
+.book-arc text{font-family:'B-McE',cursive;font-size:17px;fill:#fff;letter-spacing:.5px}
+.book-peek-hit:hover~.book-arc,.book-peek-hit:focus-visible~.book-arc,.book-arc.is-hint{opacity:1;clip-path:inset(0 0 0 0)}
+.layer-book.is-dragging .book-arc{opacity:0}
+@media(max-width:600px){.book-arc{left:4%;top:4%;width:18%}}

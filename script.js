@@ -825,3 +825,12 @@ document.querySelectorAll('[data-ext-href]').forEach(function(el){
     zoomOutFrom(fromSlug);
   }
 })();
+
+// touch devices can't hover: show the book's "open me" once, briefly, after the desk settles
+(function(){
+  if(window.matchMedia('(hover:hover) and (pointer:fine)').matches)return;
+  var arc=document.querySelector('.book-arc');if(!arc)return;
+  try{if(sessionStorage.getItem('book-hint'))return;sessionStorage.setItem('book-hint','1');}catch(e){}
+  function hint(){arc.classList.add('is-hint');setTimeout(function(){arc.classList.remove('is-hint');},2600);}
+  window.addEventListener('load',function(){setTimeout(hint,2600);},{once:true});
+})();
