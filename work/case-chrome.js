@@ -94,14 +94,19 @@
     '.w98-addr b{flex:1;font-weight:400;background:#fff;border:2px solid;border-color:#808080 #fff #fff #808080;padding:2px 5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}',
     '.w98 .frame{border-radius:0!important;border:2px solid;border-color:#808080 #fff #fff #808080!important;box-shadow:none!important}',
     '@media (max-width:600px){.w98-addr span{display:none}}',
-    /* phones (<=600px): wider side margins on every case page, and prev/next become a small hand-drawn pager at the end of the page, inside the margin */
+    /* phones (<=600px): 30px side margins; prev/next stay fixed mid-screen inside the margin, recede while scrolling, return at rest */
     '@media (max-width:600px){:root{--pad:30px!important}' +
-      '.cc-pager{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;padding:8px var(--pad) 40px}' +
-      '.cc-pager .cc-side{position:static;transform:none;display:flex;flex-direction:column;align-items:center;gap:4px;min-width:44px;min-height:44px;padding:8px 6px;font-size:inherit;opacity:.8;border-radius:12px;-webkit-tap-highlight-color:transparent}' +
-      '.cc-pager .cc-next{margin-left:auto}' +
-      '.cc-pager .cc-arrow{width:32px;height:22px;stroke-width:2.4}' +
-      '.cc-pager .cc-name{display:block!important;position:static;transform:none;opacity:1;font-size:15px;white-space:nowrap}' +
-      '.cc-pager .cc-side:active,.cc-pager .cc-side:focus{background:rgba(61,58,140,.08);box-shadow:0 0 0 1.5px rgba(61,58,140,.35)}}'
+      '.cc-pager .cc-side{top:50%;transform:translateY(-50%);width:30px;min-height:72px;padding:10px 0;display:flex;flex-direction:column;align-items:center;gap:8px;font-size:inherit;opacity:.85;-webkit-tap-highlight-color:transparent;transition:opacity 220ms ease-out,transform 220ms ease-out,color 160ms ease-out;touch-action:manipulation}' +
+      '.cc-pager .cc-prev{left:0}.cc-pager .cc-next{right:0}' +
+      '.cc-pager .cc-arrow{width:22px;height:15px;stroke-width:3}' +
+      '.cc-pager .cc-name{display:block!important;position:static;transform:none;opacity:1;font-size:13px;line-height:1;writing-mode:vertical-rl;white-space:nowrap;transition:opacity 220ms ease-out}' +
+      '.cc-pager .cc-prev .cc-name{transform:rotate(180deg)}' +
+      'html.cc-moving .cc-pager .cc-side{opacity:.15}' +
+      'html.cc-moving .cc-pager .cc-name{opacity:0}' +
+      '.cc-pager .cc-side:active,.cc-pager .cc-side:focus{opacity:1!important;transform:translateY(-50%)!important;background:none!important;box-shadow:none!important;color:#3d3a8c}' +
+      '.cc-pager .cc-side:focus-visible{outline-offset:-2px}' +
+      '.cc-pager .cc-side:active .cc-name,.cc-pager .cc-side:focus .cc-name{opacity:1}' +
+      '@media (prefers-reduced-motion:reduce){.cc-pager .cc-side{transition:opacity 120ms linear}}}'
   ].join('\n');
   var style = document.createElement('style');
   style.textContent = css;
@@ -140,6 +145,14 @@
   document.body.appendChild(pager);
   if (d.prev) link('cc-side cc-prev', d.prev, ARROW.left, d.prevName, 'previous: ' + d.prevName, pager);
   if (d.next) link('cc-side cc-next', d.next, ARROW.right, d.nextName, 'next: ' + d.nextName, pager);
+  /* phones: the edge arrows recede while the reader scrolls and return ~400ms after the scroll stops */
+  var ccRest = 0, ccRoot = document.documentElement;
+  addEventListener('scroll', function () {
+    if (!matchMedia('(max-width:600px)').matches) return;
+    if (!ccRoot.classList.contains('cc-moving')) ccRoot.classList.add('cc-moving');
+    clearTimeout(ccRest);
+    ccRest = setTimeout(function () { ccRoot.classList.remove('cc-moving'); }, 400);
+  }, { passive: true });
   /* back to the notebook: the page pulls back, then the notebook finishes the zoom out onto this project's tile */
   var top = document.querySelector('.cc-top');
   if (top) top.addEventListener('click', function (e) {
