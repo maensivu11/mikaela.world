@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<script>if(location.hash==='#work-index'){document.documentElement.classList.add('skip-loader');document.documentElement.classList.add('wi-boot');setTimeout(function(){document.documentElement.classList.remove('wi-boot');},3000);}</script>
-<style>html.skip-loader #loader,html.skip-loader .site-loader{display:none!important}html.wi-boot,html.wi-boot body{background:#f6f0e0!important}html.wi-boot::after{content:"";position:fixed;inset:0;z-index:2147483647;background:#f6f0e0}</style>
+<script>if(/^#work\/[a-z0-9-]+$/.test(location.hash))document.documentElement.classList.add('skip-loader');if(location.hash==='#work-index'){document.documentElement.classList.add('skip-loader');document.documentElement.classList.add('wi-boot');setTimeout(function(){document.documentElement.classList.remove('wi-boot');},3000);}</script>
+<style>html.skip-loader #loader,html.skip-loader .site-loader{display:none!important}html.wi-boot,html.wi-boot body{background:#e80756!important}html.wi-boot::after{content:"";position:fixed;inset:0;z-index:2147483647;background:#e80756 url("assets/source-painting/plain_canvas.png") center top/cover no-repeat}</style>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mikaela Mäensivu</title>
 <meta name="description" content="Mikaela Maensivu. Design engineer who built the world's first autonomous dating agent. Co-founder of Winged, a headless matchmaking agent that runs on voice and text. San Francisco.">
@@ -129,7 +129,7 @@
 }
 </script>
 <link rel="stylesheet" href="fonts.css">
-<link rel="stylesheet" href="styles.css?v=20261106-x3">
+<link rel="stylesheet" href="styles.css?v=20261106-3x3">
 <link rel="preload" as="image" href="assets/source-painting/plain_canvas.png">
 <link rel="preload" as="image" media="(min-width:601px)" href="assets/tabletop/book-closed.png">
 <link rel="preload" as="image" media="(min-width:601px)" href="assets/tabletop/book-slightly-open.png">
@@ -450,7 +450,7 @@ It's not one of the three roles, but I think there's something here. Here's what
   </div>
 </div></div>
 
-<script src="script.js?v=20261106-1"></script>
+<script src="script.js?v=20261106-3"></script>
 
 
 <script id="loader-script">

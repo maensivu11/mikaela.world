@@ -368,8 +368,8 @@ body{display:grid;min-height:100svh;place-items:center;overflow-x:hidden;backgro
 .layer-book.is-dragging .book-arc{opacity:0}
 @media(max-width:600px){
   /* mobile: the book fills the width, so the arc sits above its top-left corner on the painting, larger, with a soft paper glow */
-  .book-arc{left:9%;top:-11%;width:36%;filter:drop-shadow(0 0 1px #f6f0e0) drop-shadow(0 0 2px #f6f0e0) drop-shadow(0 0 3px #f6f0e0) drop-shadow(0 0 6px rgba(246,240,224,.9)) drop-shadow(0 0 12px rgba(246,240,224,.6))}
-  .book-arc text{font-size:15px;fill:#2b2f55;letter-spacing:.4px}
+  .book-arc{left:6.5%;top:9.5%;width:26%;filter:none}
+  .book-arc text{font-size:15px;letter-spacing:.4px}
 }
 
 /* ===== Work window: a windows 98 browser that opens from the click point (script.js w98 window) ===== */
@@ -476,10 +476,10 @@ body{display:grid;min-height:100svh;place-items:center;overflow-x:hidden;backgro
   .wi-close,.journal-close{width:36px!important;height:36px!important;padding:0!important;font:32px/1 var(--hand)!important;letter-spacing:0!important;border-radius:0!important;color:#AB9F8D!important}
 }
 
-/* "open me" always visible on every width, ink on a soft paper glow, slow 4.5s pulse
-   (deliberately off the daisy's 2.4s sway / 4s glow / 6s stroke / 7s label so they never beat together) */
-.book-arc{clip-path:none;opacity:.45;animation:open-me-pulse 4.5s ease-in-out .6s infinite;filter:drop-shadow(0 0 1px #f6f0e0) drop-shadow(0 0 2px #f6f0e0) drop-shadow(0 0 3px #f6f0e0) drop-shadow(0 0 6px rgba(246,240,224,.9)) drop-shadow(0 0 12px rgba(246,240,224,.6))}
-.book-arc text{fill:#2b2f55}
+/* "open me" always visible on every width: quiet white ink wrapped on the book corner, soft slow pulse,
+   no glow (deliberately off the daisy's cadences so they never beat together) */
+.book-arc{clip-path:none;opacity:.55;animation:open-me-pulse 4.5s ease-in-out .6s infinite;filter:none}
+.book-arc text{fill:#fff;paint-order:stroke;stroke:rgba(20,22,40,.35);stroke-width:2px}
 .book-peek-hit:hover~.book-arc,.book-peek-hit:focus-visible~.book-arc,.book-arc.is-hint{animation:none;opacity:1}
 .layer-book.is-dragging .book-arc{animation:none;opacity:0}
 @keyframes open-me-pulse{0%,100%{opacity:.45}50%{opacity:.9}}
