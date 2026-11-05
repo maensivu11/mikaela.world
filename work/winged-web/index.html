@@ -420,7 +420,7 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
 <!-- the agent system: interactive map (infra-viz) -->
 <style>
 /* ===== section: the infrastructure. everything below is scoped to #infra ===== */
-#infra{padding-top:96px;padding-bottom:96px}
+#infra{padding-top:0;padding-bottom:0}
 #infra h2{font-family:var(--mono);font-size:13px;line-height:20px;font-weight:400;color:var(--muted);margin-bottom:16px}
 #infra .intro{font-size:22px;line-height:32px}
 #infra .counts{font-family:var(--mono);font-size:13px;line-height:20px;color:var(--muted);margin-top:16px}
@@ -434,8 +434,8 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
 #infra .bar button[aria-pressed=true]{background:#fff;color:#000;border-color:#fff}
 #infra .bar button:focus-visible{outline:1px dashed #fff;outline-offset:3px}
 
-#infra .stage{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,2fr);gap:40px;margin-top:24px;align-items:start}
-#infra .stage>*{min-width:0}
+#infra .ix-stage{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,2fr);gap:40px;margin-top:24px;align-items:start}
+#infra .ix-stage>*{min-width:0}
 #infra .left{position:sticky;top:24px}
 
 /* the map */
@@ -468,10 +468,10 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
 @keyframes pulse{0%{stroke-opacity:1}100%{stroke-opacity:.15}}
 
 /* readout: what the hovered part does and where it lives */
-#infra .read{margin-top:16px;border-top:1px solid rgba(255,255,255,.14);padding-top:12px;min-height:72px}
-#infra .read .k{font-family:'Space Mono',ui-monospace,monospace;font-size:11px;line-height:16px;letter-spacing:.09em;text-transform:uppercase;color:rgba(255,255,255,.55)}
-#infra .read .w{font-size:15px;line-height:24px;color:rgba(255,255,255,.7);margin-top:4px}
-#infra .read .f{font-family:var(--mono);font-size:12px;line-height:18px;color:rgba(255,255,255,.5);margin-top:2px;overflow-wrap:anywhere}
+#infra .ix-read{margin-top:16px;border-top:1px solid rgba(255,255,255,.14);padding-top:12px;min-height:72px}
+#infra .ix-read .k{font-family:'Space Mono',ui-monospace,monospace;font-size:11px;line-height:16px;letter-spacing:.09em;text-transform:uppercase;color:rgba(255,255,255,.55)}
+#infra .ix-read .w{font-size:15px;line-height:24px;color:rgba(255,255,255,.7);margin-top:4px}
+#infra .ix-read .f{font-family:var(--mono);font-size:12px;line-height:18px;color:rgba(255,255,255,.5);margin-top:2px;overflow-wrap:anywhere}
 
 /* the steps: scrolling through them walks the journey */
 #infra ol{list-style:none}
@@ -498,7 +498,7 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
   #infra .night{padding:16px;margin-top:24px}
   #infra .bar{display:grid;grid-template-columns:1fr 1fr}
   #infra .bar button{padding:9px 10px}
-  #infra .stage{display:block;margin-top:16px}
+  #infra .ix-stage{display:block;margin-top:16px}
   #infra .left{display:none}
   #infra li{padding:16px 0 16px 36px}
   #infra li .d{top:18px}
@@ -518,7 +518,7 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
 
   <div class="night">
     <div class="bar" role="group" aria-label="choose a journey" id="ix-bar"></div>
-    <div class="stage">
+    <div class="ix-stage">
       <div class="left">
         <div class="map" id="ix-map" aria-hidden="false">
           <svg viewBox="0 0 1000 740" preserveAspectRatio="none" id="ix-svg" aria-hidden="true">
@@ -526,7 +526,7 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
             <g id="ix-paths"></g><g id="ix-rings"></g><g id="ix-nums"></g>
           </svg>
         </div>
-        <div class="read" id="ix-read" aria-live="polite"></div>
+        <div class="ix-read" id="ix-read" aria-live="polite"></div>
       </div>
       <div><ol id="ix-steps"></ol><p class="end" id="ix-end"></p></div>
     </div>
