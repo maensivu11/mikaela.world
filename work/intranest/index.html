@@ -114,7 +114,7 @@ footer,footer.wide{margin-top:var(--gap);border-top:1px solid var(--line);paddin
 @media (max-width:760px){.hand{font-size:21px;line-height:24px}}
 /* phone visitors: every embed renders its own mobile layout at a real phone width, in a phone-shaped frame */
 .frame picture{display:contents}
-@media (max-width:600px){.hero .frame{flex:none;aspect-ratio:390/844}}
+@media (max-width:600px){.hero .frame{flex:none;aspect-ratio:390/844}.hero .w98{flex:none}}
 /* spacing pass: one scale */
 /* desktop 160 section / 120 block / 64 group / 40 element / 24 note / 16 caption
    mobile   96 section /  80 block / 48 group / 40 element / 24 note / 16 caption */
@@ -169,8 +169,12 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
     </div>
     <a class="live" href="https://intranest.ai" rel="noopener">visit live ↗ intranest.ai</a>
   </div>
-  <div class="frame art"><picture><source media="(max-width:600px)" srcset="assets/00-live-landing-390.png"><img src="assets/00-live-landing-1440.png" alt="The live intranest.ai landing page: Get to CMMC Level 2 without the six-figure consultant, beside the glyph globe." width="2880" height="1800"></picture><iframe data-src="https://intranest.ai" title="intranest.ai, live" loading="lazy" sandbox="allow-scripts allow-same-origin" referrerpolicy="no-referrer"></iframe></div>
-  <p class="cap">live product, intranest.ai, scroll inside it</p>
+  <div class="w98 art" role="group" aria-label="intranest.ai, the live website, in a window">
+    <div class="w98-bar"><span>intranest.ai · the live intranest website · scroll inside it</span><span class="w98-btns" aria-hidden="true"><i>_</i><i>□</i><i>×</i></span></div>
+    <div class="w98-addr"><span>Address</span><b>https://intranest.ai/</b></div>
+    <div class="frame"><picture><source media="(max-width:600px)" srcset="assets/00-live-landing-390.png"><img src="assets/00-live-landing-1440.png" alt="The live intranest.ai landing page: Get to CMMC Level 2 without the six-figure consultant, beside the glyph globe." width="2880" height="1800"></picture><iframe data-src="https://intranest.ai" title="intranest.ai, live" loading="lazy" sandbox="allow-scripts allow-same-origin" referrerpolicy="no-referrer"></iframe></div>
+  </div>
+  <p class="cap">the real intranest.ai, running live in the window above</p>
 </header>
 
 <section class="prose">
@@ -193,7 +197,7 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
     <div class="tok"><div class="chip" style="background:#0b0c14;border:1px solid var(--line)"></div><span class="name">ground #0b0c14</span><span class="why">indigo-tinted near-black, not gray. gray reads as a form. a navy night reads as a place, and the whole product, deck and site share it.</span></div>
     <div class="tok"><div class="chip" style="background:#14151f"></div><span class="name">surface #14151f · #1d1f2c</span><span class="why">three steps of depth instead of strokes. a border is a box drawn around a thing to say "this is a thing." tone says it without the line, and the screen stays quiet.</span></div>
     <div class="tok"><div class="chip" style="background:#5a63e8"></div><span class="name">accent #5a63e8</span><span class="why">the only fill. a primary action stands out by being the only filled thing on the screen, not by being big. if two things are filled, neither is primary.</span></div>
-    <span class="hand r1 inrow">red and green shout</span>
+    <span class="hand r1 inrow">indigo for status, plum for blocked</span>
     <div class="tok"><div class="chip" style="background:#191b36"></div><span class="name">status is indigo depth</span><span class="why">never red/green. solid means it needs you, accent means done, wash means in progress. traffic lights were made for people walking past a dashboard. dana isn't walking past. she's sitting in it all week, and red on 22 rows is just noise she learns to ignore.</span></div>
     <div class="tok"><div class="chip" style="background:#d583c2"></div><span class="name">plum #d583c2</span><span class="why">the one non-indigo hue, kept for expired or blocked only. because it's the only other color, it can't be ignored. that's the whole point of rationing it.</span></div>
     <div class="tok"><div class="chip" style="background:#14151f">Aa</div><span class="name">geist, 11 → 48</span><span class="why">one family, one scale. size carries the hierarchy, not a second typeface. mono only for hashes and control ids, because those are the things she'll copy and compare character by character.</span></div>
@@ -285,8 +289,7 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
 
 <footer class="wide">
   <div class="built mono">
-    <p>built by hand</p>
-    <p><span>live</span> · <a href="https://intranest.ai" rel="noopener">intranest.ai</a></p>
+        <p><span>live</span> · <a href="https://intranest.ai" rel="noopener">intranest.ai</a></p>
     <p><span>note</span> · product screens are design mocks; dana ruiz and acme machining are fictional</p>
   </div>
 </footer>

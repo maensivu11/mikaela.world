@@ -81,7 +81,8 @@ p+p{margin-top:20px}
 .o-cool{background:linear-gradient(135deg,#9B71E8,#70D4F5,#9B71E8);background-size:200% 200%;animation:drift 4s ease-in-out infinite alternate}
 .o-cool::before{content:"";position:absolute;inset:-2px;border-radius:50%;border:3px solid transparent;border-top-color:rgba(255,255,255,.85);animation:spin 1.4s linear infinite}
 .o-warm{background:linear-gradient(135deg,#9B71E8,#FF75CA,#9B71E8);background-size:200% 200%;animation:drift 5s ease-in-out infinite alternate,beat 2.4s ease-in-out infinite}
-.o-cele{background:linear-gradient(120deg,#70D4F5,#9B71E8,#FF75CA,#9B71E8,#70D4F5);background-size:300% 300%;animation:sweep 3s linear infinite}
+.o-cele{background:#9B71E8;isolation:isolate}
+.o-cele::before{content:"";position:absolute;inset:-30%;background:conic-gradient(from 0deg,#70D4F5,#9B71E8,#FF75CA,#9B71E8,#70D4F5);filter:blur(14px);animation:spin 6s linear infinite;will-change:transform;z-index:-1}
 @keyframes drift{from{background-position:0% 0%}to{background-position:100% 100%}}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes beat{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
@@ -375,7 +376,7 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
     <div class="note"><span class="hand r3">it sets it up. you take it from there.</span><p>the date: before, during, after.</p><p>before: the venue, what to bring up, a card to draw a question from. during: the date chat opens one hour before, and for the first time the two humans text each other directly. the double is gone from the thread. after: your double asks how it went, and you can talk it through or leave a note. switch stages under the phone.</p><div class="hers">the trust call was where the agent stops. it texts, it calls, it finds the night and locks the place. then it hands the two people to each other and gets out of the way. an agent that stays in the conversation on the date isn't a double anymore, it's a chaperone.</div></div>
   </div>
   <div class="blk">
-    <div class="art"><div class="frame night stage live-stage"><div class="live" data-stages='[{"label": "settings", "hash": "/match/demo"}]'><div class="fb"><img src="assets/embeds/poster-settings.png" alt="The match hub with Discover and Settings tabs" loading="lazy" width="390" height="844"></div></div></div></div>
+    <div class="art"><div class="frame night stage live-stage"><div class="live" data-stages='[{"label": "settings", "hash": "/match/demo?tab=settings"}]'><div class="fb"><img src="assets/embeds/poster-settings.png" alt="The real settings screen: your profile, photos, introduction, and the controls for your double" loading="lazy" width="390" height="844"></div></div></div></div>
     <div class="note"><p>settings, and the wheel.</p><p>you can always take the wheel: pause your double, change your introduction, your location, your hours, manage your vouches. tap settings at the top.</p><p class="logic">pause is one tap away because an agent you can't stop quickly is one you won't let start.</p></div>
   </div>
 </section>
@@ -383,9 +384,10 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
 <!-- 6. voice introductions -->
 <section class="prose">
     <h2>voice introductions</h2>
-    <p class="intro">voice was the cornerstone of everything we had. your double didn't just text. it spoke, and the introduction it made was in your own voice.</p>
-    <p>it started on the phone: winged called you, and that call trained your double on how you actually talk, not how you write when you're trying. then it came back with three voice takes of your introduction. "pick how your double will introduce you, in your own voice." you played each one back, chose the take that sounded like you, and that became the introduction your double carried to matches. the introduction pill on the match card is this feature arriving on the other side.</p>
-    <p>the same draft-then-approve rule held. you heard it before anyone else did, and you could change your pick later, on plain black, the same three takes numbered 01 02 03.</p>
+    <p class="intro">voice is the cornerstone of winged. your double doesn't just text. it speaks, and it speaks in your own voice.</p>
+    <p>it starts on the phone. winged calls you, and that one call does two jobs: it teaches your double how you actually talk, not how you write when you're trying, and it clones your voice. from that clone your double records three takes of your introduction. "pick how your double will introduce you, in your own voice." you play each one back, choose the take that sounds like you, and that becomes the introduction your double carries to matches. the introduction pill on the match card is this feature arriving on the other side.</p>
+    <p>then the part i love most: the first-date simulation. when two doubles find a match worth your time, winged writes the first date the two of you might have and performs it in both of your cloned voices. you hear a short love story of the two of you before you ever meet, right on the match card. it isn't a score. it's a way to feel whether the conversation would flow.</p>
+    <p>the same draft-then-approve rule holds. you hear your own voice before anyone else does, and you can change your pick any time, on plain black, the same three takes numbered 01 02 03.</p>
   <div class="hers">a bio is written for strangers. a voice is how the people who like you already know you. so the double introduces you the way a friend would, in your voice, and you hear it before anyone else does.</div>
 </section>
 
@@ -515,16 +517,15 @@ router.post(<span class="n">'/twilio-sms-webhook'</span>,
 
 <!-- 8. what it taught me -->
 <section class="prose">
-  <h2>what it taught me</h2>
-  <p><b style="font-weight:600">give each color a job.</b> three registers, one meaning each, became how i think about color in any product.</p>
-  <p><b style="font-weight:600">draft, then approve.</b> "not yet public until you accept" is the pattern i carried into every agentic product i built after this one.</p>
-  <p><b style="font-weight:600">write the system down or it drifts.</b> winged web ended with one tokens file that absorbed six drifting grays into one ramp. next time i'd start with that file.</p>
-  <div class="hers">i'd keep all three. if i can't say what a color is for, it comes out. if something speaks for a person, it comes back as a draft first. and the tokens file comes first, not last.</div>
+  <h2>what i bring from it</h2>
+  <p><b style="font-weight:600">give each color a job.</b> three registers, one meaning each. it's how i design color in every product, and it's why a winged screen tells you who is talking before you read a word.</p>
+  <p><b style="font-weight:600">draft, then approve.</b> "not yet public until you accept" is the trust pattern i build agentic products on. people let an agent speak for them once they've heard it first.</p>
+  <p><b style="font-weight:600">write the system down.</b> i turned winged's whole look into one tokens file: one gray ramp, three gradients, one source every screen and every engineer pulls from.</p>
+  <div class="hers">that's how i work. every color has a reason, people get the final say over anything that speaks for them, and the system is written down so it holds as the team grows.</div>
 </section>
 
 <footer class="wide">
   <div class="built mono">
-    <p>built by hand</p>
     <p><span>source</span> · winged.tokens.json, the live web app</p>
     <p><span>screens</span> · the real app running, sample people only</p>
   </div>

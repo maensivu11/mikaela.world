@@ -52,7 +52,7 @@ p+p{margin-top:20px}
 .hero .frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block;background:#fff}
 /* phone visitors: every embed renders its own mobile layout at a real phone width, in a phone-shaped frame */
 .frame picture{display:contents}
-@media (max-width:600px){.hero .frame{flex:none;aspect-ratio:390/844}}
+@media (max-width:600px){.hero .frame{flex:none;aspect-ratio:390/844}.hero .w98{flex:none}}
 .premise{font-size:17px;line-height:26px;color:var(--ink);margin-top:10px;max-width:640px;white-space:normal}
 .hero .cap{margin-top:12px}
 
@@ -192,8 +192,12 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
     </div>
     <a class="live" href="https://findfunding.ai" rel="noopener">visit live ↗ findfunding.ai</a>
   </div>
-  <div class="frame art"><picture><source media="(max-width:600px)" srcset="assets/00-live-landing-390.png"><img src="assets/00-live-landing-1440.png" alt="The live findfunding.ai landing page: Funding shouldn't depend on who you know." width="2880" height="1800"></picture><iframe data-src="https://findfunding.ai" title="findfunding.ai, live" loading="lazy" sandbox="allow-scripts allow-same-origin allow-forms" referrerpolicy="no-referrer"></iframe></div>
-  <p class="cap">live product, findfunding.ai, scroll inside it</p>
+  <div class="w98 art" role="group" aria-label="findfunding.ai, the live website, in a window">
+    <div class="w98-bar"><span>findfunding.ai · the live find funding website · scroll inside it</span><span class="w98-btns" aria-hidden="true"><i>_</i><i>□</i><i>×</i></span></div>
+    <div class="w98-addr"><span>Address</span><b>https://findfunding.ai/</b></div>
+    <div class="frame"><picture><source media="(max-width:600px)" srcset="assets/00-live-landing-390.png"><img src="assets/00-live-landing-1440.png" alt="The live findfunding.ai landing page: Funding shouldn't depend on who you know." width="2880" height="1800"></picture><iframe data-src="https://findfunding.ai" title="findfunding.ai, live" loading="lazy" sandbox="allow-scripts allow-same-origin allow-forms" referrerpolicy="no-referrer"></iframe></div>
+  </div>
+  <p class="cap">the real findfunding.ai, running live in the window above</p>
 </header>
 
 <!-- 2. the problem -->
@@ -280,8 +284,7 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
 <!-- 7. footer -->
 <footer class="wide">
   <div class="built mono">
-    <p>built by hand</p>
-    <p><span>live</span> · <a href="https://findfunding.ai" rel="noopener">findfunding.ai</a></p>
+        <p><span>live</span> · <a href="https://findfunding.ai" rel="noopener">findfunding.ai</a></p>
     <p><span>evidence</span> · shipped to findfunding.ai</p>
     <p><span>tests</span> · ProfileWorkspace.test.tsx, 387 lines</p>
   </div>

@@ -20,19 +20,56 @@
     '.cc-next .cc-name{right:100%;text-align:right}',
     '.cc-side:hover .cc-name,.cc-side:focus-visible .cc-name{opacity:1}',
     '@media (max-width:760px){.cc-top{top:8px;right:10px;font-size:17px}.cc-side{font-size:26px;padding:10px 2px;opacity:.55}.cc-prev{left:0}.cc-next{right:0}.cc-name{font-size:16px}}',
-    '@media print{.cc{display:none}}'
+    '.cc-arrow{display:block;width:44px;height:30px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}',
+    '.cc-top{display:flex;align-items:center;gap:6px}',
+    '.cc-top .cc-up{width:16px;height:21px;stroke-width:3}',
+    '.cc-ne{display:inline-block;width:14px;height:14px;vertical-align:-1px;stroke-width:3;margin:0 2px}',
+    '@media (max-width:760px){.cc-arrow{width:30px;height:21px}.cc-top .cc-up{width:13px;height:17px}}',
+    '@media print{.cc{display:none}}',
+    /* shared layout rules for every case page */
+    /* 1 text spans the full content column: no narrow caps on any text block */
+    'section.prose>*,.ed>*{max-width:none!important}',
+    '.premise,.hero-head .claim,.claim,.stage,.ds-intro,.framing,.blk.solo{max-width:none!important}',
+    '.hero-head>div:first-child{flex:1;min-width:0}',
+    '.hero-head .claim{white-space:normal!important}',
+    /* 2 the hero sits on the same 1280 container as every other section */
+    '.hero{max-width:1280px;margin-left:auto!important;margin-right:auto!important}',
+    '.hero-head{padding-left:0!important}',
+    /* 3 captions breathe before the text below them */
+    '.cap+*:not(.cap):not(.why){margin-top:var(--s4)!important}',
+    '.pair+.ed,.art+.ed{margin-top:var(--s3)!important}',
+    /* 4 handwriting never clips: room above and below the glyphs */
+    '.hand{padding-top:8px;padding-bottom:4px;line-height:1.3!important;overflow:visible}',
+    /* 5 a windows 98 window around the large live website embeds */
+    '.w98{display:flex;flex-direction:column;flex:1;min-height:0;border:2px solid;border-color:#fff #404040 #404040 #fff;background:#d4d0c8;box-shadow:1px 1px 0 #000,0 24px 48px rgba(0,0,0,.08);padding:3px}',
+    '.w98-bar{height:24px;flex:none;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 3px 0 6px;background:linear-gradient(90deg,#000080,#1084d0);color:#fff;font:bold 12px/1 Tahoma,"MS Sans Serif",Geneva,sans-serif;letter-spacing:0;text-transform:none}',
+    '.w98-bar span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}',
+    '.w98-btns{display:flex;gap:2px;flex:none}',
+    '.w98-btns i{display:block;width:18px;height:16px;border:2px solid;border-color:#fff #404040 #404040 #fff;background:#d4d0c8;color:#000;font:bold 11px/11px Arial,sans-serif;font-style:normal;text-align:center}',
+    '.w98-addr{flex:none;display:flex;align-items:center;gap:6px;margin:3px 0;font:11px Tahoma,"MS Sans Serif",sans-serif;color:#000}',
+    '.w98-addr b{flex:1;font-weight:400;background:#fff;border:2px solid;border-color:#808080 #fff #fff #808080;padding:2px 5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}',
+    '.w98 .frame{border-radius:0!important;border:2px solid;border-color:#808080 #fff #fff #808080!important;box-shadow:none!important}',
+    '@media (max-width:600px){.w98-addr span{display:none}}'
   ].join('\n');
   var style = document.createElement('style');
   style.textContent = css;
   document.head.appendChild(style);
 
+  /* hand-drawn arrows: wobbly single strokes, round caps, like a pen line */
+  var ARROW = {
+    left: '<svg class="cc-arrow" viewBox="0 0 48 32" aria-hidden="true"><path d="M44 17.2c-6.1-.9-12.8.6-19.3.1-5.4-.4-11.2-1.3-18.1-.3"/><path d="M15.6 6.9c-3.4 3.2-6.8 6.4-9.8 10.2 3.1 2.6 6.9 5.3 10.6 8.4"/></svg>',
+    right: '<svg class="cc-arrow" viewBox="0 0 48 32" aria-hidden="true"><path d="M4 15.4c6.3 1.1 12.4-.7 19.1-.2 5.6.4 11.1 1.6 18.4.6"/><path d="M32.1 5.8c3.6 3.3 6.9 6.8 9.9 10.4-3.3 2.8-6.6 5.6-10.3 9.1"/></svg>',
+    up: '<svg class="cc-arrow cc-up" viewBox="0 0 32 40" aria-hidden="true"><path d="M16.6 36c.6-5.4-.9-11.7-.3-17.6.4-4.2.6-8.1-.2-13.1"/><path d="M6.2 14.8c3.3-3.2 6.4-6.6 9.9-9.9 3.4 3.1 6.7 6.6 9.8 10.3"/></svg>',
+    ne: '<svg class="cc-arrow cc-ne" viewBox="0 0 32 32" aria-hidden="true"><path d="M6.3 26.1c3.8-3.4 7.1-7.5 10.9-11.1 2.8-2.7 5.6-5.6 8.4-8.9"/><path d="M11.8 6.4c4.5.2 9.1-.5 13.9-.4.3 4.4-.1 9 .4 13.7"/></svg>'
+  };
+  window.ccArrow = ARROW;
   function link(cls, href, glyph, name, label) {
     var a = document.createElement('a');
     a.className = 'cc ' + cls;
     a.href = href;
     a.setAttribute('aria-label', label);
     a.title = label;
-    a.textContent = glyph;
+    a.innerHTML = glyph;
     if (name) {
       var s = document.createElement('span');
       s.className = 'cc-name';
@@ -43,9 +80,13 @@
     document.body.appendChild(a);
   }
 
-  link('cc-top', d.notebook || '../../index.html#work-index', '↑ notebook', '', 'back to the notebook');
-  if (d.prev) link('cc-side cc-prev', d.prev, '←', d.prevName, 'previous: ' + d.prevName);
-  if (d.next) link('cc-side cc-next', d.next, '→', d.nextName, 'next: ' + d.nextName);
+  link('cc-top', d.notebook || '../../index.html#work-index', ARROW.up + '<span>notebook</span>', '', 'back to the notebook');
+  if (d.prev) link('cc-side cc-prev', d.prev, ARROW.left, d.prevName, 'previous: ' + d.prevName);
+  if (d.next) link('cc-side cc-next', d.next, ARROW.right, d.nextName, 'next: ' + d.nextName);
+  /* "visit live" links: the typed arrow becomes the same hand-drawn stroke */
+  document.querySelectorAll('a.live').forEach(function (a) {
+    a.innerHTML = a.innerHTML.replace('\u2197', ARROW.ne);
+  });
 
   /* scroll-triggered CSS animations */
   if (!('IntersectionObserver' in window) || !document.getAnimations) return;

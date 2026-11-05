@@ -717,7 +717,7 @@ document.querySelectorAll('[data-ext-href]').forEach(function(el){
       frame.src=seq[step++];
       frame.style.transform=step%2?'translate3d(-2px,1px,0) rotate(-.18deg)':'translate3d(1px,-1px,0) rotate(.12deg)';
       if(step<seq.length){timer=setTimeout(next,reduce?0:(mobile?95:130));return;}
-      timer=setTimeout(function(){frame.style.transform='';closing=false;if(done)done();},reduce?0:(mobile?60:80));
+      timer=setTimeout(function(){frame.style.transform='';closing=false;if(window.location.hash==='#work-index'&&history.replaceState)history.replaceState(null,'',window.location.pathname+window.location.search);if(done)done();},reduce?0:(mobile?60:80));
     }
     next();
   }
@@ -781,5 +781,6 @@ document.querySelectorAll('[data-ext-href]').forEach(function(el){
   });
   function fromHash(){if(window.location.hash==='#work-index')openWorkIndex();}
   window.addEventListener('hashchange',fromHash);
-  if(window.location.hash==='#work-index')openWorkIndex(true);
+  // Arriving from a case page ("↑ notebook"): the book plays its real opening flip into the spread.
+  if(window.location.hash==='#work-index'){var go=function(){setTimeout(function(){openWorkIndex();},120);};if(document.readyState==='complete')go();else window.addEventListener('load',go,{once:true});}
 })();

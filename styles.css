@@ -344,3 +344,10 @@ body{display:grid;min-height:100svh;place-items:center;overflow-x:hidden;backgro
 /* Work index shares the journal's desk-canvas backdrop so the approach reads identically */
 #m-workindex{align-items:center;overflow:hidden;background:#e80756 url("assets/source-painting/plain_canvas.png") center top/cover no-repeat;backdrop-filter:none;-webkit-backdrop-filter:none}
 @media(max-width:600px){#m-workindex{padding:0;align-items:flex-start}}
+
+/* notebook close: a hand-drawn x, ink-dark so it reads on the spread */
+.wi-close{width:48px;height:48px;color:#2b2a5e!important;text-shadow:none;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:.85;transition:opacity 160ms ease-out,transform 160ms ease-out}
+.wi-close:hover,.wi-close:focus-visible{opacity:1;transform:rotate(-5deg) scale(1.08)}
+.wi-close:focus-visible{outline:1px dashed #2b2a5e!important;outline-offset:4px}
+.wi-close svg{display:block;width:34px;height:34px}
+@media(max-width:600px){.wi-close{background:rgba(251,246,234,.92)!important;border-radius:50%}}
