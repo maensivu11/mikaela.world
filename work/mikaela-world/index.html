@@ -220,7 +220,8 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
   <div class="hero-head">
     <div>
       <h1 class="has-tile"><img class="app-tile" src="assets/app-tile.png" alt="" width="56" height="56">mikaela.world</h1>
-      <p class="claim">my portfolio opens on a note in my handwriting, sitting on the journal i kept as a kid.</p>
+      <p class="claim">mikaela.world is my portfolio, built like a product. you don't scroll a grid of thumbnails. you open my notebook, click into the work, use the real apps, and if you want, talk to me.</p>
+      <p class="claim">design engineer. i designed and built it end to end.</p>
     </div>
     <a class="live" href="https://mikaela.world" rel="noopener">visit live ↗ mikaela.world</a>
   </div>
@@ -230,97 +231,42 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
       <picture class="hero-journal"><source srcset="assets/00-hero-journal.webp" type="image/webp"><img src="assets/00-hero-journal.png" alt="Her black and white composition book, her name written on the label as a kid, sitting on the painting" width="1000" height="1333"></picture>
       <picture class="hero-page"><source srcset="assets/00-hero-page.webp" type="image/webp"><img src="assets/00-hero-page.png" alt="Her handwritten note, hi!!! i'm mikaela, on grid paper, on top of the book" width="1000" height="1333"></picture>
     </div>
-    <figcaption class="cap">the note, the journal and the painting are all mine.</figcaption>
     <p class="hero-hint" aria-hidden="true">hover to lift the note, click to see it full size</p>
   </figure>
-  <p class="framing">the note is my handwriting now. the journal under it is my handwriting as a kid. the painting behind them is mine too. open the book and there's a video of me actually working, because making things has always been my passion.</p>
 </header>
 
-<!-- 2. the manifesto -->
-<section class="prose manifesto">
-  <h2>why it looks like this</h2>
-  <span class="hand r2">no one can replicate me</span>
-  <p class="intro">anyone can make a good looking site now, so polish isn't what tells you who someone is anymore. effort is. the parts of this site that matter most to me are the parts no tool could make. the handwritten names in the notebook are my actual handwriting. the journal pages and drawings are from when i was a kid, before i knew design was a job. the painting is mine. the video is me working, so you can see the messy middle of how i make things. i left the wobble in on purpose. to me, the sign of craft right now is whether you can tell a person spent real time on something. the tools did a lot of the typing. the hand, the taste, and the years are mine.</p>
+<!-- 2. where it started -->
+<section class="prose">
+  <h2>where it started</h2>
+  <p class="intro">every portfolio started to look the same. same grid, same mockups, same three-word case study titles. i wanted mine to feel like meeting me, not reading about me.</p>
 </section>
 
-<!-- 3. how it's made -->
-<section class="wide">
-  <div class="ed" style="margin:0 0 var(--s3)">
-    <h2>the details</h2>
-    <p class="intro">three pieces of mechanics. each one is small, each one is real, and each one only works because something real was photographed or traced.</p>
-  </div>
-
-  <div class="blk">
-    <div class="art">
-      <div class="frame reel">
-        <figure><img src="assets/01-frame-book-closed.png" alt="frame 1: the book closed" loading="lazy"><figcaption>1 · closed</figcaption></figure>
-        <figure><img src="assets/02-frame-book-slightly-open.png" alt="frame 2: the cover lifting" loading="lazy"><figcaption>2 · lifting</figcaption></figure>
-        <figure><img src="assets/03-frame-book-half-open.png" alt="frame 3: half open, pages fanning" loading="lazy"><figcaption>3 · half open</figcaption></figure>
-        <figure><img src="assets/04-frame-open-spread.png" alt="frame 4: the open spread" loading="lazy"><figcaption>4 · spread</figcaption></figure>
-      </div>
-      <p class="cap">the four photos behind the opening</p>
-    </div>
-    <div class="note"><span class="hand r1">four photos, no tweening</span><p>the book opens like a flipbook.</p><p>i photographed my journal four times: closed, lifting, half open, open. the site flips through those four shots. a real book catches and fans as it opens, and that little stutter is what makes it read as paper.</p></div>
-  </div>
-
-  <div class="blk">
-    <div class="art">
-<pre><span class="c">// work index: reuses the book-opening frame sequence</span>
-<span class="k">var</span> root=mobile?<span class="k">'assets/tabletop/mobile/'</span>:<span class="k">'assets/tabletop/'</span>;
-<span class="k">var</span> frames=reduce?[spread]:[root+<span class="k">'book-closed.png'</span>,
-  root+<span class="k">'book-slightly-open.png'</span>,root+<span class="k">'book-half-open.png'</span>,spread];
-...
-<span class="k">function</span> show(){
-  frame.src=frames[step];step+=1;
-  <span class="k">if</span>(step&lt;frames.length){timer=setTimeout(show,mobile?110:130);<span class="k">return</span>;}
-  ...
-}
-Promise.all(frames.map(<span class="k">function</span>(src){<span class="k">var</span> img=<span class="k">new</span> Image();img.src=src;
-  <span class="k">return</span> (img.decode?img.decode():Promise.resolve()).catch(<span class="k">function</span>(){});})).then(show);</pre>
-      <p class="cap">script.js, the work index opening, excerpt</p>
-    </div>
-    <div class="note"><span class="hand r3">reduced motion gets the open book</span><p>the whole flipbook is a few lines.</p><p>that's the frame loop, verbatim. if your device asks for reduced motion, the sequence collapses to the last frame and the book is simply open. the craft shouldn't cost anyone their comfort.</p></div>
-  </div>
-
-  <div class="blk">
-    <div class="art">
-      <div class="pair">
-        <div class="frame"><img src="assets/09-note-rest.jpg" alt="Her handwritten note on grid paper: hi!!! i'm mikaela, with linkedin, email me, whatsapp me" loading="lazy"></div>
-        <div class="frame"><img src="assets/09-note-design-highlight.jpg" alt="The same note with a yellow highlighter trace over design engineer" loading="lazy"></div>
-      </div>
-      <p class="cap">the note at rest, and with "design engineer" highlighted</p>
-    </div>
-    <div class="note"><span class="hand r4">traced over my own ink</span><p>every highlight is a stroke i traced by hand.</p><p>each link on the note, and each role i'd take, has its own marker stroke. hover and it wipes in left to right, the way a hand would draw it. it wobbles past the word on purpose. a clean rectangle would have looked like software.</p></div>
-  </div>
-
-  <div class="blk">
-    <div class="art">
-<pre><span class="c">// the note slides off the book in four held steps</span>
-<span class="k">var</span> noteFrames=[
-  {transform:<span class="k">'translate3d(0,0,0) rotate(0deg)'</span>},
-  {transform:<span class="k">'translate3d(-2px,28%,0) rotate(.25deg)'</span>,offset:.28},
-  {transform:<span class="k">'translate3d(2px,67%,0) rotate(-.2deg)'</span>,offset:.66},
-  {transform:<span class="k">'translate3d(0,108%,0) rotate(0deg)'</span>}
-];
-<span class="k">var</span> noteMoves=noteStack.map(<span class="k">function</span>(layer){
-  <span class="k">return</span> layer.animate(noteFrames,
-    {duration:560,easing:<span class="k">'steps(4,end)'</span>,fill:<span class="k">'forwards'</span>});});</pre>
-      <p class="cap">script.js, lifting the note off the journal, excerpt</p>
-    </div>
-    <div class="note"><span class="hand r2">steps(4), on purpose</span><p>no framework, and even the easing is set on purpose.</p><p>no react, no build step, no library. one html file, one stylesheet, one script, and the browser's own animation api. even the note leaving the book runs in four held steps with a two-pixel wobble, so it moves like a stop-motion object instead of sliding like an interface panel.</p></div>
-  </div>
+<!-- 3. the problem -->
+<section class="prose">
+  <h2>the problem</h2>
+  <p class="intro">anyone can make a polished site now, so polish stopped telling you anything. what's rare is taste you can feel and effort you can see.</p>
+  <p>the parts of this site that matter most to me are the parts no tool could make. the handwritten names in the notebook are my actual handwriting. the journal pages and drawings are from when i was a kid, before i knew design was a job. the painting is mine. the video is me working, so you can see the messy middle of how i make things. i left the wobble in on purpose. to me, the sign of craft right now is whether you can tell a person spent real time on something. the tools did a lot of the typing. the hand, the taste, and the years are mine.</p>
 </section>
 
-<!-- 4. the system strip -->
+<!-- 4. how it works -->
+<section class="prose">
+  <h2>how it works</h2>
+  <p class="intro">a password, like a door you get let into.</p>
+  <p>the notebook. view my work opens a real composition book, photographed frame by frame, and lands on an index i wrote by hand.</p>
+  <p>the work is live. every case study runs the actual product, not a screenshot. click through it.</p>
+  <p>a voice agent of me. tap talk to me and we actually talk.</p>
+  <p>easter eggs. some things only happen if you poke around.</p>
+</section>
+
+<!-- 5. the system -->
 <section class="ds">
   <div class="wide">
-    <div class="ed" style="margin-bottom:var(--s3)"><h2>the system</h2><p class="intro">every color and texture here comes from something i made or kept.</p></div>
-    <span class="hand r2">paper, ink, my hand</span>
+    <div class="ed" style="margin-bottom:var(--s3)"><h2>the system</h2><p class="intro">painting pink sampled from my canvas, warm paper, blue black ink, and my own hand where it matters.</p></div>
     <div class="sw">
       <div><div class="chip" style="background:#e80756"></div><p>painting pink #e80756</p><p class="why">sampled from my painting. every page sits on it.</p></div>
       <div><div class="chip" style="background:#FBF6EA"></div><p>paper #FBF6EA</p><p class="why">warm, the color of a page that's been kept.</p></div>
       <div><div class="chip" style="background:#22303a"></div><p>ink #22303a</p><p class="why">blue-black ballpoint. no pen is pure black.</p></div>
-      <div><div class="chip" style="background:#FBF6EA;font-family:'B-McE',cursive;font-size:34px;color:#22303a">mikaela</div><p>b-mce ("mikaela")</p><p class="why">an adopted handwriting font for the margin notes. my own hand is in the note and the journal.</p></div>
+      <div><div class="chip" style="background:#FBF6EA;font-family:'B-McE',cursive;font-size:34px;color:#22303a">mikaela</div><p>b-mce ("mikaela")</p><p class="why">an adopted handwriting font for the margin notes.</p></div>
     </div>
     <span class="hand r1" style="margin-top:var(--s3)">textures you could touch</span>
     <div class="tex">
@@ -335,16 +281,22 @@ Promise.all(frames.map(<span class="k">function</span>(src){<span class="k">var<
       <figure><div class="sticker"><img src="../../assets/source-note/starsticker.png" alt="The star sticker from the note" loading="lazy"></div><figcaption>a real sticker, from the note.</figcaption></figure>
       <figure><div class="orb-demo"><span>talk to me</span></div><figcaption>the voice button. more below.</figcaption></figure>
     </div>
-    <span class="hand r3" style="margin-top:var(--s3)">little pieces of me</span>
-    <div class="stills">
-      <figure><img src="assets/12-painting.jpg" alt="Her painting: a hot-pink canvas covered in hand-painted flowers" loading="lazy" width="900" height="1200"><figcaption>my painting, the backdrop of the whole site</figcaption></figure>
-      <figure><img src="assets/00-journal-cover.jpg" alt="Her childhood composition book, her name on the label" loading="lazy"><figcaption>the composition book i kept as a kid</figcaption></figure>
-      <figure><img src="assets/11-still-childhood.jpg" alt="A photo of Mikaela as a little girl holding a lunchbox, from the video in the book" loading="lazy" width="900" height="675"><figcaption>a still from the video in the book</figcaption></figure>
-      <figure><img src="assets/11-still-working.jpg" alt="Her desk: a laptop full of code, a notebook and a pink mug" loading="lazy" width="900" height="675"><figcaption>a still of my desk, mid-build</figcaption></figure>
-    </div>
-    <span class="hand r1" style="margin-top:var(--s3)">easter eggs</span>
-    <div class="note"><p>the homepage hides things that only happen if you poke at them. a few, so you know where to start:</p><p>hover my name on the note and the star stickers land one at a time. click it and they stay.<br>the smiley on the note notices you.<br>"see that i'm normal + cool" hands you a phone with my real instagram on it.<br>my resume comes on a clipboard.<br>the book says "open me." it means it. once it's open, the space bar plays the video inside.</p><p>there are more. i'm not telling you where.</p></div>
   </div>
+</section>
+
+<!-- 6. the hand behind it -->
+<section class="wide made">
+  <div class="ed" style="margin:0 0 var(--s3)">
+    <h2>the hand behind it</h2>
+    <p class="intro">i've been making things since i was a kid. the journal and the drawings are from back then. the painting is from now. same hand.</p>
+  </div>
+  <figure class="art"><video class="made-video" src="../../assets/source-book/book-video.m4v" poster="assets/11-still-working.jpg" autoplay muted loop playsinline controls preload="auto" aria-label="Mikaela's video: her as a kid, then her desk mid-build"></video><figcaption>the video inside the book.</figcaption></figure>
+  <figure class="art"><div class="drawings">
+    <img src="assets/10-journal-drawing-1.jpg" alt="Childhood journal page: my favorite cartoon is charlie brown, with a pencil drawing of a cartoon dog" loading="lazy" width="800" height="911">
+    <img src="assets/10-journal-drawing-2.jpg" alt="Childhood journal page: my parents can be proud of me, with a crayon drawing of herself, a garden and a bunny" loading="lazy" width="800" height="844">
+    <img src="assets/10-journal-drawing-3.jpg" alt="Childhood journal page about Finland and her garden, with pencil drawings of both" loading="lazy" width="800" height="911">
+  </div><figcaption>my childhood journal.</figcaption></figure>
+  <figure class="art painting"><img src="assets/12-painting.jpg" alt="Her painting from adulthood: a hot-pink canvas covered in hand-painted flowers" loading="lazy" width="900" height="1200"><figcaption>my painting, now behind the whole site.</figcaption></figure>
 </section>
 
 <!-- 4c. the voice agent -->
@@ -359,19 +311,17 @@ Promise.all(frames.map(<span class="k">function</span>(src){<span class="k">var<
   </div>
 </section>
 
-<!-- 5. the hand behind it -->
-<section class="wide made">
-  <div class="ed" style="margin:0 0 var(--s3)">
-    <h2>the hand behind it</h2>
-    <p class="intro">i was making things long before i knew design was a job. this is the same hand, years apart.</p>
+<!-- 8. easter eggs -->
+<section class="wide">
+  <div class="ed">
+    <h2>easter eggs</h2>
+    <div class="note"><p>the homepage hides things that only happen if you poke at them. a few, so you know where to start:</p><p>hover my name on the note and the star stickers land one at a time. click it and they stay.<br>the smiley on the note notices you.<br>"see that i'm normal + cool" hands you a phone with my real instagram on it.<br>my resume comes on a clipboard.<br>the book says "open me." it means it. once it's open, the space bar plays the video inside.</p><p>there are more. i'm not telling you where.</p></div>
   </div>
-  <figure class="art"><video class="made-video" src="../../assets/source-book/book-video.m4v" poster="assets/11-still-working.jpg" autoplay muted loop playsinline controls preload="auto" aria-label="Mikaela's video: her as a kid, then her desk mid-build"></video><figcaption>the video inside the book. me as a kid, then me at my desk.</figcaption></figure>
-  <figure class="art"><div class="drawings">
-    <img src="assets/10-journal-drawing-1.jpg" alt="Childhood journal page: my favorite cartoon is charlie brown, with a pencil drawing of a cartoon dog" loading="lazy" width="800" height="911">
-    <img src="assets/10-journal-drawing-2.jpg" alt="Childhood journal page: my parents can be proud of me, with a crayon drawing of herself, a garden and a bunny" loading="lazy" width="800" height="844">
-    <img src="assets/10-journal-drawing-3.jpg" alt="Childhood journal page about Finland and her garden, with pencil drawings of both" loading="lazy" width="800" height="911">
-  </div><figcaption>my childhood journal, drawn and written in my own hand.</figcaption></figure>
-  <figure class="art painting"><img src="assets/12-painting.jpg" alt="Her painting from adulthood: a hot-pink canvas covered in hand-painted flowers" loading="lazy" width="900" height="1200"><figcaption>a painting i made as an adult, now behind the whole site.</figcaption></figure>
+</section>
+
+<!-- 9. close -->
+<section class="prose">
+  <div class="hers">this is how i work on everything i ship.</div>
 </section>
 
 <footer class="wide">
