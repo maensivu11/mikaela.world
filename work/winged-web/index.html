@@ -296,11 +296,10 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
 <header class="hero">
   <div class="hero-head">
     <div>
-      <h1>winged web</h1>
+      <h1 class="has-tile"><img class="app-tile" src="assets/app-tile.png" alt="" width="56" height="56">winged web</h1>
       <p class="claim">winged is for people who want to meet the real love of their life and don't want to waste their time getting there. you have one call. your double learns who you are, matches you on compatibility, and handles everything else. you show up and meet the right person in real life.</p>
       <p class="claim">design engineer &amp; founder. i designed winged and made it agentic, and winged web is where its look comes together.</p>
     </div>
-    <span class="mark-word" title="the Winged wordmark: Advercase, from the repo's own tokens file">Winged</span>
   </div>
   <div class="frame night art hero-live"><div class="live-stage"><div class="live" data-stages='[{"label": "learned", "hash": "/onboard/demo"}, {"label": "your voice", "hash": "/embed/intro"}, {"label": "a match", "hash": "/matches/demo"}, {"label": "the date", "hash": "/date/d1?stage=before"}]'><div class="fb"><img src="assets/figma-voice-selection.png" alt="Pick how your double will introduce you, in your own voice: three voice takes on the warm gradient" width="393" height="852"><img class="lift" src="assets/figma-intro-card.png" alt="Match card with the Introduction pill and a played voice introduction" width="500" height="800"></div></div></div></div>
   <p class="cap">the real winged web app, with sample people · tap through it, switch screens under the phone</p>
@@ -430,350 +429,148 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
 </section>
 
 
-<!-- the agent system: interactive map (infra-viz) -->
+<!-- the agent system: four calm views (agent-system v2) -->
 <style>
-/* ===== section: the infrastructure. everything below is scoped to #infra ===== */
-#infra{padding-top:0;padding-bottom:0}
+/* ===== the agent system v2. everything scoped to #infra ===== */
+#infra{--iris:#9B71E8;--sky:#70D4F5;--mag:#FF75CA;--am:'Space Mono',ui-monospace,monospace}
+#infra .ag-head{max-width:760px}
 #infra h2{font-family:var(--mono);font-size:13px;line-height:20px;font-weight:400;color:var(--muted);margin-bottom:16px}
-#infra .intro{font-size:22px;line-height:32px}
-#infra .counts{font-family:var(--mono);font-size:13px;line-height:20px;color:var(--muted);margin-top:16px}
-#infra .counts b{color:var(--ink);font-weight:400}
-
-#infra .night{margin-top:40px;background:#000;border-radius:12px;color:#fff;padding:24px}
-#infra .bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-#infra .bar button{font-family:var(--mono);font-size:13px;line-height:20px;color:rgba(255,255,255,.7);background:transparent;
-  border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:9px 16px;cursor:pointer;transition:background 160ms ease-out,color 160ms ease-out}
-#infra .bar button:hover{color:#fff;border-color:rgba(255,255,255,.6)}
-#infra .bar button[aria-pressed=true]{background:#fff;color:#000;border-color:#fff}
-#infra .bar button:focus-visible{outline:1px dashed #fff;outline-offset:3px}
-
-#infra .ix-stage{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,2fr);gap:40px;margin-top:24px;align-items:start}
-#infra .ix-stage>*{min-width:0}
-#infra .left{position:sticky;top:24px}
-
-/* the map */
-#infra .map{position:relative;aspect-ratio:1000/740;width:100%}
-#infra .map svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
-#infra .col{position:absolute;top:0;font-family:'Space Mono',ui-monospace,monospace;font-size:11px;line-height:16px;letter-spacing:.09em;text-transform:uppercase;color:rgba(255,255,255,.4);transform:translateX(-50%);white-space:nowrap}
-#infra .node{position:absolute;border:1px solid rgba(255,255,255,.28);border-radius:8px;background:#000;padding:4px 9px;
-  display:flex;flex-direction:column;justify-content:center;cursor:default;transition:opacity 240ms ease-out,border-color 240ms ease-out}
-#infra .node .t{font-size:14px;line-height:18px;font-weight:600;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#infra .node .s{font-family:var(--mono);font-size:11px;line-height:15px;color:rgba(255,255,255,.55);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#infra .node.person{border-radius:999px;padding-left:16px}           /* shape: a person */
-#infra .node.vendor{border-style:dashed}                              /* texture: rented, not built */
-#infra .node.one{flex-direction:row;align-items:center;gap:10px}#infra .node.one .s{flex:1 1 auto;min-width:0}#ix-n-records .s,#ix-n-queue .s,#ix-n-store .s{display:none}
-#infra .node.off{opacity:.4}
-#infra .node.cur{border-color:#fff}
-#infra .node:hover,#infra .node:focus-visible{border-color:#fff;opacity:1;outline:none}
-#infra .pgband{position:absolute;border:1px solid rgba(255,255,255,.14);border-radius:12px}
-#infra .pgband span{position:absolute;left:12px;top:-9px;background:#000;padding:0 6px;font-family:'Space Mono',ui-monospace,monospace;font-size:11px;line-height:16px;letter-spacing:.09em;text-transform:uppercase;color:rgba(255,255,255,.4)}
-
-#infra path.hop{fill:none;stroke-width:2;stroke-linecap:round;opacity:.28;transition:opacity 240ms ease-out,stroke-width 240ms ease-out}
-#infra path.hop.done{opacity:.75}
-#infra path.hop.cur{opacity:1;stroke-width:3;stroke-dasharray:6 8;animation:flow 900ms linear infinite}
-@keyframes flow{to{stroke-dashoffset:-14}}
-#infra .num circle{transition:opacity 240ms ease-out}
-#infra .num text{font-family:var(--mono);font-size:12px;fill:#000;text-anchor:middle;dominant-baseline:central}
-#infra .num{opacity:.45;transition:opacity 240ms ease-out}
-#infra .num.done,#infra .num.cur{opacity:1}
-#infra .ring{fill:none;stroke-width:2;opacity:0}
-#infra .ring.cur{opacity:1;animation:pulse 1400ms ease-out infinite}
-@keyframes pulse{0%{stroke-opacity:1}100%{stroke-opacity:.15}}
-
-/* readout: what the hovered part does and where it lives */
-#infra .ix-read{margin-top:16px;border-top:1px solid rgba(255,255,255,.14);padding-top:12px;min-height:72px}
-#infra .ix-read .k{font-family:'Space Mono',ui-monospace,monospace;font-size:11px;line-height:16px;letter-spacing:.09em;text-transform:uppercase;color:rgba(255,255,255,.55)}
-#infra .ix-read .w{font-size:15px;line-height:24px;color:rgba(255,255,255,.7);margin-top:4px}
-#infra .ix-read .f{font-family:var(--mono);font-size:12px;line-height:18px;color:rgba(255,255,255,.5);margin-top:2px;overflow-wrap:anywhere}
-
-/* the steps: scrolling through them walks the journey */
-#infra ol{list-style:none}
-#infra li{position:relative;padding:20px 0 20px 40px;border-top:1px solid rgba(255,255,255,.1);cursor:pointer;transition:opacity 240ms ease-out}
-#infra li:first-child{border-top:0;padding-top:4px}
-#infra li .d{position:absolute;left:0;top:22px;width:24px;height:24px;border-radius:50%;font-family:var(--mono);font-size:12px;line-height:24px;text-align:center;color:#000}
-#infra li:first-child .d{top:6px}
-#infra li .ft{font-family:var(--mono);font-size:12px;line-height:18px;color:rgba(255,255,255,.5)}
-#infra li .ft button{font:inherit;color:inherit;background:none;border:0;border-bottom:1px dotted rgba(255,255,255,.35);padding:0;cursor:pointer}
-#infra li .x{font-size:17px;line-height:26px;color:rgba(255,255,255,.7);margin-top:4px}
-#infra li .f{font-family:var(--mono);font-size:12px;line-height:18px;color:rgba(255,255,255,.4);margin-top:6px;overflow-wrap:anywhere}
-#infra li.cur .x{color:#fff}
-#infra li.cur .f{color:rgba(255,255,255,.55)}
-#infra li .more{display:none;font-size:14px;line-height:20px;color:rgba(255,255,255,.55);margin-top:8px;padding-left:10px;border-left:2px solid rgba(255,255,255,.2)}
-#infra li .more.open{display:block}
-#infra .end{font-family:var(--mono);font-size:12px;line-height:18px;color:rgba(255,255,255,.4);padding:16px 0 4px 40px;border-top:1px solid rgba(255,255,255,.1)}
-
-@media (prefers-reduced-motion:reduce){#infra path.hop.cur,#infra .ring.cur{animation:none}#infra path.hop.cur{stroke-dasharray:none}}
-
-/* 390: the map collapses to the vertical stepped flow; the steps carry from → to */
+#infra .ag-head p{font-size:22px;line-height:32px}
+#infra .ag-night{margin-top:48px;background:#000;color:#fff;border-radius:16px;padding:96px 80px}
+#infra .ag-view{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:64px;align-items:center}
+#infra .ag-view+.ag-view{margin-top:144px}
+#infra .ag-k{font-family:var(--am);font-size:13px;line-height:20px;color:rgba(255,255,255,.4)}
+#infra .ag-t{font-size:24px;line-height:32px;font-weight:600;color:#fff;margin-top:12px}
+#infra .ag-s{font-size:16px;line-height:26px;color:rgba(255,255,255,.62);margin-top:12px}
+#infra .ag-s b{font-weight:400;color:#fff}
+/* the flow: nodes and one quiet line between them */
+#infra .ag-flow{display:flex;align-items:center}
+#infra .ag-line{flex:1 1 32px;min-width:24px;height:1px;background:rgba(255,255,255,.2)}
+#infra .ag-node{flex:0 0 auto;border:1px solid rgba(255,255,255,.2);border-radius:12px;padding:14px 18px}
+#infra .ag-n{font-size:15px;line-height:22px;color:#fff}
+#infra .ag-m{font-family:var(--am);font-size:12px;line-height:18px;color:rgba(255,255,255,.45);margin-top:2px}
+#infra .ag-you{border-color:var(--sky)} #infra .ag-you .ag-n{color:var(--sky)}
+#infra .ag-ai{border-color:rgba(155,113,232,.6)}
+#infra .ag-yes{border-color:var(--mag)} #infra .ag-yes .ag-n{color:var(--mag)}
+#infra .ag-hers{border-style:dashed;border-color:rgba(255,255,255,.22)}
+#infra .ag-hers .ag-n{color:rgba(255,255,255,.62)}
+#infra .ag-list{list-style:none;margin:0;padding:0;font-family:var(--am);font-size:13px;line-height:26px;color:var(--iris)}
+#infra .ag-list li{white-space:nowrap}
+#infra .ag-list.cols{columns:2;column-gap:32px}
+#infra .ag-list.grey{color:rgba(255,255,255,.62)}
+#infra .ag-stack{border:1px solid rgba(155,113,232,.6);border-radius:12px;padding:14px 18px}
+#infra .ag-stack .ag-n{margin-bottom:8px}
+#infra .ag-col{display:flex;flex-direction:column;gap:16px;flex:0 0 auto}
+/* view 4: rules on the left, the people who say yes on the right */
+#infra .ag-gates{display:grid;grid-template-columns:1fr 1fr;gap:48px}
+#infra .ag-gates h3{font-family:var(--am);font-size:13px;line-height:20px;font-weight:400;color:rgba(255,255,255,.4);margin-bottom:12px}
+#infra .ag-gates ul{list-style:none;margin:0;padding:0}
+#infra .ag-gates li{font-size:15px;line-height:24px;color:rgba(255,255,255,.8);padding:8px 0}
+#infra .ag-gates li{display:flex;align-items:baseline}#infra .ag-gates li::before{flex:0 0 auto;transform:translateY(-2px)}
+#infra .ag-gates .yes li::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--mag);margin:0 12px 2px 0}
+#infra .ag-gates .rule li::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--iris);margin:0 12px 2px 0}
 @media (max-width:900px){
-  #infra{padding-top:64px;padding-bottom:64px}
-  #infra .intro{font-size:19px;line-height:28px}
-  #infra .night{padding:16px;margin-top:24px}
-  #infra .bar{display:grid;grid-template-columns:1fr 1fr}
-  #infra .bar button{padding:9px 10px}
-  #infra .ix-stage{display:block;margin-top:16px}
-  #infra .left{display:none}
-  #infra li{padding:16px 0 16px 36px}
-  #infra li .d{top:18px}
-  #infra li:first-child .d{top:6px}
-  #infra li::before{content:"";position:absolute;left:11px;top:48px;bottom:-14px;width:2px;background:rgba(255,255,255,.14)}
-  #infra li:first-child::before{top:32px}
-  #infra li:last-child::before{display:none}
-  #infra li{border-top:0}
-  #infra li .x{font-size:16px;line-height:24px}
-  #infra .end{padding-left:36px}
+  #infra .ag-night{padding:56px 24px;border-radius:12px;margin-top:32px}
+  #infra .ag-view{grid-template-columns:1fr;gap:32px}
+  #infra .ag-view+.ag-view{margin-top:96px}
+  #infra .ag-head p{font-size:19px;line-height:28px}
+  #infra .ag-flow{flex-direction:column;align-items:stretch}
+  #infra .ag-line{flex:0 0 24px;width:1px;height:24px;min-width:0;margin-left:28px}
+  #infra .ag-node,#infra .ag-stack{width:auto}
+  #infra .ag-col{gap:12px}
+  #infra .ag-list li{white-space:normal}
+  #infra .ag-list.cols{columns:1}
+  #infra .ag-gates{grid-template-columns:1fr;gap:32px}
 }
 </style>
-<section class="wide" id="infra" aria-labelledby="infra-h">
-  <h2 id="infra-h">the agent system</h2>
-  <p class="intro">the agent system i built. texts go to one of five agents, chosen by where you are in the journey. each one answers by calling a tool, links are built by code and never by the model, and every message the double writes is checked against its rules before it sends. the voice agents call you, and nothing speaks for you until you say yes. the python service, niina's, does the profiles and matching. pick a journey and scroll to walk it.</p>
-  <p class="counts"><b>5</b> sms agents · <b>11</b> tools on the double · <b>5</b> voice agents · <b>9</b> mcp tools · <b>14</b> crons · <b>33</b> profile attributes · <b>0</b> redis, sqs or kafka</p>
 
-  <div class="night">
-    <div class="bar" role="group" aria-label="choose a journey" id="ix-bar"></div>
-    <div class="ix-stage">
-      <div class="left">
-        <div class="map" id="ix-map" aria-hidden="false">
-          <svg viewBox="0 0 1000 740" preserveAspectRatio="none" id="ix-svg" aria-hidden="true">
-            <defs id="ix-defs"></defs>
-            <g id="ix-paths"></g><g id="ix-rings"></g><g id="ix-nums"></g>
-          </svg>
-        </div>
-        <div class="ix-read" id="ix-read" aria-live="polite"></div>
+<section class="wide" id="infra" aria-labelledby="infra-h">
+  <div class="ag-head">
+    <h2 id="infra-h">the agent system</h2>
+    <p>under the screens is the agent system i built. four ideas hold it together, and the last one matters most: nothing speaks for you until you say yes.</p>
+  </div>
+
+  <div class="ag-night">
+
+    <div class="ag-view">
+      <div>
+        <div class="ag-k">01 · texts</div>
+        <div class="ag-t">one router, five agents</div>
+        <p class="ag-s">your text goes to the one agent that fits where you are in the journey. every agent answers by <b>calling a tool</b>, so there is no free-text path, and links are built by code, never by the model.</p>
       </div>
-      <div><ol id="ix-steps"></ol><p class="end" id="ix-end"></p></div>
+      <div class="ag-flow" aria-label="your text, the router, five agents, a reply">
+        <div class="ag-node ag-you"><div class="ag-n">you</div><div class="ag-m">sms · whatsapp</div></div>
+        <div class="ag-line"></div>
+        <div class="ag-node ag-ai"><div class="ag-n">agent router</div><div class="ag-m">by journey state</div></div>
+        <div class="ag-line"></div>
+        <ul class="ag-list ag-stack" style="padding:14px 18px">
+          <li>concierge</li><li>pre-onboarding</li><li>profile setup</li><li>active user</li><li>inactive user</li>
+        </ul>
+        <div class="ag-line"></div>
+        <div class="ag-node ag-you"><div class="ag-n">a reply</div><div class="ag-m">sent by a tool</div></div>
+      </div>
     </div>
+
+    <div class="ag-view">
+      <div>
+        <div class="ag-k">02 · the double</div>
+        <div class="ag-t">your double, with eleven tools</div>
+        <p class="ag-s">the double chats in the app and texts first when something happens. it acts only through its tools, and the destructive ones check in code that the date is yours. outside assistants reach the same double through <b>nine mcp tools</b>.</p>
+      </div>
+      <div class="ag-flow">
+        <div class="ag-col">
+          <div class="ag-node ag-you"><div class="ag-n">you</div><div class="ag-m">app chat · texts</div></div>
+          <div class="ag-node"><div class="ag-n">your assistant</div><div class="ag-m">9 mcp tools</div></div>
+        </div>
+        <div class="ag-line"></div>
+        <div class="ag-stack">
+          <div class="ag-n">the double</div>
+          <ul class="ag-list cols">
+            <li>match info</li><li>upcoming dates</li><li>date details</li><li>pending feedback</li><li>submit feedback</li><li>weather</li><li>help article</li><li>venue link</li><li>cancel date</li><li>pause double</li><li>close connection</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="ag-view">
+      <div>
+        <div class="ag-k">03 · voice</div>
+        <div class="ag-t">the voice agents call you</div>
+        <p class="ag-s">four voice agents hold the calls. after the onboarding call your voice is cloned and three introductions are written and spoken in it. you hear all three and <b>pick one</b>. the python service that builds the profile and the takes is niina's.</p>
+      </div>
+      <div class="ag-flow">
+        <ul class="ag-list ag-stack">
+          <li>onboarding call</li><li>recovery call</li><li>post-date call</li><li>friend's vouch</li>
+        </ul>
+        <div class="ag-line"></div>
+        <div class="ag-node ag-hers"><div class="ag-n">python service</div><div class="ag-m">niina's · clone + 3 takes</div></div>
+        <div class="ag-line"></div>
+        <div class="ag-node ag-yes"><div class="ag-n">you pick one</div><div class="ag-m">in your voice</div></div>
+      </div>
+    </div>
+
+    <div class="ag-view">
+      <div>
+        <div class="ag-k">04 · approval</div>
+        <div class="ag-t">nothing speaks for you until you say yes</div>
+        <p class="ag-s">the model drafts, code checks it, and a person decides. when a check fails, a hand-written line goes out instead, so a text always sends and is always in voice.</p>
+      </div>
+      <div class="ag-gates">
+        <div class="rule">
+          <h3>code checks the model</h3>
+          <ul><li>every agent answers through a tool</li><li>tools appear only when the date allows</li><li>every text the double writes is checked against its rules</li><li>the double sees a filtered profile, never a transcript</li></ul>
+        </div>
+        <div class="yes">
+          <h3>a person says yes</h3>
+          <ul><li>you pick your introduction</li><li>you approve every vouch</li><li>a person approves every match</li><li>you both say yes to the date</li></ul>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
-<script>
-(function(){
-  var root=document.getElementById('infra');
-  var SKY='#70D4F5',MAG='#FF75CA';
-  var W=1000,H=700;
 
-  /* the parts. kind: person (pill), vendor (dashed), svc, band. what + file come from architecture.md */
-  var N={
-    phone:{x:90,y:150,w:150,h:56,k:'person',t:'your phone',s:'sms, whatsapp',what:'you text the winged number like any contact. no app needed.',f:''},
-    call:{x:90,y:330,w:150,h:56,k:'person',t:'the call',s:'you, talking',what:'a phone call with a winged voice agent. it is where your double learns who you are.',f:''},
-    webapp:{x:90,y:510,w:150,h:56,k:'person',t:'web app',s:'react',what:'where you hear your three intros, pick one, and approve vouches. links arrive by text.',f:'wingedweb/src/app/screens/'},
-    admin:{x:90,y:600,w:150,h:56,k:'person',t:'winged team',s:'a person',what:'a person approves every applicant and every match before anyone sees it.',f:'NODE/src/features/admin/admin.service.js:60-90'},
-    twilio:{x:300,y:150,w:150,h:56,k:'vendor',t:'Twilio',s:'sms + calls',what:'carries sms, whatsapp and calls, and signs every webhook it sends.',f:'NODE/src/features/pre-onboarding/pre-onboarding.routes.js:44-57'},
-    eleven:{x:300,y:330,w:150,h:56,k:'vendor',t:'ElevenLabs',s:'5 voice agents',what:'the voice agents, text to speech, two-voice dialogue and instant voice cloning.',f:'NODE/src/shared/config/elevenlabs-agents.js:16-30'},
-    webhook:{x:540,y:150,w:180,h:56,k:'svc',t:'sms webhook',s:'hmac · stop',what:'checks the twilio signature, rejects non-e.164 senders, catches STOP before any model, forwards date-relay texts.',f:'NODE/src/features/pre-onboarding/pre-onboarding.controller.js:285-367'},
-    router:{x:540,y:240,w:180,h:56,k:'svc',t:'agent router',s:'5 sms agents',what:'a pure function picks one of five agents by where you are in the journey. each must answer by calling a tool.',f:'NODE/src/features/agents/agentRouter.js:54-88'},
-    double:{x:540,y:420,w:180,h:56,k:'svc',t:'the double',s:'11 tools',what:'writes every proactive text in your first person, lints it against two rules, falls back to a hand-written line.',f:'NODE/src/features/agents/outbound-sms-generator.js:281-365'},
-    webapi:{x:540,y:510,w:180,h:56,k:'svc',t:'web api + admin',s:'token · approvals',what:'the api behind the web app and the admin tool. approvals are logged in match_actions.',f:'NODE/src/features/web/web.routes.js:115 · admin/admin.service.js:60-90'},
-    matcher:{x:830,y:150,w:200,h:56,k:'svc',t:'weekly matcher',s:'gpt-5 · pass 0.60',what:'sql pre-filter, scarcest people first, then a five-dimension rubric scored by gpt-5.',f:'AI/app/logic/automated_matchmaking.py · qualitative_scoring.py:32'},
-    firstdate:{x:830,y:240,w:200,h:56,k:'svc',t:'first-date writer',s:'4–6 lines, 2 voices',what:'writes an anonymous first date for a pair and renders it in both cloned voices.',f:'AI/app/logic/generate_lovestory.py'},
-    aiapi:{x:830,y:330,w:200,h:56,k:'svc',t:'ai api',s:'fastapi · /webhook',what:'one signed webhook: hmac over timestamp and body, 30 minute window, audience guard. everything else needs a key.',f:'AI/app/routers/onboarding.py:74-181'},
-    worker:{x:830,y:420,w:200,h:56,k:'svc',t:'worker',s:'15 job types',what:'procrastinate worker on its own cloud run service. retries are tuned per job, and non-idempotent jobs never retry.',f:'AI/app/jobs/tasks/__init__.py:8-43'},
-    quality:{x:830,y:500,w:200,h:56,k:'svc',t:'quality → profile',s:'33 attributes',what:'the model must quote your words; code keeps only quotes you said, sets the verdict, then builds one profile from every call.',f:'AI/app/logic/analyze_call_quality.py:83-124'},
-    voice:{x:830,y:580,w:200,h:56,k:'svc',t:'voice → 3 intros',s:'clone, 10–120 s',what:'cuts your side out of the recording, clones it, writes three intros from your facts and voices them.',f:'AI/app/logic/process_audio.py:375-492'},
-    openai:{x:690,y:66,w:500,h:44,k:'band',t:'OpenAI',s:'gpt-4o writes texts · gpt-5 judges',what:'every text model. sms agents run gpt-4o; profiles, intros and the first date run gpt-5-mini; compatibility runs gpt-5.',f:'AI/app/logic/matchmaking_agent.py:273 · NODE/src/features/agents/active-user-agent.service.js:323'},
-    records:{x:530,y:695,w:170,h:44,k:'svc',t:'records',s:'+ event log',what:'the system of record, and a durable event log written before any listener runs, with an idempotency key.',f:'NODE/src/shared/services/event-bus.service.js:73-107'},
-    queue:{x:690,y:695,w:140,h:44,k:'svc',t:'job queue',s:'procrastinate',what:'the queue is a table. a crash loses nothing because every job is a row.',f:'AI/app/jobs/app.py:21-54'},
-    store:{x:855,y:695,w:150,h:44,k:'svc',t:'private files',s:'audio buckets',what:'supabase storage, private buckets for call audio, first-date audio and applicant photos.',f:'AI/app/services/storage.py:28 · jobs/tasks/lovestory.py:68'}
-  };
-  var COLS=[[90,'you'],[300,'vendors'],[540,'node · agents i built'],[830,'python service']];
 
-  /* the journeys. each hop: path through parts (one id = the work happens inside that part), words, file */
-  var J=[
-   {id:'text',b:'a text to your double',end:'one text, and the model never touched a link or a STOP.',hops:[
-    [['phone','twilio'],'you text the winged number: "call me now".','NODE/src/features/pre-onboarding/pre-onboarding.routes.js:76'],
-    [['twilio','webhook'],'twilio posts it to node. the signature is checked before anything else runs.','pre-onboarding.routes.js:44-57'],
-    [['webhook'],'STOP is caught here and never reaches a model. if a date relay is open, the text goes to your date instead.','pre-onboarding.controller.js:327-346'],
-    [['webhook','router'],'the router picks one of five agents by where you are in the journey, and builds its context.','NODE/src/features/agents/agentRouter.js:54-108'],
-    [['router','openai'],'gpt-4o has to answer by calling a tool. the reply text is an argument of that tool, so there is no free-text path.','active-user-agent.service.js:323-326'],
-    [['router'],'links are built by server code from your token, never by the model.','active-user-agent.service.js:52-77'],
-    [['router','twilio'],'the reply is sent from the number that matches your region: +1 goes out on the us number, everything else on the eu one.','NODE/src/shared/utils/phone-routing.js:19-23'],
-    [['twilio','phone'],'the reply lands, retried up to three times if the carrier hiccups.','NODE/src/shared/utils/sms.js:144-155']]},
-   {id:'call',b:'the onboarding call',end:'one call becomes a profile and a cloned voice, and nothing goes live until you pick.',hops:[
-    [['router'],'the pre-onboarding agent hears "call me now" and picks its call_now tool.','NODE/src/features/agents/pre-onboarding-agent.service.js:25-81'],
-    [['router','eleven'],'node replies first, sets a 10 minute safety net, then dials you through elevenlabs over twilio.','pre-onboarding.service.js:812-826'],
-    [['eleven','call'],'the voice agent talks with you. if an earlier call fell short, a recovery agent asks only what is missing.','pre-onboarding.service.js:790-804'],
-    [['eleven','aiapi'],'the call ends. a signed webhook carries the transcript to python.','AI/app/routers/onboarding.py:74-105'],
-    [['aiapi','queue'],'it checks the user belongs to this environment, stores the job as a row, and returns at once.','onboarding.py:127-140'],
-    [['queue','worker'],'the worker picks the job up off postgres.','AI/app/jobs/tasks/transcript.py:66'],
-    [['worker','quality'],'the model must quote your own words for each field. code drops any quote you did not say and sets the verdict itself.','AI/app/logic/analyze_call_quality.py:83-124'],
-    [['quality'],'this call and every earlier one are read as one conversation and become a 33-attribute profile. a voicemail stops here.','AI/app/logic/generate_profile.py:355-368'],
-    [['worker','voice'],'only your turns, 10 to 120 seconds, are cut out. your voice is cloned and three intros are voiced in it.','AI/app/logic/voice_processor.py:436-442 · generate_introduction.py:73-131'],
-    [['worker','double'],'notify-ready fires only once the verdict, the profile and all three intros exist. it retries five times to wait out the race.','AI/app/jobs/tasks/notify.py:65-128'],
-    [['double','twilio','phone'],'node texts you your link.','NODE/src/features/pre-onboarding/pre-onboarding.controller.js:908-914'],
-    [['webapp','webapi'],'you play the three takes and pick one. deploy is refused without a photo and a pick that is yours.','NODE/src/features/user/user.service.js:668-750']]},
-   {id:'match',b:'a match and introduction',end:'the machine proposes, a person approves, and the double does the asking.',hops:[
-    [['matcher'],'once a week the matcher runs as one job that never retries, because it is not idempotent.','AI/app/jobs/tasks/automated_matchmaking.py:20-24'],
-    [['matcher','records'],'sql pre-filter: mutual preferences, 300 km, age and height rules, and a 90-day block on re-matching.','AI/app/logic/automated_matchmaking.py:50-60'],
-    [['matcher'],'scarcest people first, then fewest options, then distance. each person sits in at most one pair.','AI/app/logic/batch_selector.py:447'],
-    [['matcher','openai'],'gpt-5 scores each pair on values 30, personality 25, lifestyle 20, long-term 15, chemistry 10. pass is 0.60.','AI/app/logic/matchmaking_agent.py:260-269'],
-    [['matcher','records'],'passing pairs are saved unapproved. no user can see them yet.','automated_matchmaking.py:3-5'],
-    [['admin','webapi'],'a person approves the match in the admin tool, and the action is logged.','NODE/src/features/admin/admin.service.js:60-90'],
-    [['webapi','double'],'the double writes the introduction: the partner, the compatibility, the first date if there is one.','scheduling-sms.service.js:198-235'],
-    [['double','twilio','phone'],'one channel: push if your app was open in the last 10 minutes, otherwise sms. a 7 day clock starts.','route-agent-outbound.service.js:7-34 · scheduling-sms.service.js:256-264']]},
-   {id:'date',b:'the first-date simulation',end:'two cloned voices, one short first date, and the model never chose whose voice.',hops:[
-    [['queue','worker'],'a first date is queued for a match, on demand or in bulk.','AI/app/routers/lovestory.py:108-219'],
-    [['worker','firstdate','openai'],'gpt-5-mini writes 4 to 6 lines, 15 words at most each, every voice grounded in that person\'s style and energy.','AI/app/logic/generate_lovestory.py:7-48, :85-112'],
-    [['firstdate'],'the voice ids are injected by code, never taken from the model.','generate_lovestory.py:108-110'],
-    [['firstdate','eleven'],'elevenlabs text-to-dialogue renders both cloned voices into one file.','generate_lovestory.py:115-131'],
-    [['firstdate','store'],'the script is saved and the audio goes to a private bucket.','AI/app/jobs/tasks/lovestory.py:68, :117-140'],
-    [['store','double'],'node reads it when the double writes your introduction.','NODE/src/features/scheduling/scheduling-sms.service.js:218-235']]}
-  ];
-
-  var isPerson=function(id){return N[id].k==='person'};
-  var map=document.getElementById('ix-map'),svg=document.getElementById('ix-svg');
-  var gP=document.getElementById('ix-paths'),gR=document.getElementById('ix-rings'),gN=document.getElementById('ix-nums'),defs=document.getElementById('ix-defs');
-  var read=document.getElementById('ix-read'),ol=document.getElementById('ix-steps'),endEl=document.getElementById('ix-end'),bar=document.getElementById('ix-bar');
-  var NS='http://www.w3.org/2000/svg';
-  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e}
-
-  [[SKY,'c'],[MAG,'w']].forEach(function(c){
-    var m=el('marker',{id:'ix-a'+c[1],viewBox:'0 0 10 10',refX:'8',refY:'5',markerWidth:'7',markerHeight:'7',orient:'auto-start-reverse',markerUnits:'userSpaceOnUse'});
-    m.setAttribute('markerWidth','9');m.setAttribute('markerHeight','9');
-    m.appendChild(el('path',{d:'M0,1 L9,5 L0,9 z',fill:c[0]}));defs.appendChild(m);
-  });
-
-  /* draw the parts */
-  COLS.forEach(function(c){var d=document.createElement('div');d.className='col';d.style.left=c[0]/10+'%';d.textContent=c[1];map.appendChild(d)});
-  var pg=document.createElement('div');pg.className='pgband';pg.style.cssText='left:43.8%;top:'+(652/7.4)+'%;width:50.6%;height:'+(80/7.4)+'%';
-  pg.innerHTML='<span>postgres · one database</span>';map.appendChild(pg);
-  Object.keys(N).forEach(function(id){
-    var n=N[id],d=document.createElement('div');
-    d.className='node '+n.k+(n.h<50?' one':'');d.id='ix-n-'+id;d.tabIndex=0;
-    d.style.left=(n.x-n.w/2)/10+'%';d.style.top=(n.y-n.h/2)/7.4+'%';d.style.width=n.w/10+'%';d.style.height=n.h/7.4+'%';
-    d.innerHTML='<span class="t">'+n.t+'</span><span class="s">'+n.s+'</span>';
-    d.setAttribute('aria-label',n.t+': '+n.what);
-    var show=function(){showNode(id)};
-    d.addEventListener('mouseenter',show);d.addEventListener('focus',show);d.addEventListener('click',show);
-    d.addEventListener('mouseleave',function(){showHop()});
-    map.appendChild(d);
-  });
-
-  /* geometry: orthogonal lines with rounded corners, run through named corridors between columns */
-  var CX=[195,412,680],RIGHT=965,LANE=640;
-  function side(id,dir){var n=N[id];return dir==='l'?[n.x-n.w/2,n.y]:dir==='r'?[n.x+n.w/2,n.y]:dir==='t'?[n.x,n.y-n.h/2]:[n.x,n.y+n.h/2]}
-  var FIX={ /* routes into the two bands, by hand: every one stays in a corridor */
-    'router>openai':[[630,240],[680,240],[680,88]],
-    'matcher>openai':[[730,150],[692,150],[692,88]],
-    'firstdate>openai':[[730,240],[680,240],[680,88]],
-    'aiapi>queue':[[730,330],[672,330],[672,673]],
-    'queue>worker':[[688,673],[688,420],[730,420]],
-    'matcher>records':[[730,150],[680,150],[680,LANE],[530,LANE],[530,673]],
-    'firstdate>store':[[930,240],[RIGHT,240],[RIGHT,695],[930,695]],
-    'store>double':[[855,673],[855,LANE],[680,LANE],[680,420],[630,420]],
-    'worker>firstdate':[[930,420],[RIGHT,420],[RIGHT,240],[930,240]],
-    'worker>quality':[[930,412],[RIGHT-14,412],[RIGHT-14,500],[930,500]],
-    'worker>voice':[[930,428],[RIGHT,428],[RIGHT,580],[930,580]],
-    'firstdate>eleven':[[730,240],[680,240],[680,338],[375,338]],
-    'phone>twilio':[[165,143],[225,143]],'twilio>phone':[[225,157],[165,157]],
-    'router>twilio':[[450,240],[412,240],[412,164],[375,164]],
-    'double>twilio':[[450,428],[430,428],[430,170],[375,170]],
-    'admin>webapi':[[165,600],[195,600],[195,560],[412,560],[412,518],[450,518]],
-    'webapp>webapi':[[165,505],[450,505]]
-  };
-  function pts(a,b){
-    if(FIX[a+'>'+b])return FIX[a+'>'+b];
-    var A=N[a],B=N[b];
-    if(Math.abs(A.y-B.y)<12)return B.x>A.x?[side(a,'r'),[B.x-B.w/2,A.y]]:[side(a,'l'),[B.x+B.w/2,A.y]];
-    if(Math.abs(A.x-B.x)<12)return B.y>A.y?[side(a,'b'),side(b,'t')]:[side(a,'t'),side(b,'b')];
-    var left=B.x<A.x,C;
-    if(left){C=CX.filter(function(c){return c>B.x+B.w/2})[0]}else{C=CX.filter(function(c){return c<B.x-B.w/2}).pop()}
-    var s=side(a,left?'l':'r'),e=side(b,left?'r':'l');
-    return [s,[C,s[1]],[C,e[1]],e];
-  }
-  function d(ps){ /* polyline with 12-unit rounded corners */
-    var R=12,o='M'+ps[0][0]+','+ps[0][1];
-    for(var i=1;i<ps.length;i++){
-      var p=ps[i];
-      if(i<ps.length-1){
-        var a=ps[i-1],n=ps[i+1];
-        var l1=Math.hypot(p[0]-a[0],p[1]-a[1]),l2=Math.hypot(n[0]-p[0],n[1]-p[1]),r=Math.min(R,l1/2,l2/2);
-        var p1=[p[0]-(p[0]-a[0])/l1*r,p[1]-(p[1]-a[1])/l1*r],p2=[p[0]+(n[0]-p[0])/l2*r,p[1]+(n[1]-p[1])/l2*r];
-        o+=' L'+p1[0]+','+p1[1]+' Q'+p[0]+','+p[1]+' '+p2[0]+','+p2[1];
-      }else o+=' L'+p[0]+','+p[1];
-    }
-    return o;
-  }
-  var NUMT={'double>twilio':.12,'router>eleven':.75};
-  function seg(a,b){return d(pts(a,b))}
-
-  var cur=0,jx=0,paths=[],rings=[],nums=[],lis=[];
-
-  function build(j){
-    jx=j;var jr=J[j];gP.innerHTML='';gR.innerHTML='';gN.innerHTML='';ol.innerHTML='';paths=[];rings=[];nums=[];lis=[];
-    [].forEach.call(bar.children,function(b,i){b.setAttribute('aria-pressed',i===j?'true':'false')});
-    var used={};
-    jr.hops.forEach(function(h,i){
-      var ids=h[0],warm=ids.some(isPerson),col=warm?MAG:SKY;
-      ids.forEach(function(id){used[id]=1});
-      var g=[];
-      if(ids.length===1){
-        var n=N[ids[0]],r=el('rect',{x:n.x-n.w/2-6,y:n.y-n.h/2-6,width:n.w+12,height:n.h+12,rx:n.k==='person'?n.h/2+6:13,stroke:col,'class':'ring'});
-        gR.appendChild(r);rings[i]=r;paths[i]=[];
-        var c=el('g',{'class':'num'});c.appendChild(el('circle',{cx:n.x+n.w/2,cy:n.y-n.h/2,r:11,fill:col}));
-        var tx=el('text',{x:n.x+n.w/2,y:n.y-n.h/2+1});tx.textContent=i+1;c.appendChild(tx);gN.appendChild(c);nums[i]=c;
-      }else{
-        for(var s=0;s<ids.length-1;s++){
-          var p=el('path',{d:seg(ids[s],ids[s+1]),stroke:col,'class':'hop','marker-end':s===ids.length-2?'url(#ix-a'+(warm?'w':'c')+')':''});
-          gP.appendChild(p);g.push(p);
-        }
-        paths[i]=g;
-        var first=g[0],L=first.getTotalLength(),pt=first.getPointAtLength(L*(NUMT[ids[0]+'>'+ids[1]]||.5));
-        var c2=el('g',{'class':'num'});c2.appendChild(el('circle',{cx:pt.x,cy:pt.y,r:11,fill:col}));
-        var t2=el('text',{x:pt.x,y:pt.y+1});t2.textContent=i+1;c2.appendChild(t2);gN.appendChild(c2);nums[i]=c2;
-      }
-      var li=document.createElement('li');li.dataset.i=i;
-      var names=ids.map(function(id){return '<button type="button" data-n="'+id+'">'+N[id].t+'</button>'}).join(ids.length>1?' → ':'');
-      li.innerHTML='<span class="d" style="background:'+col+'">'+(i+1)+'</span><p class="ft">'+names+(ids.length===1?' · inside':'')+'</p><p class="x">'+h[1]+'</p><p class="f">'+h[2]+'</p><p class="more"></p>';
-      li.addEventListener('click',function(e){
-        var b=e.target.closest('button[data-n]');
-        if(b){var m=li.querySelector('.more'),n=N[b.dataset.n],same=m.classList.contains('open')&&m.dataset.n===b.dataset.n;
-          m.dataset.n=b.dataset.n;m.innerHTML=n.what+(n.f?'<br><span style="font-family:var(--mono);font-size:12px">'+n.f+'</span>':'');m.classList.toggle('open',!same);}
-        setHop(i);
-      });
-      ol.appendChild(li);lis.push(li);
-    });
-    Object.keys(N).forEach(function(id){document.getElementById('ix-n-'+id).classList.toggle('off',!used[id])});
-    endEl.textContent=jr.end;
-    observe();setHop(0);
-  }
-
-  function setHop(i){
-    cur=i;var ids=J[jx].hops[i][0];
-    paths.forEach(function(g,k){g.forEach(function(p){p.classList.toggle('cur',k===i);p.classList.toggle('done',k<i)})});
-    rings.forEach(function(r,k){if(r)r.classList.toggle('cur',k===i)});
-    nums.forEach(function(n,k){n.classList.toggle('cur',k===i);n.classList.toggle('done',k<i)});
-    lis.forEach(function(l,k){l.classList.toggle('cur',k===i)});
-    Object.keys(N).forEach(function(id){document.getElementById('ix-n-'+id).classList.toggle('cur',ids.indexOf(id)>-1)});
-    showHop();
-  }
-  function showHop(){
-    var jr=J[jx];
-    read.innerHTML='<p class="k">'+jr.b+' · hop '+(cur+1)+' of '+jr.hops.length+'</p><p class="w">hover or tap any part to see what it does and where it lives.</p>';
-  }
-  function showNode(id){
-    var n=N[id];
-    read.innerHTML='<p class="k">'+n.t+'</p><p class="w">'+n.what+'</p>'+(n.f?'<p class="f">'+n.f+'</p>':'<p class="f">a person, not code</p>');
-  }
-
-  /* scroll drives the hop: the step crossing the middle of the screen is the current one */
-  var io=null;
-  function observe(){
-    if(!('IntersectionObserver' in window))return;
-    if(io)io.disconnect();
-    io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)setHop(+e.target.dataset.i)})},{rootMargin:'-45% 0px -45% 0px'});
-    lis.forEach(function(l){io.observe(l)});
-  }
-
-  J.forEach(function(jr,i){var b=document.createElement('button');b.type='button';b.textContent=jr.b;b.addEventListener('click',function(){build(i)});bar.appendChild(b)});
-  build(0);
-  /* motion only while the section is on screen */
-  if('IntersectionObserver' in window){new IntersectionObserver(function(es){es.forEach(function(e){root.style.setProperty('--run',e.isIntersecting?'running':'paused');
-    [].forEach.call(root.querySelectorAll('.hop.cur,.ring.cur'),function(x){x.style.animationPlayState=e.isIntersecting?'running':'paused'})})}).observe(root)}
-  /* screenshot hook: ?j=call&h=5 */
-  var q=new URLSearchParams(location.search);if(q.get('j')){var k=J.findIndex(function(x){return x.id===q.get('j')});if(k>-1){build(k);if(q.get('h'))setHop(+q.get('h')-1)}}
-})();
-</script>
-
-<!-- how a text actually arrives: the SMS pipeline behind the original Winged agent -->
 <section class="wide" id="how-a-text-arrives">
   <div class="ed" style="margin:0 0 var(--s3)">
     <h2>how a text actually arrives</h2>
