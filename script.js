@@ -141,13 +141,24 @@ if(passwordForm)passwordForm.addEventListener('submit',function(e){
   if(input&&input.value==='shareh0ld3rv4lu3'){
     sessionStorage.setItem('portfolio-work-unlocked','yes');document.getElementById('m-password').classList.remove('open');document.body.style.overflow='';
     if(error)error.textContent='';var trigger=pendingWorkTrigger;pendingWorkTrigger=null;
-    // iOS zooms in on the field; zoom back out as the notebook starts: blur and pin the scale now, start the
-    // animation in the same tick (never wait on the zoom), then restore pinch-zoom once the zoom-out has settled
+    // iOS zooms in on the field. Order matters: blur first (keyboard leaves), on the next frame pin the scale,
+    // hold the pin until visualViewport reports scale 1 (min 250ms, max 1500ms), restore pinch-zoom, then play.
+    // Not zoomed (desktop, android, no visualViewport): play immediately. The frames are pre-decoded, so no stall.
     if(input)input.blur();
     var vp=document.querySelector('meta[name="viewport"]'),vpOld=vp&&vp.getAttribute('content');
-    var zoomed=!!(window.visualViewport&&window.visualViewport.scale>1.01);
-    if(vp&&zoomed){vp.setAttribute('content','width=device-width, initial-scale=1, maximum-scale=1');setTimeout(function(){vp.setAttribute('content',vpOld);},400);}
-    if(trigger)enterPainting(trigger);
+    var vv=window.visualViewport;
+    var zoomed=!!(vp&&vv&&vv.scale>1.01);
+    if(!zoomed){if(trigger)enterPainting(trigger);}
+    else requestAnimationFrame(function(){
+      vp.setAttribute('content','width=device-width, initial-scale=1, maximum-scale=1');
+      var t0=Date.now(),started=false;
+      function play(){if(started)return;started=true;if(trigger)enterPainting(trigger);}
+      (function check(){
+        var el=Date.now()-t0;
+        if((vv.scale<=1.01&&el>=250)||el>=1500){vp.setAttribute('content',vpOld);play();return;}
+        setTimeout(check,50);
+      })();
+    });
   }else{if(error)error.textContent='The password is incorrect. Please try again.';if(input){input.select();input.focus();}}
 });
 document.querySelectorAll('[data-modal]').forEach(function(el){el.addEventListener('click',function(e){
