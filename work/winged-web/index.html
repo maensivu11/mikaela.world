@@ -237,11 +237,10 @@ footer{margin-top:var(--gap);border-top:1px solid var(--line);padding:48px 0 64p
 .hand{display:block;width:fit-content;max-width:100%;font-family:'B-McE',cursive;text-transform:lowercase;font-size:23px;line-height:26px;font-weight:400;font-style:normal;color:#3d3a8c;transform:rotate(-1.5deg);transform-origin:left center;margin:0 0 12px}
 .hand.r1{transform:rotate(-2deg)}.hand.r2{transform:rotate(-.8deg)}.hand.r3{transform:rotate(.6deg)}.hand.r4{transform:rotate(1deg)}
 .hand.after{margin:14px 0 0}
-/* descenders (the j, g, y) clear the line box and paint above the block that follows */
-.hand{line-height:1.35;padding:2px 4px 8px 0;overflow:visible;position:relative;z-index:1}
+/* B-McE draws j with its tail detached and cut; a dotless j with a combining dot renders the whole letter */
 /* the logic, stated: one plain sentence in her voice where a decision showed no reason */
 .logic{color:var(--ink)}
-@media (max-width:760px){.hand{font-size:21px;line-height:1.35}}
+@media (max-width:760px){.hand{font-size:21px;line-height:24px}}
 /* spacing pass: one scale */
 /* desktop 160 section / 120 block / 64 group / 40 element / 24 note / 16 caption
    mobile   96 section /  80 block / 48 group / 40 element / 24 note / 16 caption */
@@ -336,7 +335,7 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
     </div>
     <p class="argue"><b>#000</b> ground: one room, so light reads as meaning · <b>100/70/55/50/40</b> text steps: brightness is hierarchy, not a pile of grays · <b>iris→sky</b> = the machine · <b>iris→magenta</b> = people · <b>sky→iris→magenta</b> = date confirmed, the only place they meet · <b>iris</b> as the shared anchor: two registers, one brand · <b>grain 0.10</b>: light, not a fill · <b>circular</b> for titles · <b>SF</b> for reading · <b>space mono caps</b> for the agent's voice · <b>-0.02em</b> tracking: close-set, intimate · <b>pure black</b>, not dark grey: the calm base is what lets color mean something</p>
 
-    <div class="tok-set"><span class="hand r1 after">one gradient, one job</span>
+    <div class="tok-set"><span class="hand r1 after" aria-label="one gradient, one job"><span aria-hidden="true">one gradient, one ȷ̇ob</span></span>
     <div class="tok">
       <div><div class="chip" style="background:var(--cool)"></div><p>cool · iris #9B71E8 → sky #70D4F5</p><p class="why">intelligence: the agent working, scoring, the compatibility ring</p></div>
       <div><div class="chip" style="background:var(--warm)"></div><p>warm · iris #9B71E8 → magenta #FF75CA</p><p class="why">connection: matches, people, the introduction</p></div>
@@ -495,15 +494,15 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
   <div class="ag-head">
     <h2 id="infra-h">the agent system</h2>
     <p>under the screens is the agent system i built. four ideas hold it together, and the last one matters most: nothing speaks for you until you say yes.</p>
-    <div class="ag-total">12 agents <span>and</span> 9 mcp tools</div>
-    <div class="ag-parts"><b>5</b> sms agents · <b>1</b> double · <b>4</b> voice agents · <b>2</b> date-planning agents · <b>9</b> mcp tools. the views below each show one slice.</div>
+    <div class="ag-total">14 agents <span>and</span> 9 mcp tools</div>
+    <div class="ag-parts"><b>5</b> sms agents · <b>1</b> double · <b>1</b> outbound writer · <b>4</b> voice agents · <b>2</b> date-planning agents · <b>1</b> vouch analyst · <b>9</b> mcp tools. the views below each show one slice.</div>
   </div>
 
   <div class="ag-night">
 
     <div class="ag-view">
       <div>
-        <div class="ag-k">01 · texts · 5 of the 12 agents</div>
+        <div class="ag-k">01 · texts · 5 of the 14 agents</div>
         <div class="ag-t">one router, five agents</div>
         <p class="ag-s">one slice: your text goes to the one agent that fits where you are in the journey. every agent answers by <b>calling a tool</b>, so there is no free-text path, and links are built by code, never by the model.</p>
       </div>
@@ -522,7 +521,7 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
 
     <div class="ag-view">
       <div>
-        <div class="ag-k">02 · the double · 1 of the 12, plus the 9 mcp tools</div>
+        <div class="ag-k">02 · the double · 1 of the 14, plus the 9 mcp tools</div>
         <div class="ag-t">your double, with eleven tools</div>
         <p class="ag-s">the double chats in the app and texts first when something happens. it acts only through its tools, and the destructive ones check in code that the date is yours. outside assistants reach the same double through <b>nine mcp tools</b>.</p>
       </div>
@@ -543,7 +542,7 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
 
     <div class="ag-view">
       <div>
-        <div class="ag-k">03 · voice · 4 of the 12 agents</div>
+        <div class="ag-k">03 · voice · 4 of the 14 agents</div>
         <div class="ag-t">the voice agents call you</div>
         <p class="ag-s">four voice agents hold the calls. after the onboarding call your voice is cloned and three introductions are written and spoken in it. you hear all three and <b>pick one</b>. the python service that builds the profile and the takes is niina's.</p>
       </div>
@@ -560,7 +559,7 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
 
     <div class="ag-view">
       <div>
-        <div class="ag-k">04 · approval · across all 12</div>
+        <div class="ag-k">04 · approval · across all 14</div>
         <div class="ag-t">nothing speaks for you until you say yes</div>
         <p class="ag-s">the model drafts, code checks it, and a person decides. when a check fails, a hand-written line goes out instead, so a text always sends and is always in voice.</p>
       </div>
