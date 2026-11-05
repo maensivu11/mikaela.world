@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>mikaela.world · mikaela maensivu</title>
-<meta name="description" content="mikaela.world: a portfolio that starts as my real childhood journal. Hand-coded, handwritten, case study by Mikaela Maensivu.">
+<meta name="description" content="mikaela.world: a portfolio that starts as my real childhood journal. Handwritten and hand-painted, case study by Mikaela Maensivu.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;600&family=JetBrains+Mono:wght@400&family=Caveat:wght@500&display=swap" rel="stylesheet">
@@ -52,7 +52,7 @@ p+p{margin-top:20px}
 .hero-pair .frame{width:100%}
 /* hero stack, as the homepage layers it: painting, then book, then note */
 /* landscape stage so the book's name label and the note both read: book left, note overlapping its right edge */
-.hero-art{width:min(100%,640px);margin:0}
+.hero-art{width:100%;margin:0}
 .hero-stage{position:relative;aspect-ratio:4/3;border-radius:12px;overflow:hidden;box-shadow:0 24px 48px rgba(0,0,0,.06)}
 .hero-stage img{display:block;width:100%;height:100%}
 .hero-painting{position:absolute;inset:0;object-fit:cover}
@@ -62,7 +62,7 @@ p+p{margin-top:20px}
 .hero-journal img{filter:drop-shadow(0 5px 4px rgba(34,15,5,.34)) drop-shadow(0 18px 14px rgba(34,15,5,.38))}
 .hero-page img{filter:drop-shadow(0 4px 3px rgba(34,15,5,.34)) drop-shadow(0 20px 16px rgba(34,15,5,.4))}
 .hero .hero-art .cap{text-align:left}
-.framing{max-width:560px;margin:32px auto 0;font-size:19px;line-height:31px;text-align:center}
+.framing{margin:32px 0 0;font-size:19px;line-height:31px}
 
 /* 2 manifesto */
 .manifesto p{font-size:19px;line-height:31px}
@@ -85,7 +85,17 @@ pre .k{color:#f4e21f}
 
 /* 4 system strip */
 .ds{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:80px 0}
-.sw{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:8px}
+.sw{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:8px}
+.stills{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;align-items:start}
+.stills img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:12px;border:1px solid var(--line)}
+.stills figcaption,.made figcaption{font-family:var(--mono);font-size:13px;line-height:20px;color:var(--muted);margin-top:var(--s6)}
+.made-video{width:100%;display:block;border-radius:12px;background:#17120f;aspect-ratio:4/3}
+.made .drawings{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:start}
+.made .drawings img{width:100%;border-radius:12px;border:1px solid var(--line)}
+.made .painting{max-width:none}
+.made .painting img{width:100%;aspect-ratio:21/9;object-fit:cover;border-radius:12px}
+.made figure+figure,.made .drawings{margin-top:var(--s3)}
+@media (max-width:760px){.stills{grid-template-columns:repeat(2,1fr)}.made .drawings{grid-template-columns:1fr}}
 .sw .chip{height:96px;border-radius:12px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center}
 .sw p{font-family:var(--mono);font-size:13px;line-height:20px;color:var(--muted);margin-top:8px}
 .why{font-family:var(--mono);font-size:12px;line-height:18px;color:var(--muted);margin-top:4px}
@@ -174,7 +184,7 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
   <div class="hero-head">
     <div>
       <h1>mikaela.world</h1>
-      <p class="claim">my portfolio opens on a handwritten note, sitting on my real childhood journal. i drew it, wrote it and coded it by hand.</p>
+      <p class="claim">my portfolio opens on a handwritten note, sitting on my real childhood journal. i drew it and wrote it by hand.</p>
     </div>
     <a class="live" href="https://mikaela.world" rel="noopener">visit live ↗ mikaela.world</a>
   </div>
@@ -186,28 +196,21 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
     </div>
     <figcaption class="cap">the note the site opens on. my hand, my words, no font<br>my real painting, my real childhood journal</figcaption>
   </figure>
-  <p class="framing">the first thing you see is a note i wrote by hand, to you. under it is the journal i kept as a kid, drawings and all. the painting in the back is mine, the video inside the book i designed, and the handwriting across the whole site is my own. nothing here was picked from a list.</p>
+  <p class="framing">the first thing you see is a note i wrote by hand, to you. under it is the journal i kept as a kid, drawings and all. the painting in the back is mine, the video inside the book i designed, and the handwriting on the note and in the journal is my own, from now and from when i was a kid. nothing here was picked from a list.</p>
 </header>
 
 <!-- 2. the manifesto -->
 <section class="prose manifesto">
   <h2>why i made it this way</h2>
   <span class="hand r2">no one can replicate me</span>
-  <p class="intro">anyone can design a site. anyone can make something that looks good, follow the standards, learn the skill set. but no one can replicate me and my own work.</p>
-  <p>that matters more now than it ever has. a model can produce a competent landing page in seconds. clean grid, sensible type, the right amount of whitespace. competence used to be the bar. now anyone gets it for free, and when everything is competent, everything looks the same. even when it looks good. especially then.</p>
-  <p>what can't be generated is the part before the pixels. taste is knowing which of a hundred correct options is mine. authorship is my name on the decisions, including the ones i got wrong. and time is the hours it takes to photograph a notebook frame by frame until it opens the way a real one does.</p>
-  <div class="hers">i'd rather it look like me than look right.</div>
-  <p>so no template, no site builder, no framework. index.html, styles.css and script.js, written by hand, line by line. i'm not avoiding tools to make a point. i use them every day. but if i say i care about craft, the site is where you check, and view-source is part of the portfolio.</p>
-  <p>the margins are set in b-mce, a font close enough to my hand that i adopted it as mine. the handwriting in the note, the journal and the notebook is actually mine. the note on top is my hand today. the composition book under it is my hand as a kid, same name on the cover, only younger. the yellow highlights were traced over my own ink, stroke by stroke. there's even a voice agent on the site that speaks in my voice, because if i'm going to say "this is me," it should be all the way.</p>
-  <p>i wanted it to feel human and authentic, like someone took their time. because someone did. you can't fake that with a prompt. you can only spend it.</p>
-  <div class="hers">this is just me, as organically and honestly as i could make it.</div>
+  <p class="intro">anyone can make a good looking site now, so polish isn't what tells you who someone is anymore. effort is. the parts of this site that matter most to me are the parts no tool could make. the handwritten names in the notebook are my actual handwriting. the journal pages and drawings are from when i was a kid, before i knew design was a job. the painting is mine. the video is me working, so you can see the messy middle of how i make things. i left the wobble in on purpose. i think the sign of craft right now isn't how smooth something looks, it's whether you can tell a real person spent real time on it. the tools did a lot of the typing. the hand, the taste, and the years are mine.</p>
 </section>
 
 <!-- 3. how it's made -->
 <section class="wide">
   <div class="ed" style="margin:0 0 var(--s3)">
     <h2>how it's made</h2>
-    <p class="intro">three pieces of mechanics. each one is small, each one is real, and each one only works because i did it by hand.</p>
+    <p class="intro">three pieces of mechanics. each one is small, each one is real, and each one only works because something real was photographed or traced.</p>
   </div>
 
   <div class="blk">
@@ -267,30 +270,49 @@ Promise.all(frames.map(<span class="k">function</span>(src){<span class="k">var<
     {duration:560,easing:<span class="k">'steps(4,end)'</span>,fill:<span class="k">'forwards'</span>});});</pre>
       <p class="cap">script.js, lifting the note off the journal, excerpt</p>
     </div>
-    <div class="note"><span class="hand r2">steps(4), on purpose</span><p>no framework, and even the easing is hand-set.</p><p>no react, no build step, no library. one html file, one stylesheet, one script, and the browser's own animation api. even the note leaving the book runs in four held steps with a two-pixel wobble, so it moves like a stop-motion object instead of sliding like an interface panel.</p></div>
+    <div class="note"><span class="hand r2">steps(4), on purpose</span><p>no framework, and even the easing is set on purpose.</p><p>no react, no build step, no library. one html file, one stylesheet, one script, and the browser's own animation api. even the note leaving the book runs in four held steps with a two-pixel wobble, so it moves like a stop-motion object instead of sliding like an interface panel.</p></div>
   </div>
 </section>
 
 <!-- 4. the system strip -->
 <section class="ds">
   <div class="wide">
-    <div class="ed" style="margin-bottom:var(--s3)"><h2>the system</h2><p class="intro">four materials, and every one of them is something you could hold.</p></div>
+    <div class="ed" style="margin-bottom:var(--s3)"><h2>the system</h2><p class="intro">three materials, and the real things they come from.</p></div>
     <span class="hand r2">paper, ink, my hand</span>
     <div class="sw">
       <div><div class="chip" style="background:#FBF6EA"></div><p>paper #FBF6EA</p><p class="why">warm, not white. the color of a page that's been kept, not printed</p></div>
       <div><div class="chip" style="background:#22303a"></div><p>ink #22303a</p><p class="why">blue-black ballpoint, never pure black, because no pen is</p></div>
-      <div><div class="chip" style="background:#FBF6EA;font-family:'B-McE',cursive;font-size:34px;color:#22303a">mikaela</div><p>b-mce ("mikaela")</p><p class="why">an adopted hand, close to mine</p></div>
-      <div><div class="chip" style="background:#FBF6EA;font-family:'Caveat',cursive;font-weight:500;font-size:30px;color:#22303a">open me</div><p>caveat ("open me")</p><p class="why">the quick hand for small ui hints, so the margins stay mine</p></div>
+      <div><div class="chip" style="background:#FBF6EA;font-family:'B-McE',cursive;font-size:34px;color:#22303a">mikaela</div><p>b-mce ("mikaela")</p><p class="why">an adopted handwriting font, not my own hand. it sits in the margins; the real handwriting is in the note and the journal</p></div>
+    </div>
+    <span class="hand r3" style="margin-top:var(--s3)">stills from the real things</span>
+    <div class="stills">
+      <figure><img src="assets/12-painting.jpg" alt="Her painting: a hot-pink canvas covered in hand-painted flowers" loading="lazy" width="900" height="1200"><figcaption>my painting, the backdrop of the whole site</figcaption></figure>
+      <figure><img src="assets/00-journal-cover.jpg" alt="Her childhood composition book, her name on the label" loading="lazy"><figcaption>the composition book i kept as a kid</figcaption></figure>
+      <figure><img src="assets/11-still-childhood.jpg" alt="A photo of Mikaela as a little girl holding a lunchbox, from the video in the book" loading="lazy" width="900" height="675"><figcaption>a still from the video in the book</figcaption></figure>
+      <figure><img src="assets/11-still-working.jpg" alt="Her desk: a laptop full of code, a notebook and a pink mug" loading="lazy" width="900" height="675"><figcaption>a still of my desk, mid-build</figcaption></figure>
     </div>
   </div>
 </section>
 
+<!-- 5. the hand behind it -->
+<section class="wide made">
+  <div class="ed" style="margin:0 0 var(--s3)">
+    <h2>the hand behind it</h2>
+    <p class="intro">the video in the book shows me actually working. making things has always been my passion, long before i knew design was a job.</p>
+  </div>
+  <figure class="art"><video class="made-video" src="../../assets/source-book/book-video.m4v" poster="assets/11-still-working.jpg" controls playsinline muted preload="none" aria-label="Mikaela's video: her as a kid, then her desk mid-build"></video><figcaption>the video from inside the book, me as a kid and me at my desk, working</figcaption></figure>
+  <figure class="art"><div class="drawings">
+    <img src="assets/10-journal-drawing-1.jpg" alt="Childhood journal page: my favorite cartoon is charlie brown, with a pencil drawing of a cartoon dog" loading="lazy" width="800" height="911">
+    <img src="assets/10-journal-drawing-2.jpg" alt="Childhood journal page: my parents can be proud of me, with a crayon drawing of herself, a garden and a bunny" loading="lazy" width="800" height="844">
+    <img src="assets/10-journal-drawing-3.jpg" alt="Childhood journal page about Finland and her garden, with pencil drawings of both" loading="lazy" width="800" height="911">
+  </div><figcaption>my childhood journal. naive, childlike drawings in my own hand, the first proof of hand i ever made</figcaption></figure>
+  <figure class="art painting"><img src="assets/12-painting.jpg" alt="Her painting from adulthood: a hot-pink canvas covered in hand-painted flowers" loading="lazy" width="900" height="1200"><figcaption>a painting i made as an adult. the same flowers, years later, now behind the whole site</figcaption></figure>
+</section>
+
 <footer class="wide">
   <div class="built mono">
-    <p>built by hand</p>
     <p><span>live</span> · <a href="https://mikaela.world" rel="noopener">mikaela.world</a></p>
     <p><span>stack</span> · index.html, styles.css, script.js. no framework, no build step</p>
-    <p><span>evidence</span> · view-source</p>
   </div>
 </footer>
 
