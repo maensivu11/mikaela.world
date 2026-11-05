@@ -131,6 +131,7 @@ function clearActionHighlights(){document.querySelectorAll('[data-highlight-laye
 function requestWorkAccess(el){
   clearActionHighlights();
   if(sessionStorage.getItem('portfolio-work-unlocked')==='yes'){enterPainting(el);return;}
+  if(window.warmWorkIndex)window.warmWorkIndex();
   pendingWorkTrigger=el;openM('password');
   setTimeout(function(){var input=document.querySelector('[data-password-input]');if(input)input.focus();},0);
 }
@@ -140,15 +141,13 @@ if(passwordForm)passwordForm.addEventListener('submit',function(e){
   if(input&&input.value==='shareh0ld3rv4lu3'){
     sessionStorage.setItem('portfolio-work-unlocked','yes');document.getElementById('m-password').classList.remove('open');document.body.style.overflow='';
     if(error)error.textContent='';var trigger=pendingWorkTrigger;pendingWorkTrigger=null;
-    // iOS zooms in on the field; zoom back out before the notebook plays: blur, pin the scale, then restore pinch-zoom
+    // iOS zooms in on the field; zoom back out as the notebook starts: blur and pin the scale now, start the
+    // animation in the same tick (never wait on the zoom), then restore pinch-zoom once the zoom-out has settled
     if(input)input.blur();
     var vp=document.querySelector('meta[name="viewport"]'),vpOld=vp&&vp.getAttribute('content');
     var zoomed=!!(window.visualViewport&&window.visualViewport.scale>1.01);
-    if(vp&&zoomed)vp.setAttribute('content','width=device-width, initial-scale=1, maximum-scale=1');
-    setTimeout(function(){
-      if(vp&&zoomed)vp.setAttribute('content',vpOld);
-      if(trigger)enterPainting(trigger);
-    },zoomed?350:0);
+    if(vp&&zoomed){vp.setAttribute('content','width=device-width, initial-scale=1, maximum-scale=1');setTimeout(function(){vp.setAttribute('content',vpOld);},400);}
+    if(trigger)enterPainting(trigger);
   }else{if(error)error.textContent='The password is incorrect. Please try again.';if(input){input.select();input.focus();}}
 });
 document.querySelectorAll('[data-modal]').forEach(function(el){el.addEventListener('click',function(e){
@@ -692,12 +691,27 @@ document.querySelectorAll('[data-ext-href]').forEach(function(el){
   var frame=modal.querySelector('[data-wi-frame]');
   var timer=0;
   var run=0;
+  // The four stop-motion frames are large; fetch and decode them once, ahead of time (on idle, and again the
+  // moment the password box opens), and keep the decoded images alive so the open never waits on them.
+  var warmed={};
+  function wiFrames(){
+    var mobile=window.matchMedia('(max-width:600px)').matches;
+    var root=mobile?'assets/tabletop/mobile/':'assets/tabletop/';
+    return [root+'book-closed.png',root+'book-slightly-open.png',root+'book-half-open.png','assets/tabletop/open-comp-blank.png'];
+  }
+  function warm(src){
+    if(!warmed[src]){var img=new Image();img.src=src;warmed[src]={img:img,ready:(img.decode?img.decode():Promise.resolve()).catch(function(){})};}
+    return warmed[src].ready;
+  }
+  function warmWorkIndex(){return Promise.all(wiFrames().map(warm));}
+  window.warmWorkIndex=warmWorkIndex;
+  function warmLater(){var go=function(){warmWorkIndex();};if(window.requestIdleCallback)requestIdleCallback(go,{timeout:4000});else setTimeout(go,2500);}
+  if(document.readyState==='complete')warmLater();else window.addEventListener('load',warmLater);
   function openWorkIndex(instant){
     var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var mobile=window.matchMedia('(max-width:600px)').matches;
-    var root=mobile?'assets/tabletop/mobile/':'assets/tabletop/';
-    var spread='assets/tabletop/open-comp-blank.png';
-    var frames=(reduce||instant===true)?[spread]:[root+'book-closed.png',root+'book-slightly-open.png',root+'book-half-open.png',spread];
+    var all=wiFrames(),spread=all[3];
+    var frames=(reduce||instant===true)?[spread]:all;
     var mine=++run,step=0;
     clearTimeout(timer);closing=false;frame.style.transform='';
     stage.classList.remove('is-open','is-leaving');
@@ -712,7 +726,7 @@ document.querySelectorAll('[data-ext-href]').forEach(function(el){
         if(!stage.hasAttribute('tabindex'))stage.setAttribute('tabindex','-1');stage.style.outline='none';stage.focus({preventScroll:true});
       },reduce?0:80);
     }
-    Promise.all(frames.map(function(src){var img=new Image();img.src=src;return (img.decode?img.decode():Promise.resolve()).catch(function(){});})).then(show);
+    Promise.all(frames.map(warm)).then(show);
   }
   var closing=false;
   // Mirrors closeRealBook(): same frames, same timings, same frame jitter, then back to the page.
