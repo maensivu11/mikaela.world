@@ -484,8 +484,9 @@ body{display:grid;min-height:100svh;place-items:center;overflow-x:hidden;backgro
 .book-hint-flat{display:none}
 @media(max-width:600px){
   .book-arc{display:none}
-  .book-hint-flat{display:block;position:absolute;left:57%;top:8.6%;transform:translateX(-50%);z-index:3;pointer-events:none;font-family:'B-McE',cursive;font-size:15px;color:#fff;letter-spacing:.4px;opacity:0;animation:flower-hint-pulse 7s ease-in-out infinite;animation-delay:2.5s}
+  .book-hint-flat{display:block;position:absolute;left:57%;top:8.6%;transform:translateX(-50%);z-index:3;pointer-events:none;font-family:'B-McE',cursive;font-size:15px;color:#fff;letter-spacing:.4px;opacity:0;animation:flower-hint-pulse 7s ease-in-out infinite;animation-delay:1s}
   .layer-book.is-dragging .book-hint-flat{animation:none;opacity:0}
+  body:has(#m-thoughts.open) .book-hint-flat,body:has(#m-workindex.open) .book-hint-flat{animation:none;opacity:0;transition:opacity 120ms}
   @media(prefers-reduced-motion:reduce){.book-hint-flat{animation:none;opacity:.7}}
 }
 .layer-book.is-dragging .book-arc{animation:none;opacity:0}
