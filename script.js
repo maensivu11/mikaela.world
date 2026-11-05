@@ -79,10 +79,13 @@ function showWorkProject(index,instant){
 function spinWorkFlower(trigger){
   // The daisy makes one full gentle turn as the notebook opens (skipped for reduced motion).
   if(!trigger||!trigger.querySelectorAll||window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  // a gentle part turn, not a full spin; never stacks if clicked again mid-turn
+  if(trigger.__turning)return;trigger.__turning=true;
   var parts=trigger.querySelectorAll('.focus-flower-lift,.work-flower-stroke,.work-flower-bloom');
-  Array.prototype.forEach.call(parts,function(part){
-    part.animate([{rotate:'0deg'},{rotate:'360deg'}],{duration:640,easing:'cubic-bezier(0.23, 1, 0.32, 1)'});
+  var anims=Array.prototype.map.call(parts,function(part){
+    return part.animate([{rotate:'0deg'},{rotate:'150deg'}],{duration:900,easing:'cubic-bezier(.22,.61,.36,1)',composite:'add'});
   });
+  Promise.all(anims.map(function(a){return a.finished;})).then(function(){trigger.__turning=false;},function(){trigger.__turning=false;});
 }
 function enterPainting(trigger){
   modalTrigger=trigger;
