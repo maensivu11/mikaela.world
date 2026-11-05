@@ -26,6 +26,9 @@
     '.cc-ne{display:inline-block;width:14px;height:14px;vertical-align:-1px;stroke-width:3;margin:0 2px}',
     '@media (max-width:760px){.cc-arrow{width:30px;height:21px}.cc-top .cc-up{width:13px;height:17px}}',
     '@media print{.cc{display:none}}',
+    '.cc-key{font-family:var(--mono,ui-monospace),monospace;font-size:11px;line-height:1;letter-spacing:.04em;opacity:0;margin:0 6px;padding:2px 5px;border:1px solid currentColor;border-radius:4px;transition:opacity 160ms ease-out;vertical-align:middle}',
+    '.cc:hover .cc-key,.cc:focus-visible .cc-key{opacity:.8}',
+    '@media (hover:none){.cc-key{display:none}}',
     /* shared layout rules for every case page */
     /* 1 text spans the full content column: no narrow caps on any text block */
     'section.prose>*,.ed>*{max-width:none!important}',
@@ -129,6 +132,25 @@
     var a1 = document.body.animate([{ transform: 'scale(1)', opacity: 1 }, { transform: 'scale(.82)', opacity: 0 }], { duration: 240, easing: 'cubic-bezier(.4,0,1,1)', fill: 'forwards' });
     document.body.style.transformOrigin = '50% ' + (scrollY + innerHeight / 2) + 'px';
     a1.finished.then(function () { location.href = href; }, function () { location.href = href; });
+  });
+  /* hotkeys: esc goes back to the notebook (lightboxes close first), left and right walk the cases */
+  document.addEventListener('keydown', function (e) {
+    if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.altKey) return;
+    var t = e.target, tag = t && t.tagName;
+    if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || (t && t.isContentEditable)) return;
+    if (document.querySelector('.lb, [aria-modal="true"]')) return;
+    var go = null;
+    if (e.key === 'Escape') go = document.querySelector('.cc-top');
+    else if (e.key === 'ArrowLeft') go = document.querySelector('.cc-prev');
+    else if (e.key === 'ArrowRight') go = document.querySelector('.cc-next');
+    if (go) { e.preventDefault(); go.click(); }
+  });
+  var keyTop = document.querySelector('.cc-top');
+  if (keyTop) { var k = document.createElement('span'); k.className = 'cc-key'; k.textContent = 'esc'; keyTop.appendChild(k); }
+  [['.cc-prev .cc-name', '\u2190'], ['.cc-next .cc-name', '\u2192']].forEach(function (p) {
+    var n = document.querySelector(p[0]); if (!n) return;
+    var k = document.createElement('span'); k.className = 'cc-key'; k.textContent = p[1];
+    if (p[0].indexOf('prev') > -1) n.appendChild(k); else n.insertBefore(k, n.firstChild);
   });
   /* "visit live" links: the typed arrow becomes the same hand-drawn stroke */
   document.querySelectorAll('a.live').forEach(function (a) {
