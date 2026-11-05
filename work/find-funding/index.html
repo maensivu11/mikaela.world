@@ -93,6 +93,13 @@ p+p{margin-top:20px}
 .frame.live iframe{position:absolute;top:0;left:0;width:1280px;height:800px;border:0;transform-origin:0 0;background:#fff}
 @media (max-width:600px){.frame.live.ready{aspect-ratio:390/844}.frame.live iframe{width:390px;height:844px}}
 .live-tag{display:block;width:fit-content;margin:0 0 12px;font-family:var(--mono);font-size:12px;line-height:18px;letter-spacing:.04em;color:#fff;background:#000;border-radius:999px;padding:5px 14px}
+/* 6 the investor portal, live: a normal window, scroll inside; on a phone it waits for a tap so the page still scrolls past it */
+.portal-live .w98{max-width:1100px;margin:0 auto}
+.portal-frame{position:relative;height:min(720px,78vh);min-height:520px}
+.portal-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block;background:#fff}
+.portal-tap{display:none}
+.w98-btns .portal-done{height:16px;padding:0 6px;border:2px solid;border-color:#fff #404040 #404040 #fff;background:#d4d0c8;color:#000;font:bold 11px/10px Tahoma,Arial,sans-serif;cursor:pointer}
+@media (max-width:600px){.portal-frame{height:min(640px,80vh);min-height:0}.portal-tap{display:block;position:absolute;inset:0;z-index:2;width:100%;border:0;background:rgba(22,19,58,.06);color:#16133a;font:600 15px/20px var(--mono);cursor:pointer}.portal-frame.using .portal-tap{display:none}}
 .live-tag::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:#4ADE80;margin-right:9px;vertical-align:1px}
 .live-run{display:block;margin:12px 0 0;font:inherit;font-family:var(--mono);font-size:12px;line-height:18px;background:transparent;border:1px solid var(--line);border-radius:999px;padding:6px 14px;cursor:pointer}
 .slot{aspect-ratio:16/10;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px}
@@ -298,14 +305,22 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
   </div>
 </section>
 
-<!-- 6. the investor portal -->
+<!-- 6. the investor portal, live -->
 <section class="prose">
-  <h2>the investor portal</h2>
+  <h2>the investor portal, live</h2>
   <span class="hand r2">the gate is the login</span>
   <p class="intro">find funding raises money too, so i designed where investors meet the company: find funding's investor portal.</p>
   <p>you sign in with google, and that's the only gate. once you're in, the whole data room is open. every document reads in a viewer i built for it, on a laptop or a phone, and opens in a new tab when you want the file itself. signing happens inside the portal, so nobody leaves to make it official.</p>
   <p>and you can talk to it. the data room has a voice agent behind a lime orb that walks you through the financial model out loud. ask what the model assumes and it answers in plain words, then tells you what the answer depends on. it explains. it doesn't pitch, promise returns or negotiate.</p>
   <div class="hers">the gate point shouldn't be the documents. it should be the login.</div>
+</section>
+<section class="wide portal-live">
+  <div class="w98 art" role="group" aria-label="the find funding investor portal, a design example with fake data, in a window">
+    <div class="w98-bar"><span>investor portal · design example</span><span class="w98-btns"><button type="button" class="portal-done" hidden>done</button><i aria-hidden="true">_</i><i aria-hidden="true">□</i><i aria-hidden="true">×</i></span></div>
+    <div class="w98-addr"><span>Address</span><b>investor portal (design example, fake data)</b></div>
+    <div class="frame portal-frame" data-src="assets/embeds/portal/index.html"><button type="button" class="portal-tap">tap to use the portal</button></div>
+  </div>
+  <p class="cap">a design example with fake data. click through it.</p>
 </section>
 
 
@@ -372,6 +387,17 @@ document.querySelectorAll('.art').forEach(el => io ? io.observe(el) : el.classLi
     /* every block is the live app, always: mount once, never swap back to a still */
     mount();
   });
+})();
+</script>
+<script>
+/* the investor portal demo: mounts near view; on a phone a tap hands it the touch, "done" gives it back */
+(function(){
+  var box = document.querySelector('.portal-frame'); if (!box) return;
+  var tap = box.querySelector('.portal-tap'), done = document.querySelector('.portal-done');
+  function mount(){ if (box.querySelector('iframe')) return; var f = document.createElement('iframe'); f.title = 'find funding investor portal, a design example with fake data'; f.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-forms allow-downloads'); f.src = box.getAttribute('data-src'); box.appendChild(f); }
+  if ('IntersectionObserver' in window) { var o = new IntersectionObserver(function(es){ if (es.some(function(e){ return e.isIntersecting; })) { o.disconnect(); mount(); } }, { rootMargin: '400px 0px' }); o.observe(box); } else mount();
+  tap.addEventListener('click', function(){ mount(); box.classList.add('using'); if (window.matchMedia('(max-width:600px)').matches) done.hidden = false; });
+  done.addEventListener('click', function(){ box.classList.remove('using'); done.hidden = true; });
 })();
 </script>
 <script src="../case-chrome.js" data-notebook="../../index.html#work-index" data-next="../intranest/index.html" data-next-name="intranest"></script>
