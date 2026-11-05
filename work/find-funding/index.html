@@ -348,8 +348,8 @@ document.querySelectorAll('.art').forEach(el => io ? io.observe(el) : el.classLi
       run.onclick = function(){ run.remove(); mount(); };
       box.parentNode.insertBefore(run, box.nextSibling); return;
     }
-    if (!('IntersectionObserver' in window)) return;
-    new IntersectionObserver(function(es){ es.forEach(function(e){ e.isIntersecting ? mount() : unmount(); }); }, { rootMargin: '300px 0px' }).observe(box);
+    /* every block is the live app, always: mount once, never swap back to a still */
+    mount();
   });
 })();
 </script>
