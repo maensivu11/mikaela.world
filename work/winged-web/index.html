@@ -695,7 +695,7 @@ document.querySelectorAll('.art').forEach(el => io ? io.observe(el) : el.classLi
       var anchor = stages[cur].anchor, target = null;
       if (anchor) doc.querySelectorAll('h1,h2,h3,h4,p,span,div,button').forEach(function(el){ if (!target && el.children.length === 0 && el.textContent.trim() === anchor) target = el; });
       /* grow stages: the phone takes the screen's real height, measured after load, so the whole screen shows and nothing is cut or scrolls */
-      if (stages[cur].grow) {
+      if (!stages[cur].anchor) { /* every tall screen grows (her rule 11-05): width stays the vouch width, nothing scrolls inside */
         var extra = 0;
         doc.querySelectorAll('*').forEach(function(el){ var o = getComputedStyle(el).overflowY; if (o !== 'visible' && el.clientHeight > 100) extra = Math.max(extra, el.scrollHeight - el.clientHeight); });
         extra = Math.max(extra, doc.documentElement.scrollHeight - doc.documentElement.clientHeight);
