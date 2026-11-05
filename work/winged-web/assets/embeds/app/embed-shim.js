@@ -68,7 +68,7 @@
     var sub = (m[1] || '').split('?')[0];
     if (sub === '') return user();
     if (sub === '/double-summary') return { first_name: 'Maya', agent_active: true, wings_balance: 3, match_count: 1, recent_activity: [], active_date_id: 'd1' };
-    if (sub === '/insights') return ['You light up talking about the Lands End trail at 7am, before the city wakes up', 'You want someone who asks a second question, not someone who performs', 'You cook for friends every Sunday, and a date who helps chop counts for a lot', 'You grew up near Helsinki and still miss the sauna, so a cold plunge is a fair first date', 'You would rather hear "I\'m nervous" than a line. Honesty beats polish'];
+    if (sub === '/insights') return ['You light up talking about the Lands End trail at 7am, before the city wakes up', 'You want someone who asks a second question, not someone who performs', 'You cook on Sundays', 'you have three dogs.', 'You would rather hear "I\'m nervous" than a line. Honesty beats polish'];
     if (sub === '/intro') { if (body && body.audio_file_id) state.picked = body.audio_file_id; return {}; }
     if (sub === '/deploy') { state.deployed = true; return {}; }
     if (/^\/bio/.test(sub)) { if (/\/use$/.test(sub)) state.bioUsed = true; return bio(); }
