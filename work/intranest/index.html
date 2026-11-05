@@ -156,6 +156,8 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
 @media (max-width:900px){section.prose,.ed{display:block}section.prose>h2+.hand,.ed>h2+.hand{margin:0 0 12px}}
 /* hero-head align: title on the shared left edge */
 .hero-head{padding-left:max(0px,calc((100vw - 1280px) / 2))}
+/* phones: the tokens are one swipeable row of cards */
+@media (max-width:760px){.toks{display:flex!important;grid-template-columns:none!important;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;gap:12px;padding-bottom:8px;scrollbar-width:none;touch-action:pan-x pan-y}.toks>.tok{flex:0 0 78%;scroll-snap-align:start;display:flex!important;flex-direction:column;align-items:flex-start;gap:8px;border:1px solid var(--line)!important;border-radius:12px;padding:16px}.toks>.hand{flex:0 0 auto;align-self:center;scroll-snap-align:start}.toks::-webkit-scrollbar{display:none}}
 </style>
 </head>
 <body class="no-js">
@@ -194,6 +196,7 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
       <div class="hers">dana didn't choose this job. a calm screen respects the person doing the work, so intranest looks like a modern product that happens to do compliance.</div>
     </div>
     <span class="hand r2">depth, not borders. one fill.</span>
+    <div class="toks">
     <div class="tok"><div class="chip" style="background:#0b0c14;border:1px solid var(--line)"></div><span class="name">ground #0b0c14</span><span class="why">indigo-tinted near-black. gray reads as a form. a navy night reads as a place.</span></div>
     <div class="tok"><div class="chip" style="background:#14151f"></div><span class="name">surface #14151f · #1d1f2c</span><span class="why">three steps of depth instead of strokes. tone separates things without drawing a box, and the screen stays quiet.</span></div>
     <div class="tok"><div class="chip" style="background:#5a63e8"></div><span class="name">accent #5a63e8</span><span class="why">the only fill. a primary action stands out because nothing else is filled.</span></div>
@@ -204,6 +207,7 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
     <div class="tok"><div class="chip" style="background:#14151f;font-family:var(--mono);font-size:10px">AC311</div><span class="name">glyph globe</span><span class="why">the land is typed from the 110 requirement ids. these are the real regulation numbers from nist sp 800-171, the ones cmmc level 2 checks. ac311 is access control, requirement 3.1.1.</span></div>
     <div class="tok"><div class="chip" style="background:#14151f;font-family:var(--mono);font-size:11px">150</div><span class="name">motion 150/200/350/700</span><span class="why">each motion shows one fact changing. nothing moves to decorate.</span></div>
     <div class="tok"><div class="chip" style="background:#14151f;font-size:13px">no “we”</div><span class="name">voice</span><span class="why">plain, calm, second person. never "certified," "compliant" or "guaranteed," because a tool can't promise an assessment result.</span></div>
+    </div>
     <div class="status" aria-label="Status chips rendered in Indigo Ink tokens">
       <span style="background:#5a63e8">needs you</span>
       <span style="background:#191b36;color:#9aa2ff">in progress</span>

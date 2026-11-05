@@ -178,6 +178,8 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
 @media (max-width:900px){section.prose,.ed{display:block}section.prose>h2+.hand,.ed>h2+.hand{margin:0 0 12px}}
 /* hero-head align: title on the shared left edge */
 .hero-head{padding-left:max(0px,calc((100vw - 1280px) / 2))}
+/* phones: the swatches are one swipeable row */
+@media (max-width:760px){.sw{display:flex!important;grid-template-columns:none!important;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;gap:12px;padding-bottom:8px;scrollbar-width:none;touch-action:pan-x pan-y}.sw>div{flex:0 0 62%;scroll-snap-align:start}.sw::-webkit-scrollbar{display:none}}
 </style>
 </head>
 <body class="no-js">

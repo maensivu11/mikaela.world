@@ -284,6 +284,8 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
 @media (max-width:760px){.shaders.pair{grid-template-columns:1fr}}
 .pair{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .pair>*{min-width:0}
+/* phones: the gradients are one swipeable row */
+@media (max-width:760px){.tok{display:flex!important;grid-template-columns:none!important;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;gap:12px;padding-bottom:8px;scrollbar-width:none;touch-action:pan-x pan-y}.tok>div{flex:0 0 74%;scroll-snap-align:start}.tok::-webkit-scrollbar{display:none}}
 </style>
 </head>
 <body class="no-js">
