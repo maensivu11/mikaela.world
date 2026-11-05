@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>winged web · mikaela maensivu</title>
-<meta name="description" content="Winged Web: an agent, your double, texts and calls to set up your dates. Design-led case study by Mikaela Maensivu, design engineer.">
+<meta name="description" content="Winged Web: an agent, your double, texts and calls to set up your dates. Design-led case study by Mikaela Maensivu, design engineer &amp; founder.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;600&family=JetBrains+Mono:wght@400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -294,7 +294,7 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
     <div>
       <h1>winged web</h1>
       <p class="claim">winged is an agent, your double, that texts and calls to set up your dates. one phone call teaches it how you talk and gives it your voice. then it finds people, talks to their doubles and handles the plans.</p>
-      <p class="claim">design engineer. i designed winged and made it agentic, and winged web is where its look comes together.</p>
+      <p class="claim">design engineer &amp; founder. i designed winged and made it agentic, and winged web is where its look comes together.</p>
     </div>
     <span class="mark-word" title="the Winged wordmark: Advercase, from the repo's own tokens file">Winged</span>
   </div>
@@ -409,13 +409,356 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
 <!-- 6. voice introductions -->
 <section class="prose">
     <h2>voice</h2>
-    <p class="intro">voice is the cornerstone of winged. your double doesn't only text. it speaks, in your own voice.</p>
+    <p class="intro">voice has been the cornerstone of winged since 2023. your double doesn't only text. it speaks, in your own voice.</p>
     <p>the onboarding call does two things. it learns how you actually talk, not how you write when you're trying, and it clones your voice. your double records three takes of your introduction in that voice. you play them back, pick the one that sounds like you, and that's the introduction it carries to every match.</p>
     <p>then the part i love most, the first-date simulation. when two doubles find a match worth your time, winged writes the first date you two might have and plays it in both of your cloned voices, right on the match card. you hear whether the conversation flows before you ever meet.</p>
     <p>you hear your own voice before anyone else does, and you can change your pick any time.</p>
   <div class="hers">a bio is written for strangers. a voice is how the people who like you already know you.</div>
 </section>
 
+
+<!-- the agent system: interactive map (infra-viz) -->
+<style>
+/* ===== section: the infrastructure. everything below is scoped to #infra ===== */
+#infra{padding-top:96px;padding-bottom:96px}
+#infra h2{font-family:var(--mono);font-size:13px;line-height:20px;font-weight:400;color:var(--muted);margin-bottom:16px}
+#infra .intro{font-size:22px;line-height:32px}
+#infra .counts{font-family:var(--mono);font-size:13px;line-height:20px;color:var(--muted);margin-top:16px}
+#infra .counts b{color:var(--ink);font-weight:400}
+
+#infra .night{margin-top:40px;background:#000;border-radius:12px;color:#fff;padding:24px}
+#infra .bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+#infra .bar button{font-family:var(--mono);font-size:13px;line-height:20px;color:rgba(255,255,255,.7);background:transparent;
+  border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:9px 16px;cursor:pointer;transition:background 160ms ease-out,color 160ms ease-out}
+#infra .bar button:hover{color:#fff;border-color:rgba(255,255,255,.6)}
+#infra .bar button[aria-pressed=true]{background:#fff;color:#000;border-color:#fff}
+#infra .bar button:focus-visible{outline:1px dashed #fff;outline-offset:3px}
+
+#infra .stage{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,2fr);gap:40px;margin-top:24px;align-items:start}
+#infra .stage>*{min-width:0}
+#infra .left{position:sticky;top:24px}
+
+/* the map */
+#infra .map{position:relative;aspect-ratio:1000/740;width:100%}
+#infra .map svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+#infra .col{position:absolute;top:0;font-family:'Space Mono',ui-monospace,monospace;font-size:11px;line-height:16px;letter-spacing:.09em;text-transform:uppercase;color:rgba(255,255,255,.4);transform:translateX(-50%);white-space:nowrap}
+#infra .node{position:absolute;border:1px solid rgba(255,255,255,.28);border-radius:8px;background:#000;padding:4px 9px;
+  display:flex;flex-direction:column;justify-content:center;cursor:default;transition:opacity 240ms ease-out,border-color 240ms ease-out}
+#infra .node .t{font-size:14px;line-height:18px;font-weight:600;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#infra .node .s{font-family:var(--mono);font-size:11px;line-height:15px;color:rgba(255,255,255,.55);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#infra .node.person{border-radius:999px;padding-left:16px}           /* shape: a person */
+#infra .node.vendor{border-style:dashed}                              /* texture: rented, not built */
+#infra .node.one{flex-direction:row;align-items:center;gap:10px}#infra .node.one .s{flex:1 1 auto;min-width:0}#ix-n-records .s,#ix-n-queue .s,#ix-n-store .s{display:none}
+#infra .node.off{opacity:.4}
+#infra .node.cur{border-color:#fff}
+#infra .node:hover,#infra .node:focus-visible{border-color:#fff;opacity:1;outline:none}
+#infra .pgband{position:absolute;border:1px solid rgba(255,255,255,.14);border-radius:12px}
+#infra .pgband span{position:absolute;left:12px;top:-9px;background:#000;padding:0 6px;font-family:'Space Mono',ui-monospace,monospace;font-size:11px;line-height:16px;letter-spacing:.09em;text-transform:uppercase;color:rgba(255,255,255,.4)}
+
+#infra path.hop{fill:none;stroke-width:2;stroke-linecap:round;opacity:.28;transition:opacity 240ms ease-out,stroke-width 240ms ease-out}
+#infra path.hop.done{opacity:.75}
+#infra path.hop.cur{opacity:1;stroke-width:3;stroke-dasharray:6 8;animation:flow 900ms linear infinite}
+@keyframes flow{to{stroke-dashoffset:-14}}
+#infra .num circle{transition:opacity 240ms ease-out}
+#infra .num text{font-family:var(--mono);font-size:12px;fill:#000;text-anchor:middle;dominant-baseline:central}
+#infra .num{opacity:.45;transition:opacity 240ms ease-out}
+#infra .num.done,#infra .num.cur{opacity:1}
+#infra .ring{fill:none;stroke-width:2;opacity:0}
+#infra .ring.cur{opacity:1;animation:pulse 1400ms ease-out infinite}
+@keyframes pulse{0%{stroke-opacity:1}100%{stroke-opacity:.15}}
+
+/* readout: what the hovered part does and where it lives */
+#infra .read{margin-top:16px;border-top:1px solid rgba(255,255,255,.14);padding-top:12px;min-height:72px}
+#infra .read .k{font-family:'Space Mono',ui-monospace,monospace;font-size:11px;line-height:16px;letter-spacing:.09em;text-transform:uppercase;color:rgba(255,255,255,.55)}
+#infra .read .w{font-size:15px;line-height:24px;color:rgba(255,255,255,.7);margin-top:4px}
+#infra .read .f{font-family:var(--mono);font-size:12px;line-height:18px;color:rgba(255,255,255,.5);margin-top:2px;overflow-wrap:anywhere}
+
+/* the steps: scrolling through them walks the journey */
+#infra ol{list-style:none}
+#infra li{position:relative;padding:20px 0 20px 40px;border-top:1px solid rgba(255,255,255,.1);cursor:pointer;transition:opacity 240ms ease-out}
+#infra li:first-child{border-top:0;padding-top:4px}
+#infra li .d{position:absolute;left:0;top:22px;width:24px;height:24px;border-radius:50%;font-family:var(--mono);font-size:12px;line-height:24px;text-align:center;color:#000}
+#infra li:first-child .d{top:6px}
+#infra li .ft{font-family:var(--mono);font-size:12px;line-height:18px;color:rgba(255,255,255,.5)}
+#infra li .ft button{font:inherit;color:inherit;background:none;border:0;border-bottom:1px dotted rgba(255,255,255,.35);padding:0;cursor:pointer}
+#infra li .x{font-size:17px;line-height:26px;color:rgba(255,255,255,.7);margin-top:4px}
+#infra li .f{font-family:var(--mono);font-size:12px;line-height:18px;color:rgba(255,255,255,.4);margin-top:6px;overflow-wrap:anywhere}
+#infra li.cur .x{color:#fff}
+#infra li.cur .f{color:rgba(255,255,255,.55)}
+#infra li .more{display:none;font-size:14px;line-height:20px;color:rgba(255,255,255,.55);margin-top:8px;padding-left:10px;border-left:2px solid rgba(255,255,255,.2)}
+#infra li .more.open{display:block}
+#infra .end{font-family:var(--mono);font-size:12px;line-height:18px;color:rgba(255,255,255,.4);padding:16px 0 4px 40px;border-top:1px solid rgba(255,255,255,.1)}
+
+@media (prefers-reduced-motion:reduce){#infra path.hop.cur,#infra .ring.cur{animation:none}#infra path.hop.cur{stroke-dasharray:none}}
+
+/* 390: the map collapses to the vertical stepped flow; the steps carry from → to */
+@media (max-width:900px){
+  #infra{padding-top:64px;padding-bottom:64px}
+  #infra .intro{font-size:19px;line-height:28px}
+  #infra .night{padding:16px;margin-top:24px}
+  #infra .bar{display:grid;grid-template-columns:1fr 1fr}
+  #infra .bar button{padding:9px 10px}
+  #infra .stage{display:block;margin-top:16px}
+  #infra .left{display:none}
+  #infra li{padding:16px 0 16px 36px}
+  #infra li .d{top:18px}
+  #infra li:first-child .d{top:6px}
+  #infra li::before{content:"";position:absolute;left:11px;top:48px;bottom:-14px;width:2px;background:rgba(255,255,255,.14)}
+  #infra li:first-child::before{top:32px}
+  #infra li:last-child::before{display:none}
+  #infra li{border-top:0}
+  #infra li .x{font-size:16px;line-height:24px}
+  #infra .end{padding-left:36px}
+}
+</style>
+<section class="wide" id="infra" aria-labelledby="infra-h">
+  <h2 id="infra-h">the agent system</h2>
+  <p class="intro">the agent system i built. texts go to one of five agents, chosen by where you are in the journey. each one answers by calling a tool, links are built by code and never by the model, and every message the double writes is checked against its rules before it sends. the voice agents call you, and nothing speaks for you until you say yes. the python service, niina's, does the profiles and matching. pick a journey and scroll to walk it.</p>
+  <p class="counts"><b>5</b> sms agents · <b>11</b> tools on the double · <b>5</b> voice agents · <b>9</b> mcp tools · <b>14</b> crons · <b>33</b> profile attributes · <b>0</b> redis, sqs or kafka</p>
+
+  <div class="night">
+    <div class="bar" role="group" aria-label="choose a journey" id="ix-bar"></div>
+    <div class="stage">
+      <div class="left">
+        <div class="map" id="ix-map" aria-hidden="false">
+          <svg viewBox="0 0 1000 740" preserveAspectRatio="none" id="ix-svg" aria-hidden="true">
+            <defs id="ix-defs"></defs>
+            <g id="ix-paths"></g><g id="ix-rings"></g><g id="ix-nums"></g>
+          </svg>
+        </div>
+        <div class="read" id="ix-read" aria-live="polite"></div>
+      </div>
+      <div><ol id="ix-steps"></ol><p class="end" id="ix-end"></p></div>
+    </div>
+  </div>
+</section>
+<script>
+(function(){
+  var root=document.getElementById('infra');
+  var SKY='#70D4F5',MAG='#FF75CA';
+  var W=1000,H=700;
+
+  /* the parts. kind: person (pill), vendor (dashed), svc, band. what + file come from architecture.md */
+  var N={
+    phone:{x:90,y:150,w:150,h:56,k:'person',t:'your phone',s:'sms, whatsapp',what:'you text the winged number like any contact. no app needed.',f:''},
+    call:{x:90,y:330,w:150,h:56,k:'person',t:'the call',s:'you, talking',what:'a phone call with a winged voice agent. it is where your double learns who you are.',f:''},
+    webapp:{x:90,y:510,w:150,h:56,k:'person',t:'web app',s:'react',what:'where you hear your three intros, pick one, and approve vouches. links arrive by text.',f:'wingedweb/src/app/screens/'},
+    admin:{x:90,y:600,w:150,h:56,k:'person',t:'winged team',s:'a person',what:'a person approves every applicant and every match before anyone sees it.',f:'NODE/src/features/admin/admin.service.js:60-90'},
+    twilio:{x:300,y:150,w:150,h:56,k:'vendor',t:'Twilio',s:'sms + calls',what:'carries sms, whatsapp and calls, and signs every webhook it sends.',f:'NODE/src/features/pre-onboarding/pre-onboarding.routes.js:44-57'},
+    eleven:{x:300,y:330,w:150,h:56,k:'vendor',t:'ElevenLabs',s:'5 voice agents',what:'the voice agents, text to speech, two-voice dialogue and instant voice cloning.',f:'NODE/src/shared/config/elevenlabs-agents.js:16-30'},
+    webhook:{x:540,y:150,w:180,h:56,k:'svc',t:'sms webhook',s:'hmac · stop',what:'checks the twilio signature, rejects non-e.164 senders, catches STOP before any model, forwards date-relay texts.',f:'NODE/src/features/pre-onboarding/pre-onboarding.controller.js:285-367'},
+    router:{x:540,y:240,w:180,h:56,k:'svc',t:'agent router',s:'5 sms agents',what:'a pure function picks one of five agents by where you are in the journey. each must answer by calling a tool.',f:'NODE/src/features/agents/agentRouter.js:54-88'},
+    double:{x:540,y:420,w:180,h:56,k:'svc',t:'the double',s:'11 tools',what:'writes every proactive text in your first person, lints it against two rules, falls back to a hand-written line.',f:'NODE/src/features/agents/outbound-sms-generator.js:281-365'},
+    webapi:{x:540,y:510,w:180,h:56,k:'svc',t:'web api + admin',s:'token · approvals',what:'the api behind the web app and the admin tool. approvals are logged in match_actions.',f:'NODE/src/features/web/web.routes.js:115 · admin/admin.service.js:60-90'},
+    matcher:{x:830,y:150,w:200,h:56,k:'svc',t:'weekly matcher',s:'gpt-5 · pass 0.60',what:'sql pre-filter, scarcest people first, then a five-dimension rubric scored by gpt-5.',f:'AI/app/logic/automated_matchmaking.py · qualitative_scoring.py:32'},
+    firstdate:{x:830,y:240,w:200,h:56,k:'svc',t:'first-date writer',s:'4–6 lines, 2 voices',what:'writes an anonymous first date for a pair and renders it in both cloned voices.',f:'AI/app/logic/generate_lovestory.py'},
+    aiapi:{x:830,y:330,w:200,h:56,k:'svc',t:'ai api',s:'fastapi · /webhook',what:'one signed webhook: hmac over timestamp and body, 30 minute window, audience guard. everything else needs a key.',f:'AI/app/routers/onboarding.py:74-181'},
+    worker:{x:830,y:420,w:200,h:56,k:'svc',t:'worker',s:'15 job types',what:'procrastinate worker on its own cloud run service. retries are tuned per job, and non-idempotent jobs never retry.',f:'AI/app/jobs/tasks/__init__.py:8-43'},
+    quality:{x:830,y:500,w:200,h:56,k:'svc',t:'quality → profile',s:'33 attributes',what:'the model must quote your words; code keeps only quotes you said, sets the verdict, then builds one profile from every call.',f:'AI/app/logic/analyze_call_quality.py:83-124'},
+    voice:{x:830,y:580,w:200,h:56,k:'svc',t:'voice → 3 intros',s:'clone, 10–120 s',what:'cuts your side out of the recording, clones it, writes three intros from your facts and voices them.',f:'AI/app/logic/process_audio.py:375-492'},
+    openai:{x:690,y:66,w:500,h:44,k:'band',t:'OpenAI',s:'gpt-4o writes texts · gpt-5 judges',what:'every text model. sms agents run gpt-4o; profiles, intros and the first date run gpt-5-mini; compatibility runs gpt-5.',f:'AI/app/logic/matchmaking_agent.py:273 · NODE/src/features/agents/active-user-agent.service.js:323'},
+    records:{x:530,y:695,w:170,h:44,k:'svc',t:'records',s:'+ event log',what:'the system of record, and a durable event log written before any listener runs, with an idempotency key.',f:'NODE/src/shared/services/event-bus.service.js:73-107'},
+    queue:{x:690,y:695,w:140,h:44,k:'svc',t:'job queue',s:'procrastinate',what:'the queue is a table. a crash loses nothing because every job is a row.',f:'AI/app/jobs/app.py:21-54'},
+    store:{x:855,y:695,w:150,h:44,k:'svc',t:'private files',s:'audio buckets',what:'supabase storage, private buckets for call audio, first-date audio and applicant photos.',f:'AI/app/services/storage.py:28 · jobs/tasks/lovestory.py:68'}
+  };
+  var COLS=[[90,'you'],[300,'vendors'],[540,'node · agents i built'],[830,'python service']];
+
+  /* the journeys. each hop: path through parts (one id = the work happens inside that part), words, file */
+  var J=[
+   {id:'text',b:'a text to your double',end:'one text, and the model never touched a link or a STOP.',hops:[
+    [['phone','twilio'],'you text the winged number: "call me now".','NODE/src/features/pre-onboarding/pre-onboarding.routes.js:76'],
+    [['twilio','webhook'],'twilio posts it to node. the signature is checked before anything else runs.','pre-onboarding.routes.js:44-57'],
+    [['webhook'],'STOP is caught here and never reaches a model. if a date relay is open, the text goes to your date instead.','pre-onboarding.controller.js:327-346'],
+    [['webhook','router'],'the router picks one of five agents by where you are in the journey, and builds its context.','NODE/src/features/agents/agentRouter.js:54-108'],
+    [['router','openai'],'gpt-4o has to answer by calling a tool. the reply text is an argument of that tool, so there is no free-text path.','active-user-agent.service.js:323-326'],
+    [['router'],'links are built by server code from your token, never by the model.','active-user-agent.service.js:52-77'],
+    [['router','twilio'],'the reply is sent from the number that matches your region: +1 goes out on the us number, everything else on the eu one.','NODE/src/shared/utils/phone-routing.js:19-23'],
+    [['twilio','phone'],'the reply lands, retried up to three times if the carrier hiccups.','NODE/src/shared/utils/sms.js:144-155']]},
+   {id:'call',b:'the onboarding call',end:'one call becomes a profile and a cloned voice, and nothing goes live until you pick.',hops:[
+    [['router'],'the pre-onboarding agent hears "call me now" and picks its call_now tool.','NODE/src/features/agents/pre-onboarding-agent.service.js:25-81'],
+    [['router','eleven'],'node replies first, sets a 10 minute safety net, then dials you through elevenlabs over twilio.','pre-onboarding.service.js:812-826'],
+    [['eleven','call'],'the voice agent talks with you. if an earlier call fell short, a recovery agent asks only what is missing.','pre-onboarding.service.js:790-804'],
+    [['eleven','aiapi'],'the call ends. a signed webhook carries the transcript to python.','AI/app/routers/onboarding.py:74-105'],
+    [['aiapi','queue'],'it checks the user belongs to this environment, stores the job as a row, and returns at once.','onboarding.py:127-140'],
+    [['queue','worker'],'the worker picks the job up off postgres.','AI/app/jobs/tasks/transcript.py:66'],
+    [['worker','quality'],'the model must quote your own words for each field. code drops any quote you did not say and sets the verdict itself.','AI/app/logic/analyze_call_quality.py:83-124'],
+    [['quality'],'this call and every earlier one are read as one conversation and become a 33-attribute profile. a voicemail stops here.','AI/app/logic/generate_profile.py:355-368'],
+    [['worker','voice'],'only your turns, 10 to 120 seconds, are cut out. your voice is cloned and three intros are voiced in it.','AI/app/logic/voice_processor.py:436-442 · generate_introduction.py:73-131'],
+    [['worker','double'],'notify-ready fires only once the verdict, the profile and all three intros exist. it retries five times to wait out the race.','AI/app/jobs/tasks/notify.py:65-128'],
+    [['double','twilio','phone'],'node texts you your link.','NODE/src/features/pre-onboarding/pre-onboarding.controller.js:908-914'],
+    [['webapp','webapi'],'you play the three takes and pick one. deploy is refused without a photo and a pick that is yours.','NODE/src/features/user/user.service.js:668-750']]},
+   {id:'match',b:'a match and introduction',end:'the machine proposes, a person approves, and the double does the asking.',hops:[
+    [['matcher'],'once a week the matcher runs as one job that never retries, because it is not idempotent.','AI/app/jobs/tasks/automated_matchmaking.py:20-24'],
+    [['matcher','records'],'sql pre-filter: mutual preferences, 300 km, age and height rules, and a 90-day block on re-matching.','AI/app/logic/automated_matchmaking.py:50-60'],
+    [['matcher'],'scarcest people first, then fewest options, then distance. each person sits in at most one pair.','AI/app/logic/batch_selector.py:447'],
+    [['matcher','openai'],'gpt-5 scores each pair on values 30, personality 25, lifestyle 20, long-term 15, chemistry 10. pass is 0.60.','AI/app/logic/matchmaking_agent.py:260-269'],
+    [['matcher','records'],'passing pairs are saved unapproved. no user can see them yet.','automated_matchmaking.py:3-5'],
+    [['admin','webapi'],'a person approves the match in the admin tool, and the action is logged.','NODE/src/features/admin/admin.service.js:60-90'],
+    [['webapi','double'],'the double writes the introduction: the partner, the compatibility, the first date if there is one.','scheduling-sms.service.js:198-235'],
+    [['double','twilio','phone'],'one channel: push if your app was open in the last 10 minutes, otherwise sms. a 7 day clock starts.','route-agent-outbound.service.js:7-34 · scheduling-sms.service.js:256-264']]},
+   {id:'date',b:'the first-date simulation',end:'two cloned voices, one short first date, and the model never chose whose voice.',hops:[
+    [['queue','worker'],'a first date is queued for a match, on demand or in bulk.','AI/app/routers/lovestory.py:108-219'],
+    [['worker','firstdate','openai'],'gpt-5-mini writes 4 to 6 lines, 15 words at most each, every voice grounded in that person\'s style and energy.','AI/app/logic/generate_lovestory.py:7-48, :85-112'],
+    [['firstdate'],'the voice ids are injected by code, never taken from the model.','generate_lovestory.py:108-110'],
+    [['firstdate','eleven'],'elevenlabs text-to-dialogue renders both cloned voices into one file.','generate_lovestory.py:115-131'],
+    [['firstdate','store'],'the script is saved and the audio goes to a private bucket.','AI/app/jobs/tasks/lovestory.py:68, :117-140'],
+    [['store','double'],'node reads it when the double writes your introduction.','NODE/src/features/scheduling/scheduling-sms.service.js:218-235']]}
+  ];
+
+  var isPerson=function(id){return N[id].k==='person'};
+  var map=document.getElementById('ix-map'),svg=document.getElementById('ix-svg');
+  var gP=document.getElementById('ix-paths'),gR=document.getElementById('ix-rings'),gN=document.getElementById('ix-nums'),defs=document.getElementById('ix-defs');
+  var read=document.getElementById('ix-read'),ol=document.getElementById('ix-steps'),endEl=document.getElementById('ix-end'),bar=document.getElementById('ix-bar');
+  var NS='http://www.w3.org/2000/svg';
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e}
+
+  [[SKY,'c'],[MAG,'w']].forEach(function(c){
+    var m=el('marker',{id:'ix-a'+c[1],viewBox:'0 0 10 10',refX:'8',refY:'5',markerWidth:'7',markerHeight:'7',orient:'auto-start-reverse',markerUnits:'userSpaceOnUse'});
+    m.setAttribute('markerWidth','9');m.setAttribute('markerHeight','9');
+    m.appendChild(el('path',{d:'M0,1 L9,5 L0,9 z',fill:c[0]}));defs.appendChild(m);
+  });
+
+  /* draw the parts */
+  COLS.forEach(function(c){var d=document.createElement('div');d.className='col';d.style.left=c[0]/10+'%';d.textContent=c[1];map.appendChild(d)});
+  var pg=document.createElement('div');pg.className='pgband';pg.style.cssText='left:43.8%;top:'+(652/7.4)+'%;width:50.6%;height:'+(80/7.4)+'%';
+  pg.innerHTML='<span>postgres · one database</span>';map.appendChild(pg);
+  Object.keys(N).forEach(function(id){
+    var n=N[id],d=document.createElement('div');
+    d.className='node '+n.k+(n.h<50?' one':'');d.id='ix-n-'+id;d.tabIndex=0;
+    d.style.left=(n.x-n.w/2)/10+'%';d.style.top=(n.y-n.h/2)/7.4+'%';d.style.width=n.w/10+'%';d.style.height=n.h/7.4+'%';
+    d.innerHTML='<span class="t">'+n.t+'</span><span class="s">'+n.s+'</span>';
+    d.setAttribute('aria-label',n.t+': '+n.what);
+    var show=function(){showNode(id)};
+    d.addEventListener('mouseenter',show);d.addEventListener('focus',show);d.addEventListener('click',show);
+    d.addEventListener('mouseleave',function(){showHop()});
+    map.appendChild(d);
+  });
+
+  /* geometry: orthogonal lines with rounded corners, run through named corridors between columns */
+  var CX=[195,412,680],RIGHT=965,LANE=640;
+  function side(id,dir){var n=N[id];return dir==='l'?[n.x-n.w/2,n.y]:dir==='r'?[n.x+n.w/2,n.y]:dir==='t'?[n.x,n.y-n.h/2]:[n.x,n.y+n.h/2]}
+  var FIX={ /* routes into the two bands, by hand: every one stays in a corridor */
+    'router>openai':[[630,240],[680,240],[680,88]],
+    'matcher>openai':[[730,150],[692,150],[692,88]],
+    'firstdate>openai':[[730,240],[680,240],[680,88]],
+    'aiapi>queue':[[730,330],[672,330],[672,673]],
+    'queue>worker':[[688,673],[688,420],[730,420]],
+    'matcher>records':[[730,150],[680,150],[680,LANE],[530,LANE],[530,673]],
+    'firstdate>store':[[930,240],[RIGHT,240],[RIGHT,695],[930,695]],
+    'store>double':[[855,673],[855,LANE],[680,LANE],[680,420],[630,420]],
+    'worker>firstdate':[[930,420],[RIGHT,420],[RIGHT,240],[930,240]],
+    'worker>quality':[[930,412],[RIGHT-14,412],[RIGHT-14,500],[930,500]],
+    'worker>voice':[[930,428],[RIGHT,428],[RIGHT,580],[930,580]],
+    'firstdate>eleven':[[730,240],[680,240],[680,338],[375,338]],
+    'phone>twilio':[[165,143],[225,143]],'twilio>phone':[[225,157],[165,157]],
+    'router>twilio':[[450,240],[412,240],[412,164],[375,164]],
+    'double>twilio':[[450,428],[430,428],[430,170],[375,170]],
+    'admin>webapi':[[165,600],[195,600],[195,560],[412,560],[412,518],[450,518]],
+    'webapp>webapi':[[165,505],[450,505]]
+  };
+  function pts(a,b){
+    if(FIX[a+'>'+b])return FIX[a+'>'+b];
+    var A=N[a],B=N[b];
+    if(Math.abs(A.y-B.y)<12)return B.x>A.x?[side(a,'r'),[B.x-B.w/2,A.y]]:[side(a,'l'),[B.x+B.w/2,A.y]];
+    if(Math.abs(A.x-B.x)<12)return B.y>A.y?[side(a,'b'),side(b,'t')]:[side(a,'t'),side(b,'b')];
+    var left=B.x<A.x,C;
+    if(left){C=CX.filter(function(c){return c>B.x+B.w/2})[0]}else{C=CX.filter(function(c){return c<B.x-B.w/2}).pop()}
+    var s=side(a,left?'l':'r'),e=side(b,left?'r':'l');
+    return [s,[C,s[1]],[C,e[1]],e];
+  }
+  function d(ps){ /* polyline with 12-unit rounded corners */
+    var R=12,o='M'+ps[0][0]+','+ps[0][1];
+    for(var i=1;i<ps.length;i++){
+      var p=ps[i];
+      if(i<ps.length-1){
+        var a=ps[i-1],n=ps[i+1];
+        var l1=Math.hypot(p[0]-a[0],p[1]-a[1]),l2=Math.hypot(n[0]-p[0],n[1]-p[1]),r=Math.min(R,l1/2,l2/2);
+        var p1=[p[0]-(p[0]-a[0])/l1*r,p[1]-(p[1]-a[1])/l1*r],p2=[p[0]+(n[0]-p[0])/l2*r,p[1]+(n[1]-p[1])/l2*r];
+        o+=' L'+p1[0]+','+p1[1]+' Q'+p[0]+','+p[1]+' '+p2[0]+','+p2[1];
+      }else o+=' L'+p[0]+','+p[1];
+    }
+    return o;
+  }
+  var NUMT={'double>twilio':.12,'router>eleven':.75};
+  function seg(a,b){return d(pts(a,b))}
+
+  var cur=0,jx=0,paths=[],rings=[],nums=[],lis=[];
+
+  function build(j){
+    jx=j;var jr=J[j];gP.innerHTML='';gR.innerHTML='';gN.innerHTML='';ol.innerHTML='';paths=[];rings=[];nums=[];lis=[];
+    [].forEach.call(bar.children,function(b,i){b.setAttribute('aria-pressed',i===j?'true':'false')});
+    var used={};
+    jr.hops.forEach(function(h,i){
+      var ids=h[0],warm=ids.some(isPerson),col=warm?MAG:SKY;
+      ids.forEach(function(id){used[id]=1});
+      var g=[];
+      if(ids.length===1){
+        var n=N[ids[0]],r=el('rect',{x:n.x-n.w/2-6,y:n.y-n.h/2-6,width:n.w+12,height:n.h+12,rx:n.k==='person'?n.h/2+6:13,stroke:col,'class':'ring'});
+        gR.appendChild(r);rings[i]=r;paths[i]=[];
+        var c=el('g',{'class':'num'});c.appendChild(el('circle',{cx:n.x+n.w/2,cy:n.y-n.h/2,r:11,fill:col}));
+        var tx=el('text',{x:n.x+n.w/2,y:n.y-n.h/2+1});tx.textContent=i+1;c.appendChild(tx);gN.appendChild(c);nums[i]=c;
+      }else{
+        for(var s=0;s<ids.length-1;s++){
+          var p=el('path',{d:seg(ids[s],ids[s+1]),stroke:col,'class':'hop','marker-end':s===ids.length-2?'url(#ix-a'+(warm?'w':'c')+')':''});
+          gP.appendChild(p);g.push(p);
+        }
+        paths[i]=g;
+        var first=g[0],L=first.getTotalLength(),pt=first.getPointAtLength(L*(NUMT[ids[0]+'>'+ids[1]]||.5));
+        var c2=el('g',{'class':'num'});c2.appendChild(el('circle',{cx:pt.x,cy:pt.y,r:11,fill:col}));
+        var t2=el('text',{x:pt.x,y:pt.y+1});t2.textContent=i+1;c2.appendChild(t2);gN.appendChild(c2);nums[i]=c2;
+      }
+      var li=document.createElement('li');li.dataset.i=i;
+      var names=ids.map(function(id){return '<button type="button" data-n="'+id+'">'+N[id].t+'</button>'}).join(ids.length>1?' → ':'');
+      li.innerHTML='<span class="d" style="background:'+col+'">'+(i+1)+'</span><p class="ft">'+names+(ids.length===1?' · inside':'')+'</p><p class="x">'+h[1]+'</p><p class="f">'+h[2]+'</p><p class="more"></p>';
+      li.addEventListener('click',function(e){
+        var b=e.target.closest('button[data-n]');
+        if(b){var m=li.querySelector('.more'),n=N[b.dataset.n],same=m.classList.contains('open')&&m.dataset.n===b.dataset.n;
+          m.dataset.n=b.dataset.n;m.innerHTML=n.what+(n.f?'<br><span style="font-family:var(--mono);font-size:12px">'+n.f+'</span>':'');m.classList.toggle('open',!same);}
+        setHop(i);
+      });
+      ol.appendChild(li);lis.push(li);
+    });
+    Object.keys(N).forEach(function(id){document.getElementById('ix-n-'+id).classList.toggle('off',!used[id])});
+    endEl.textContent=jr.end;
+    observe();setHop(0);
+  }
+
+  function setHop(i){
+    cur=i;var ids=J[jx].hops[i][0];
+    paths.forEach(function(g,k){g.forEach(function(p){p.classList.toggle('cur',k===i);p.classList.toggle('done',k<i)})});
+    rings.forEach(function(r,k){if(r)r.classList.toggle('cur',k===i)});
+    nums.forEach(function(n,k){n.classList.toggle('cur',k===i);n.classList.toggle('done',k<i)});
+    lis.forEach(function(l,k){l.classList.toggle('cur',k===i)});
+    Object.keys(N).forEach(function(id){document.getElementById('ix-n-'+id).classList.toggle('cur',ids.indexOf(id)>-1)});
+    showHop();
+  }
+  function showHop(){
+    var jr=J[jx];
+    read.innerHTML='<p class="k">'+jr.b+' · hop '+(cur+1)+' of '+jr.hops.length+'</p><p class="w">hover or tap any part to see what it does and where it lives.</p>';
+  }
+  function showNode(id){
+    var n=N[id];
+    read.innerHTML='<p class="k">'+n.t+'</p><p class="w">'+n.what+'</p>'+(n.f?'<p class="f">'+n.f+'</p>':'<p class="f">a person, not code</p>');
+  }
+
+  /* scroll drives the hop: the step crossing the middle of the screen is the current one */
+  var io=null;
+  function observe(){
+    if(!('IntersectionObserver' in window))return;
+    if(io)io.disconnect();
+    io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)setHop(+e.target.dataset.i)})},{rootMargin:'-45% 0px -45% 0px'});
+    lis.forEach(function(l){io.observe(l)});
+  }
+
+  J.forEach(function(jr,i){var b=document.createElement('button');b.type='button';b.textContent=jr.b;b.addEventListener('click',function(){build(i)});bar.appendChild(b)});
+  build(0);
+  /* motion only while the section is on screen */
+  if('IntersectionObserver' in window){new IntersectionObserver(function(es){es.forEach(function(e){root.style.setProperty('--run',e.isIntersecting?'running':'paused');
+    [].forEach.call(root.querySelectorAll('.hop.cur,.ring.cur'),function(x){x.style.animationPlayState=e.isIntersecting?'running':'paused'})})}).observe(root)}
+  /* screenshot hook: ?j=call&h=5 */
+  var q=new URLSearchParams(location.search);if(q.get('j')){var k=J.findIndex(function(x){return x.id===q.get('j')});if(k>-1){build(k);if(q.get('h'))setHop(+q.get('h')-1)}}
+})();
+</script>
 
 <!-- how a text actually arrives: the SMS pipeline behind the original Winged agent -->
 <section class="wide" id="how-a-text-arrives">
@@ -424,31 +767,6 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
     <p class="intro">i built the system under the screens too. every text your double sends travels a real path, and this is it, from the winged backend.</p>
   </div>
 
-  <div class="art">
-    <div class="frame journey" id="journey" aria-label="A text message travelling from a user's phone through the carrier, Twilio, the webhook and the agent, and back out to a phone">
-      <div class="track" id="j-track"><i class="dot" id="j-dot"></i></div>
-      <div class="hops" id="j-hops">
-        <div class="hop"><span class="n">1</span><p class="t">your phone</p><p class="r">you text the Winged number: "call me now"</p></div>
-        <div class="hop"><span class="n">2</span><p class="t">carrier</p><p class="r">plain SMS to a US or an EU long number, picked by +1 prefix</p></div>
-        <div class="hop"><span class="n">3</span><p class="t">Twilio</p><p class="r">the provider; turns the SMS into an HTTP POST</p></div>
-        <div class="hop"><span class="n">4</span><p class="t">webhook</p><p class="r">signature checked, STOP caught, date relay tried first</p></div>
-        <div class="hop"><span class="n">5</span><p class="t">the agent</p><p class="r">routes to one of five agents; GPT-4o picks a tool and writes the reply</p></div>
-        <div class="hop"><span class="n">6</span><p class="t">outbound</p><p class="r">messages.create, from the number matched to the recipient</p></div>
-        <div class="hop"><span class="n">7</span><p class="t">their phone</p><p class="r">the reply lands; on a date, the other person's phone</p></div>
-      </div>
-      <div class="say" id="j-say">
-        <span>hop</span><span id="j-hop">1 of 7</span>
-        <span>what happens</span><span id="j-what">you press send. nothing of winged exists yet.</span>
-      </div>
-      <div class="states" id="j-states">
-        <span class="lab">delivery state, reported back by the carrier</span>
-        <b>queued</b><span class="arr">&rarr;</span><b>sending</b><span class="arr">&rarr;</span><b>sent</b><span class="arr">&rarr;</span><b>delivered</b>
-        <span class="arr">or</span><b class="bad">undelivered</b><span class="arr">/</span><b class="bad">failed</b>
-      </div>
-      <div class="jctl"><button type="button" id="j-pause">pause</button></div>
-    </div>
-    <p class="cap">one text through the real winged pipeline · names and states from the repo, no numbers or keys</p>
-  </div>
 
   <div class="mech" style="margin-top:var(--s2)">
     <div class="art">
@@ -484,54 +802,6 @@ router.post(<span class="n">'/twilio-sms-webhook'</span>,
 
 </section>
 
-<script>
-(function(){
-  var hops=[].slice.call(document.querySelectorAll('#j-hops .hop'));
-  var dot=document.getElementById('j-dot'),track=document.getElementById('j-track');
-  var hopEl=document.getElementById('j-hop'),whatEl=document.getElementById('j-what');
-  var states=[].slice.call(document.querySelectorAll('#j-states b'));
-  var btn=document.getElementById('j-pause');
-  var what=[
-    'you press send. nothing of winged exists yet.',
-    'the carrier routes it to the winged long number, US or EU.',
-    'Twilio receives it and POSTs From, To, Body and MessageSid to the backend.',
-    'signature verified, opt-out keywords and date relay checked, then the sender is looked up by phone number.',
-    'router picks the agent from database state; GPT-4o picks one tool and writes the reply.',
-    'the sender number is picked from the recipient\'s prefix and Twilio\'s messages.create is called. state: queued.',
-    'the reply lands. for sends through sendSms, Twilio reports sending, sent, delivered back to the status endpoint.'
-  ];
-  var i=-1,timer=null,paused=false;
-  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  function place(){
-    var h=hops[Math.max(i,0)];
-    if(!h||getComputedStyle(track).display==='none')return;
-    var x=h.offsetLeft+h.offsetWidth/2-7;
-    dot.style.transform='translateX('+x+'px)';
-  }
-  function show(n){
-    i=n;
-    hops.forEach(function(h,k){h.classList.toggle('on',k===n)});
-    hopEl.textContent=(n+1)+' of 7';whatEl.textContent=what[n];
-    var lit=n<5?0:(n===5?1:4);
-    states.forEach(function(b,k){b.classList.toggle('on',k<lit)});
-    place();
-  }
-  function tick(){show((i+1)%7)}
-  var vis=false;
-  function start(){clearInterval(timer);timer=vis&&!paused?setInterval(tick,2400):null}
-  if(reduce){
-    document.getElementById('journey').classList.add('no-motion');
-    return;
-  }
-  show(0);
-  if('IntersectionObserver' in window){new IntersectionObserver(function(es){es.forEach(function(e){vis=e.isIntersecting;if(vis)start();else{clearInterval(timer);timer=null}})}).observe(document.getElementById('journey'))}
-  btn.addEventListener('click',function(){
-    paused=!paused;btn.textContent=paused?'play':'pause';
-    if(paused){clearInterval(timer)}else{start()}
-  });
-  window.addEventListener('resize',place);
-})();
-</script>
 
 <!-- 7. shipped -->
 <section class="prose">
