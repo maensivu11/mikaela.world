@@ -11,10 +11,10 @@
   var stage = (location.hash.match(/stage=(before|during|after)/) || [0, 'before'])[1];
   var dateAt = stage === 'before' ? now + 2 * D : stage === 'during' ? now + 20 * 60e3 : now - 6 * H;
   var asset = function (f) { return new URL(A + f, document.baseURI).href; };
-  var BIO_BODY = 'Sample Person is happiest outdoors and unhurried. Weekends mean Lands End trails and a good coffee. She wants someone to be easy company with.';
+  var BIO_BODY = 'Maya is happiest outdoors and unhurried. Weekends mean Lands End trails and a good coffee. She wants someone to be easy company with.';
 
   function user() {
-    return { id: 'sample-user', first_name: 'Sample', last_name: 'Person', birthday: '1994-01-01', gender: 'woman', height_cm: 170,
+    return { id: 'sample-user', first_name: 'Maya', last_name: 'Lindqvist', birthday: '1994-01-01', gender: 'woman', height_cm: 170,
       sexuality: 'straight', selected_intro_id: state.picked || 'a1', agent_deployed: state.deployed, agent_active: state.deployed,
       latitude: 37.77, longitude: -122.42, address: 'San Francisco, CA', dating_preferences: ['men'],
       dating_preference_age_range_start: 28, dating_preference_age_range_end: 40, maximum_distance: 25, measurement_unit: 'mi',
@@ -26,10 +26,10 @@
   var dim = function (s, t) { return { score: s, explanation: t }; };
   function matches() {
     return [
-      { id: 'm1', name: 'Theo Marchetti (sample)', age: 33, gender: 'man', distance_in_kms: 4, neighborhood: 'Mission', match_percent: 0.9,
+      { id: 'm1', name: 'Theo Marchetti', age: 33, gender: 'man', distance_in_kms: 4, neighborhood: 'Mission', match_percent: 0.9,
         intro_url: asset('take-2.wav'), lovestory_url: null,
         agent_recommendation_text: 'Exceptional alignment across all core dimensions. You both want slow mornings, long walks and someone who listens.',
-        agent_recommendation_audio_status: null, bio: { id: 'b1', schema_version: 1, language: 'en', body: 'Sample persona. Sunday record-digging on Valencia, bad at small talk, great at dinner. Happiest with a burrito in Dolores Park. Looking for someone who laughs easily.' },
+        agent_recommendation_audio_status: null, bio: { id: 'b1', schema_version: 1, language: 'en', body: 'Sunday record-digging on Valencia, bad at small talk, great at dinner. Happiest with a burrito in Dolores Park. Looking for someone who laughs easily.' },
         onboarding_experience: 'bio_v1', capabilities: { profile_bio: true },
         images: [1, 5, 3].map(function (i, k) { return { url: asset('p' + i + '.svg'), order_no: k + 1 }; }),
         your_status: state.proposed.m1 ? 'proposed' : 'pending', partner_status: 'proposed', date_instance_id: null,
@@ -38,7 +38,7 @@
           values_compatibility_score: dim(.95, 'Both put kindness and honesty first.'),
           physical_chemistry_score: dim(.84, 'Attraction signals line up on both sides.'),
           long_term_potential_score: dim(.9, 'Both are looking for something real, not a pastime.'), total_score: .9 },
-        vouch_count: 2, vouches: [{ name: 'Priya S. (sample)', quote: 'The most reliable person I know, and funny on top of it.', relationship: 'Friend' }, { name: 'Marcus L. (sample)', quote: 'Brings calm into any room.', relationship: 'Colleague' }] },
+        vouch_count: 2, vouches: [{ name: 'Priya S.', quote: 'The most reliable person I know, and funny on top of it.', relationship: 'Friend' }, { name: 'Marcus L.', quote: 'Brings calm into any room.', relationship: 'Colleague' }] },
     ];
   }
   var bio = function () {
@@ -53,22 +53,22 @@
     date_type: 'coffee', suggested_date_types: [{ value: 'coffee' }, { value: 'walk' }], selected_venue_id: 'v1',
     suggested_venues: [{ id: 'v1', name: 'Foreign Cinema', address: '2534 Mission St, San Francisco', description: 'Old films on the courtyard wall; ask for a table near the screen.', photo_url: asset('p3.svg'), rating: 4.7, price_level: 3 }],
     initiator_confirmed_at: iso(now - H), receiver_confirmed_at: iso(now - H), booking_confirmed_at: iso(now - H), initiator_user_ref_id: 'sample-user', receiver_user_ref_id: 'm1', plan_notes: null, date_ended_at: stage === 'after' ? iso(now - 4 * H) : null },
-    current_user_id: 'sample-user', initiator_name: 'Sample', receiver_name: 'Theo Marchetti (sample)', availabilityStatus: { currentUser: { hasAvailability: true }, partner: { hasAvailability: true }, bothHaveAvailability: true } }; };
+    current_user_id: 'sample-user', initiator_name: 'Maya', receiver_name: 'Theo Marchetti', availabilityStatus: { currentUser: { hasAvailability: true }, partner: { hasAvailability: true }, bothHaveAvailability: true } }; };
   var vouches = function () { return [
-    { id: 'v1', token: 'vt1', invitee_name: 'Priya S. (sample)', status: 'completed', user_approved: state.vouchApproved.v1 === undefined ? null : state.vouchApproved.v1, created_at: iso(now - 3 * D), completed_at: iso(now - 2 * D), vouch_response: { summary: 'Sample Person is the friend who remembers everything and shows up first.', quote: 'The most loyal person I know.', relationship: 'Friend' } },
-    { id: 'v2', token: 'vt2', invitee_name: 'Marcus L. (sample)', status: 'completed', user_approved: true, created_at: iso(now - 5 * D), completed_at: iso(now - 4 * D), vouch_response: { summary: 'Calm under pressure and kind to everyone.', quote: 'Brings calm into any room.', relationship: 'Colleague' } },
-    { id: 'v3', token: 'vt3', invitee_name: 'Lena M. (sample)', status: 'pending', user_approved: null, created_at: iso(now - D), completed_at: null, vouch_response: null } ]; };
+    { id: 'v1', token: 'vt1', invitee_name: 'Priya S.', status: 'completed', user_approved: state.vouchApproved.v1 === undefined ? null : state.vouchApproved.v1, created_at: iso(now - 3 * D), completed_at: iso(now - 2 * D), vouch_response: { summary: 'Maya is the friend who remembers everything and shows up first.', quote: 'The most loyal person I know.', relationship: 'Friend' } },
+    { id: 'v2', token: 'vt2', invitee_name: 'Marcus L.', status: 'completed', user_approved: true, created_at: iso(now - 5 * D), completed_at: iso(now - 4 * D), vouch_response: { summary: 'Calm under pressure and kind to everyone.', quote: 'Brings calm into any room.', relationship: 'Colleague' } },
+    { id: 'v3', token: 'vt3', invitee_name: 'Lena M.', status: 'pending', user_approved: null, created_at: iso(now - D), completed_at: null, vouch_response: null } ]; };
   var availability = function () { return { weeklyHours: [0, 1, 2, 3, 4, 5, 6].map(function (d) { return { dayOfWeek: d, isEnabled: d > 0 && d < 6 || d === 6, startTime: '18:00', endTime: '22:00' }; }), exceptionDates: [], exceptionWindows: [] }; };
   var chat = function () { return { messages: [{ id: 'c1', sender_user_ref_id: 'm1', message: 'Hi! Looking forward to it.', created_at: iso(now - 600e3) }].concat(state.chat), windowStatus: stage === 'during' ? 'open' : stage === 'after' ? 'closed' : 'not_open', opensAt: iso(dateAt - H), closesAt: iso(dateAt + 12 * H) }; };
 
   function route(method, path, body) {
     var m;
-    if ((m = path.match(/^\/api\/web\/vouch\/([^/]+)/))) return { inviter_first_name: 'Sample', invitee_name: 'Friend', status: 'pending', user_approved: null };
+    if ((m = path.match(/^\/api\/web\/vouch\/([^/]+)/))) return { inviter_first_name: 'Maya', invitee_name: 'Friend', status: 'pending', user_approved: null };
     if (!(m = path.match(/^\/api\/web\/user\/[^/]+(\/.*)?$/))) return {};
     var sub = (m[1] || '').split('?')[0];
     if (sub === '') return user();
-    if (sub === '/double-summary') return { first_name: 'Sample', agent_active: true, wings_balance: 3, match_count: 1, recent_activity: [], active_date_id: 'd1' };
-    if (sub === '/insights') return ['You like unhurried weekends', 'Honesty matters more than polish', 'You recharge outdoors'];
+    if (sub === '/double-summary') return { first_name: 'Maya', agent_active: true, wings_balance: 3, match_count: 1, recent_activity: [], active_date_id: 'd1' };
+    if (sub === '/insights') return ['You light up talking about the Lands End trail at 7am, before the city wakes up', 'You want someone who asks a second question, not someone who performs', 'You cook for friends every Sunday, and a date who helps chop counts for a lot', 'You grew up near Helsinki and still miss the sauna, so a cold plunge is a fair first date', 'You would rather hear "I\'m nervous" than a line. Honesty beats polish'];
     if (sub === '/intro') { if (body && body.audio_file_id) state.picked = body.audio_file_id; return {}; }
     if (sub === '/deploy') { state.deployed = true; return {}; }
     if (/^\/bio/.test(sub)) { if (/\/use$/.test(sub)) state.bioUsed = true; return bio(); }
@@ -81,10 +81,10 @@
     if (/\/ui-state$/.test(sub)) return dateState();
     if (/\/chat$/.test(sub)) { if (method === 'POST') { var msg = { id: 'c' + (state.chat.length + 2), sender_user_ref_id: 'sample-user', message: body.message, created_at: iso(Date.now()) }; state.chat.push(msg); return msg; } return chat(); }
     if (/\/date-prep$/.test(sub)) return { prep: ['Stop at Bi-Rite on the way \u2014 grab a charcuterie board', 'Your table at Foreign Cinema is under your name, courtyard side', 'If it runs long: Zeitgeist is a short walk up Valencia for a nightcap'], questions: ['What is a small thing that made your week?'], stores: [], isInitiator: true };
-    if (/\/feedback$/.test(sub)) return method === 'POST' ? { status: 'second_date_scheduling' } : { partnerName: 'Theo Marchetti (sample)', venueName: 'Foreign Cinema', confirmedTime: iso(now - D), alreadySubmitted: false, doneStatus: null, callState: null };
+    if (/\/feedback$/.test(sub)) return method === 'POST' ? { status: 'second_date_scheduling' } : { partnerName: 'Theo Marchetti', venueName: 'Foreign Cinema', confirmedTime: iso(now - D), alreadySubmitted: false, doneStatus: null, callState: null };
     if (/\/partners\/[^/]+\/profile$/.test(sub)) return matches()[0];
-    if (/\/time-selection$/.test(sub)) return { dateInstanceId: 'd1', suggestedTimes: [iso(now + 2 * D), iso(now + 3 * D), iso(now + 4 * D)], partnerName: 'Theo Marchetti (sample)', proposedTime: null };
-    if (/\/time-confirm$/.test(sub)) return { dateInstanceId: 'd1', proposedTime: iso(now + 2 * D), suggestedTimes: [iso(now + 2 * D)], partnerName: 'Theo Marchetti (sample)' };
+    if (/\/time-selection$/.test(sub)) return { dateInstanceId: 'd1', suggestedTimes: [iso(now + 2 * D), iso(now + 3 * D), iso(now + 4 * D)], partnerName: 'Theo Marchetti', proposedTime: null };
+    if (/\/time-confirm$/.test(sub)) return { dateInstanceId: 'd1', proposedTime: iso(now + 2 * D), suggestedTimes: [iso(now + 2 * D)], partnerName: 'Theo Marchetti' };
     if (/\/date-options$/.test(sub)) return { dateInstanceId: 'd1', options: [] };
     if (/\/feedback\/should-prompt/.test(m[1] || '')) return { should_prompt: false };
     (window.__unmatched = window.__unmatched || []).push(method + ' ' + path);
