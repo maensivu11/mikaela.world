@@ -316,20 +316,15 @@ document.querySelectorAll('.art').forEach(el => io ? io.observe(el) : el.classLi
     var phone = window.matchMedia('(max-width:600px)');
     /* the frame grows to the app's full height, so nothing scrolls inside it */
     var appH = 0;
+    /* a normal app window: real desktop (or phone) width, a fixed sensible height, scrollable inside once tapped */
     function fit(){
       if (!frame) return;
-      var vw = phone.matches ? 390 : 1280, base = phone.matches ? 844 : 800, sc = box.clientWidth / vw, extra = 0, doc = null;
-      try { doc = frame.contentDocument; } catch (e) {}
-      if (doc && doc.body) {
-        if (!doc.getElementById('no-inner-scroll')) { var st = doc.createElement('style'); st.id = 'no-inner-scroll'; st.textContent = '*{scrollbar-width:none!important}*::-webkit-scrollbar{display:none!important}'; (doc.head || doc.body).appendChild(st); }
-        doc.querySelectorAll('*').forEach(function(el){ var o = getComputedStyle(el).overflowY; if ((o === 'auto' || o === 'scroll') && el.scrollHeight > el.clientHeight + 1) extra = Math.max(extra, el.scrollHeight - el.clientHeight); });
-        extra = Math.max(extra, doc.documentElement.scrollHeight - doc.documentElement.clientHeight);
-        if (doc.readyState === 'complete') appH = Math.max(appH, (appH || base) + extra);
-      }
-      var h = appH || base;
+      var vw = phone.matches ? 390 : 1280, sc = box.clientWidth / vw;
+      var shown = phone.matches ? Math.min(Math.round(box.clientWidth * 844 / 390), Math.round(window.innerHeight * .8)) : Math.max(560, Math.min(700, Math.round(window.innerHeight * .78)));
+      var h = Math.round(shown / sc);
       frame.style.height = h + 'px'; frame.style.width = vw + 'px';
       frame.style.transform = 'scale(' + sc + ')';
-      box.style.aspectRatio = 'auto'; box.style.height = Math.ceil(h * sc) + 'px';
+      box.style.aspectRatio = 'auto'; box.style.height = shown + 'px';
     }
     function mount(){
       if (frame) return;
@@ -338,7 +333,7 @@ document.querySelectorAll('.art').forEach(el => io ? io.observe(el) : el.classLi
       frame.title = box.getAttribute('data-title');
       frame.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-forms');
       frame.src = APP + box.getAttribute('data-route');
-      box.appendChild(frame); appH = 0; fit(); frame.addEventListener('load', function(){ [600, 1500, 3000, 5000].forEach(function(t){ setTimeout(fit, t); }); });
+      box.appendChild(frame); appH = 0; fit(); 
     }
     function unmount(){ if (!frame) return; frame.remove(); frame = null; box.classList.remove('on'); box.style.height = ''; box.style.aspectRatio = ''; }
     window.addEventListener('resize', function(){ appH = 0; fit(); }); window.addEventListener('orientationchange', fit);
