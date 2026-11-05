@@ -401,7 +401,7 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
     <div class="note"><span class="hand r3">it sets it up. you take it from there.</span><p>the date: before, during, after.</p><p>before: the venue, what to bring up, a card to draw a question from. during: the date chat opens one hour before, and for the first time the two humans text each other directly. the double is gone from the thread. after: your double asks how it went, and you can talk it through or leave a note. switch stages under the phone.</p><div class="hers">the trust call was where the agent stops. it texts, it calls, it finds the night and locks the place. then it hands the two people to each other and gets out of the way. an agent that stays in the conversation on the date isn't a double anymore, it's a chaperone.</div></div>
   </div>
   <div class="blk">
-    <div class="art"><div class="frame night stage live-stage"><div class="live" data-stages='[{"label": "settings", "hash": "/match/demo?tab=settings"}]'><div class="fb"><img src="assets/embeds/poster-settings.png" alt="The real settings screen: your profile, photos, introduction, and the controls for your double" loading="lazy" width="390" height="844"></div></div></div></div>
+    <div class="art"><div class="frame night stage live-stage"><div class="live" data-stages='[{"label": "settings", "hash": "/match/demo?tab=settings", "anchor": "My introduction"}]'><div class="fb"><img src="assets/embeds/poster-settings.png" alt="The real settings screen: your profile, photos, introduction, and the controls for your double" loading="lazy" width="390" height="844"></div></div></div></div>
     <div class="note"><p>settings, and the wheel.</p><p>you can always take the wheel: pause your double, change your introduction, your location, your hours, manage your vouches. tap settings at the top.</p><p class="logic">pause is one tap away because an agent you can't stop quickly is one you won't let start.</p></div>
   </div>
 </section>
@@ -582,18 +582,15 @@ document.querySelectorAll('.art').forEach(el => io ? io.observe(el) : el.classLi
       frame.src = src(cur);
       phone.appendChild(frame); box.appendChild(phone);
       if (chips) box.appendChild(chips);
-      H = KNOWN[stages[cur].hash] || 844; size(); frame.addEventListener('load', function(){ fitSoon(); });
+      H = 844; size(); frame.addEventListener('load', function(){ fitSoon(); });
     }
-    /* size the phone to everything the screen holds, so nothing scrolls inside it.
-       sizes are known up front (measured from the app) and applied before the app loads, so nothing
-       reflows while you scroll; a later measurement can only grow it if the app ever gets taller. */
-    var KNOWN = { '/onboard/demo': 844, '/embed/intro': 844, '/vouch-collection': 892, '/vouch/vt1': 844, '/matches/demo': 1047,
-      '/date/d1?stage=before': 1327, '/date/d1?stage=during': 1272, '/date/d1?stage=after': 844, '/match/demo?tab=settings': 1904 };
+    /* every phone is a real phone: 390 wide, one screen tall, at a readable size that fits the viewport.
+       tall screens are anchored on the part that matters, and nothing scrolls inside the frame. */
     var H = 844, fitT = [], roomH = window.innerHeight, lastW = window.innerWidth;
     function size(){
       if (!frame) return;
-      var room = Math.max(320, roomH - (chips ? 230 : 160));
-      var sc = Math.min(box.parentNode.clientWidth / 390, 1, room / H);
+      var room = Math.max(560, roomH - (chips ? 200 : 140));
+      var sc = Math.min(box.parentNode.clientWidth / 390, 1, Math.max(.84, room / H));
       phone.classList.add('fit');
       frame.style.height = H + 'px'; frame.style.transform = 'scale(' + sc + ')';
       phone.style.height = Math.ceil(H * sc) + 'px'; phone.style.width = Math.ceil(390 * sc) + 'px'; phone.style.margin = '0 auto';
@@ -602,13 +599,18 @@ document.querySelectorAll('.art').forEach(el => io ? io.observe(el) : el.classLi
       if (!frame) return;
       var doc; try { doc = frame.contentDocument; } catch(e) { return; }
       if (!doc || !doc.body) return;
-      if (!doc.getElementById('no-inner-scroll')) { var st = doc.createElement('style'); st.id = 'no-inner-scroll'; st.textContent = '*{scrollbar-width:none!important}*::-webkit-scrollbar{display:none!important}'; (doc.head || doc.body).appendChild(st); }
-      var extra = 0;
-      doc.querySelectorAll('*').forEach(function(el){ var o = getComputedStyle(el).overflowY; if ((o === 'auto' || o === 'scroll') && el.scrollHeight > el.clientHeight + 1) extra = Math.max(extra, el.scrollHeight - el.clientHeight); });
-      extra = Math.max(extra, doc.documentElement.scrollHeight - doc.documentElement.clientHeight);
-      if (extra > 4) { H = Math.ceil(H + extra); size(); }
+      if (!doc.getElementById('no-inner-scroll')) { var st = doc.createElement('style'); st.id = 'no-inner-scroll'; st.textContent = '*{scrollbar-width:none!important}*::-webkit-scrollbar{display:none!important}[data-held]{overflow:hidden!important;overscroll-behavior:none}'; (doc.head || doc.body).appendChild(st); }
+      var anchor = stages[cur].anchor, target = null;
+      if (anchor) doc.querySelectorAll('h1,h2,h3,h4,p,span,div,button').forEach(function(el){ if (!target && el.children.length === 0 && el.textContent.trim() === anchor) target = el; });
+      doc.querySelectorAll('*').forEach(function(el){
+        var o = getComputedStyle(el).overflowY;
+        if ((o === 'auto' || o === 'scroll' || el.hasAttribute('data-held')) && el.scrollHeight > el.clientHeight + 1) {
+          if (target && el.contains(target)) el.scrollTop = Math.max(0, target.getBoundingClientRect().top - el.getBoundingClientRect().top + el.scrollTop - 16);
+          el.setAttribute('data-held', '');
+        }
+      });
     }
-    function fitSoon(){ fitT.forEach(clearTimeout); fitT = [1500].map(function(t){ return setTimeout(fit, t); }); }
+    function fitSoon(){ fitT.forEach(clearTimeout); fitT = [1500, 3000].map(function(t){ return setTimeout(fit, t); }); }
     window.addEventListener('resize', function(){ if (window.innerWidth === lastW) return; lastW = window.innerWidth; roomH = window.innerHeight; size(); });
     function unmount(){ if (!frame) return; phone.remove(); frame = null; box.classList.remove('on'); if (chips) chips.remove(); }
     var chips = null;
@@ -616,7 +618,7 @@ document.querySelectorAll('.art').forEach(el => io ? io.observe(el) : el.classLi
       chips = document.createElement('div'); chips.className = 'chips';
       stages.forEach(function(st,i){
         var b = document.createElement('button'); b.type = 'button'; b.textContent = st.label; b.setAttribute('aria-pressed', i===cur);
-        b.onclick = function(){ cur = i; chips.querySelectorAll('button').forEach(function(x,j){ x.setAttribute('aria-pressed', j===i); }); if (frame) { H = KNOWN[stages[i].hash] || 844; size(); frame.src = src(i); if (frame.contentWindow) { try { frame.contentWindow.location.reload(); } catch(e){} } fitSoon(); } };
+        b.onclick = function(){ cur = i; chips.querySelectorAll('button').forEach(function(x,j){ x.setAttribute('aria-pressed', j===i); }); if (frame) { H = 844; size(); frame.src = src(i); if (frame.contentWindow) { try { frame.contentWindow.location.reload(); } catch(e){} } fitSoon(); } };
         chips.appendChild(b);
       });
     }
