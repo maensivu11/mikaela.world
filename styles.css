@@ -478,7 +478,7 @@ body{display:grid;min-height:100svh;place-items:center;overflow-x:hidden;backgro
 
 /* "open me": exact same reveal as the daisy's see-my-work label.
    desktop = hover wipe only (base rule above). mobile = the daisy's own hint fade in/out. */
-.book-arc text{fill:#fff;paint-order:stroke;stroke:rgba(20,22,40,.35);stroke-width:2px}
+.book-arc text{fill:#fff}
 @media(max-width:600px){
   .book-arc{opacity:0;clip-path:inset(0 0 0 0);animation:flower-hint-pulse 7s ease-in-out infinite;animation-delay:2.5s;filter:none}
 }
