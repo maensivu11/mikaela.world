@@ -207,49 +207,55 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
 </head>
 <body class="no-js">
 
-<!-- 1. hero: the work here is the mechanism, so the hero is code, not a screen -->
+<!-- 1. hero: what it is, in one plain sentence, and who i am -->
 <header class="hero">
   <div class="hero-head">
     <div>
       <h1 class="has-tile"><img class="app-tile" src="assets/app-tile.png" alt="" width="56" height="56">winged max</h1>
-      <p class="claim">winged max is the winged agent running entirely on your own mac. it mirrors your iphone, learns your taste and acts for you, locally.</p>
+      <p class="claim">winged max is a mac app that does your dating app swiping for you. it learns who you're into from the profiles you like and pass on, then swipes for you on your own phone, right where you can watch, and it never messages anyone without your yes.</p>
       <p class="claim">design engineer &amp; founder. i designed it and made it agentic.</p>
-      <p class="stage">this page shows the part that has to be right first: what the agent may do, and when.</p>
+      <p class="stage">this page shows how it works under the hood: what the agent may do for you, and when.</p>
     </div>
   </div>
-  <span class="hand r2">taste outvotes the brief</span>
-  <div class="code art">
-    <div class="path">WingedMaxCore/CandidateRanker.swift</div>
-<pre><span class="c">// Your visual taste is most of every decision. What you wrote in the</span>
-<span class="c">// brief counts, but it can never outvote what you actually chose.</span>
-<span class="k">if let</span> visualScore {
-    score = min(<span class="n">1</span>, max(<span class="n">0</span>, visualScore * <span class="n">0.8</span> + preference.score * <span class="n">0.2</span>))<span class="mk">1</span>
-} <span class="k">else</span> {
-    <span class="c">// A neutral 0.5 for someone whose preferences could not be checked is a</span>
-    <span class="c">// real reading; the same 0.5 for someone who set none is not.</span>
-    score = softPreferences.isEmpty ? <span class="n">nil</span> : preference.score<span class="mk">2</span>
-}</pre>
-  </div>
-  <p class="cap"><span class="mk-l">1</span>taste is 80% of every autonomous decision &nbsp; <span class="mk-l">2</span>no data stays "no data", never a fake middle score · excerpt from the repo, comments shortened</p>
-  <p class="logic">what you swipe on is evidence. what you write in a brief is a guess about yourself.</p>
 </header>
 
-<!-- 2. the idea -->
+<!-- 2. where it started -->
 <section class="prose">
-  <h2>the idea</h2>
-  <p class="intro">the deciding part of dating apps takes seconds. the swiping, the reading, the opening lines and finding a thursday that works take hours. winged max does the hours, and you keep the seconds.</p>
-  <p>it's a macos app that mirrors your iphone and works the dating apps inside that window. no scraping and no fake account: it's your hinge, on your phone, under your account, driven by something that learned what you like, where you can watch it.</p>
-  <div class="hers">winged sets up your dates over text and calls. max brings the same deal to your own phone screen: the agent does the labor, you decide.</div>
+  <h2>where it started</h2>
+  <p class="intro">winged started as an agent that sets up your dates over text and calls. but most people already have a dating app on their phone, with their matches and their history in it.</p>
+  <p>winged max takes the same deal into that app: the agent does the labor and you make the calls. it's your hinge, on your phone, under your own account. no scraping and no fake profile.</p>
+  <p>it runs on your mac. what it learns about your taste, your ratings and your dating history stay there, on a machine you own.</p>
 </section>
 
-<!-- 3. the system: the numbers that carry the product -->
+<!-- 3. the problem -->
+<section class="prose">
+  <h2>the problem</h2>
+  <p class="intro">dating apps are a second job. the deciding part takes seconds: you know in a moment if someone is your type. the rest takes hours: the swiping, the reading, the opening lines, finding a thursday that works.</p>
+  <p>handing that off usually means handing your love life to something you can't see, a bot on someone's server or a fake account. winged max does the hours in plain sight, on your own phone screen, and it only takes on more once it has shown it knows your taste.</p>
+  <div class="hers">the deciding part takes seconds. the rest takes hours. max is built around that gap, and the decision stays on your side of it.</div>
+</section>
+
+<!-- 4. how it works, in plain steps -->
+<section class="prose lessons">
+  <h2>how it works</h2>
+  <p class="intro">seven steps, from plugging in your phone to waking up to a morning summary.</p>
+  <p><b>1. connect your iphone.</b> max shows your iphone on your mac screen using apple's iphone mirroring, the same window you could open yourself.</p>
+  <p><b>2. set your deal-breakers.</b> age range, distance, smoking, drinking, kids. these are hard rules: max never likes someone who breaks one.</p>
+  <p><b>3. browse like you always do.</b> you swipe through hinge as usual. max looks at each profile with you and asks three quick things: your first reaction, like or pass, and why.</p>
+  <p><b>4. it learns your type.</b> every answer teaches a small model on your mac what you're drawn to. what you actually pick counts more than what you say you want.</p>
+  <p><b>5. it earns autopilot.</b> once it can correctly guess choices it was never shown, you can let it like and pass for you, a few a day, and only when it's sure. anything in between stays yours.</p>
+  <p><b>6. check in the morning.</b> a morning review shows you what it did while you slept.</p>
+  <p><b>7. messages wait for you.</b> max drafts openers in your voice, and nothing is sent without you.</p>
+</section>
+
+<!-- 5. the system: the numbers that carry the product -->
 <section class="ds">
   <div class="wide">
     <div class="ds-intro ed">
     <h2>the system</h2>
       <p class="intro">the design system here is a handful of numbers, and each one decides how much the agent may do for you.</p>
     </div>
-    <span class="hand r1">every number is a permission</span>
+    <span class="hand r1">every number is a rule for the agent</span>
     <div class="knobs">
       <div class="knob"><b>0.8 / 0.2</b><p class="what">taste vs. stated preferences</p><p class="why">what you chose outweighs what you said you'd choose</p></div>
       <div class="knob"><b>120 days</b><p class="what">rating half-life</p><p class="why">taste moves; the model tracks who you are now</p></div>
@@ -260,6 +266,7 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
       <div class="knob"><b>0</b><p class="what">messages sent without you</p><p class="why">a wrong like costs nothing. a wrong message costs trust.</p></div>
       <div class="knob"><b>on the mac</b><p class="what">ratings, reasons, taste model</p><p class="why">your taste stays yours: it never leaves the machine</p></div>
     </div>
+    <p class="cap">the limits behind every choice max makes on its own. each one is a line it can't cross without you.</p>
     <div class="curve">
       <div>
         <svg viewBox="0 0 620 200" role="img" aria-label="Weight of a rating by age: 1 at day 0, half at 120 days, a quarter at 240, then a floor of 0.15 from about 330 days.">
@@ -276,17 +283,40 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
       </div>
       <div>
         <p class="why" style="font-size:13px;line-height:20px">weight = max(0.5<sup>age/120</sup>, 0.15) × (corrected ? 3 : 1)</p>
-        <p class="why">old ratings fade but never vanish, so your long-standing taste keeps a vote. drawn from the code, axis from zero.</p>
+        <p class="why">how much an old rating still counts. today's counts fully, one from 120 days ago counts half, and none ever drops below 0.15. that matters because your taste changes, but your long-standing taste still keeps a vote. drawn from the code, axis from zero.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- 4. how the agent works: the spine of the page -->
+<!-- 5b. inside the agent: the diagrams -->
 <section class="wide">
   <div class="ed" style="margin:0 0 var(--s3)">
-    <h2>how the agent works</h2>
-    <p class="intro">an agent that sees who you find attractive and writes as you has to earn trust in the mechanism. three rules, each enforced in code: you confirm anything consequential, autonomy is earned and can be taken back, and your taste stays on your mac.</p>
+    <h2>inside the agent</h2>
+    <p class="intro">an agent that sees who you find attractive and writes as you has to earn your trust. three rules hold it, each built into the code: you confirm anything that matters, it earns autopilot and can lose it, and your taste stays on your mac.</p>
+  </div>
+
+  <div class="mech">
+    <div class="art">
+      <div class="code">
+        <div class="path">WingedMaxCore/CandidateRanker.swift</div>
+<pre><span class="c">// Your visual taste is most of every decision. What you wrote in the</span>
+<span class="c">// brief counts, but it can never outvote what you actually chose.</span>
+<span class="k">if let</span> visualScore {
+    score = min(<span class="n">1</span>, max(<span class="n">0</span>, visualScore * <span class="n">0.8</span> + preference.score * <span class="n">0.2</span>))<span class="mk">1</span>
+} <span class="k">else</span> {
+    <span class="c">// A neutral 0.5 for someone whose preferences could not be checked is a</span>
+    <span class="c">// real reading; the same 0.5 for someone who set none is not.</span>
+    score = softPreferences.isEmpty ? <span class="n">nil</span> : preference.score<span class="mk">2</span>
+}</pre>
+      </div>
+      <p class="cap"><span class="mk-l">1</span>your taste is 80% of the score &nbsp; <span class="mk-l">2</span>no data stays "no data", never a made-up middle score · this is how max scores every profile, so it follows what you really do, not what you think you want · excerpt from the repo, comments shortened</p>
+    </div>
+    <div class="note">
+      <span class="hand r2">what you pick counts more than what you say</span><p>how max scores a profile.</p>
+      <p>your taste, learned from the profiles you actually liked and passed on, is 80% of the score. the preferences you wrote down are the other 20%. and when there's nothing to go on, max says so instead of guessing.</p>
+      <p class="logic">what you swipe on is evidence. what you write about yourself is a guess.</p>
+    </div>
   </div>
 
   <div class="mech">
@@ -302,7 +332,7 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
           <li><span class="i">6</span><span>act or ask<span class="d">like, pass, or hand it back to you</span></span></li>
         </ol>
       </div>
-      <p class="cap">one profile through the agent · a synthetic test profile</p>
+      <p class="cap">one profile going through max, step by step. it matters because every step happens in a window you can see, and only one step leaves your mac · a synthetic test profile, not a real person</p>
     </div>
     <div class="note">
       <span class="hand r3">you can watch it work</span><p>it works inside your real app.</p>
@@ -327,15 +357,15 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
         </div>
         <div class="meter"><i id="r-m"></i></div>
       </div>
-      <p class="cap">the autonomy ladder, recreated live · states and thresholds from the code</p>
+      <p class="cap">the steps max climbs before it may act alone, playing live. it matters because it starts with no permission at all and has to prove it knows you first · states and thresholds from the code</p>
     </div>
     <div class="note">
-      <span class="hand r4">earned, and taken back</span><p>autonomy is a ladder, not a toggle.</p>
+      <span class="hand r4">it earns trust, and can lose it</span><p>autonomy is a ladder, not a switch.</p>
       <p>the agent starts with no permission at all. after enough ratings, a small model is fitted on your mac, and auto-like and auto-pass unlock only if it predicts choices it was never shown better than chance. it acts only at the confident ends, under a daily cap, and if the model stops holding up, autopilot goes back off and the app tells you.</p>
       <div class="code" style="margin-top:20px"><pre><span class="k">public var</span> unlocksAgent: Bool {
     validationCount >= <span class="n">50</span> &amp;&amp; auc > <span class="n">0.6</span>
 }</pre></div>
-      <p class="cap">the unlock rule, from the code</p><p class="logic">a model graded on profiles it trained on can pass by memorizing you, so it's graded only on ones it never saw. you can't switch trust on. it has to be earned.</p>
+      <p class="cap">the unlock rule, from the code: at least 50 checked guesses, and better than a coin flip</p><p class="logic">a model graded on profiles it trained on can pass by memorizing you, so it's graded only on ones it never saw. you can't switch trust on. it has to be earned.</p>
     </div>
   </div>
 
@@ -353,10 +383,10 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
     <span class="k">return</span> recency * (corrected ? correctionMultiplier : <span class="n">1</span>)<span class="mk">3</span>
 }</pre>
       </div>
-      <p class="cap"><span class="mk-l">1</span>120-day half-life &nbsp; <span class="mk-l">2</span>floor 0.15 &nbsp; <span class="mk-l">3</span>a correction counts three times</p>
+      <p class="cap"><span class="mk-l">1</span>120-day half-life &nbsp; <span class="mk-l">2</span>floor 0.15 &nbsp; <span class="mk-l">3</span>a correction counts three times · how much each rating counts. newer ones count more, and overruling max counts most, because it's the clearest lesson it gets</p>
     </div>
     <div class="note">
-      <span class="hand r1">corrections count triple</span><p>training refits on every rating, and listens hardest to corrections.</p>
+      <span class="hand r1">your corrections count triple</span><p>it learns from every rating, and listens hardest when you overrule it.</p>
       <p>watch mode, "learn while i browse," turns a habit you already have into training. you browse hinge as usual, and winged captures each profile and asks three quick things: your first reaction, like or pass, and why.</p>
       <p>"not my type" and "wrong life plans" are separate answers, so passing on someone who doesn't want kids never teaches the model you don't find them attractive.</p><p class="logic">a half-life with a floor keeps your early ratings as a quiet vote instead of forgetting them on a cutoff date.</p>
     </div>
@@ -375,21 +405,21 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
     ...
 }</pre>
       </div>
-      <p class="cap"><span class="mk-l">1</span>approving a draft does not send it · excerpt, body shortened</p>
+      <p class="cap"><span class="mk-l">1</span>approving a draft does not send it · the code behind the approve button. it matters because nothing goes out in your name unless max can prove it was delivered · excerpt, body shortened</p>
     </div>
     <div class="note">
-      <span class="hand r2">approve is not send</span><p>drafts are review-first. sending fails closed.</p>
+      <span class="hand r2">approving a draft doesn't send it</span><p>messages are drafts first, and you're the one who sends.</p>
       <p>the agent writes in your voice. three style answers (emoji, formality, reply length) shape every draft, and your own writing samples teach the rest. no message leaves the mac without you.</p>
       <div class="hers">this is the call i'd defend to anyone. a wrong message costs trust, in your name, to a real person, so approving a draft never sends it.</div>
     </div>
   </div>
 </section>
 
-<!-- 5. the audit: the instrument -->
+<!-- 5c. how i check my own work -->
 <section class="wide">
   <div class="ed">
-    <h2>auditing my own product</h2>
-    <p class="intro">i trace an agent's training end to end, from the screen to the decision. here that meant sixteen inputs, each followed until i could say exactly what it changes in what the agent does.</p>
+    <h2>how i check my own work</h2>
+    <p class="intro">i follow every piece of training from the screen to the decision it changes. here that meant sixteen inputs, each traced until i could say exactly what it does to what the agent does.</p>
   </div>
   <div class="art" style="margin-top:var(--s3)">
     <div class="inputs" aria-label="16 training inputs: 7 change behavior, 4 open gates, 5 ready to connect">
@@ -398,10 +428,10 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
       <i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i>
     </div>
     <div class="ilab"><span>7 change behavior</span><span>4 open gates</span><span>5 ready to connect</span></div>
-    <p class="cap">sixteen inputs, traced from the screen to the decision</p>
+    <p class="cap">the sixteen things max learns from, traced one by one. some change what it does, some decide when it may act, and some are ready to plug in. it matters because i know where every answer you give ends up</p>
   </div>
   <div class="ed" style="margin-top:var(--s3)">
-    <p>the trace showed me where the loop closes. the "why" behind every rating is already stored, and the screen where you see what the model learned and correct it is already in the code. human-in-the-loop training is showing people what the machine concluded and letting them argue with it.</p>
+    <p>the trace showed me where the loop closes. the "why" behind every rating is already stored, and the screen where you see what the model learned and correct it is already in the code. human-in-the-loop training means showing people what the machine concluded and letting them argue with it.</p>
     <div class="hers">this is the part i'm proudest of. i can follow every input to the decision it changes.</div>
   </div>
 
@@ -418,11 +448,11 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
     <span class="k">return</span> meanAbsoluteDifference > threshold
 }</pre>
       </div>
-      <p class="cap"><span class="mk-l">1</span>a 48-pixel thumbnail &nbsp; <span class="mk-l">2</span>a 1% change counts as a new screen: an autoplay video or the clock ticking is enough</p>
+      <p class="cap"><span class="mk-l">1</span>a 48-pixel snapshot of your screen &nbsp; <span class="mk-l">2</span>how big a change counts as a new screen · it matters because reading a profile takes time and money, so max only reads when something actually changed</p>
     </div>
     <div class="note">
-      <span class="hand r2">a ticking clock is not a new profile</span><p>start from what i felt as a user, then find it in the code.</p>
-      <p>i use my own product like a new user and write down everything that feels off, like a screen counter that climbed while my phone sat still. then i trace each one to its line. here it was a threshold: at 1% of a tiny thumbnail, a ticking clock looks like a new screen.</p>
+      <span class="hand r2">new profile, or the same screen?</span><p>start from what i feel as a user, then find it in the code.</p>
+      <p>before it reads a profile, max compares two tiny snapshots of your screen to see if anything changed. i tune checks like this by using my own product like a new user, writing down anything that feels off, and following each one to the exact line behind it.</p>
     </div>
   </div>
 
@@ -439,27 +469,29 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
       <span>onboarding</span><div class="b" style="width:calc((100% - 40px) * 11/20)"><em>11</em></div>
       <span>preferences</span><div class="b" style="width:calc((100% - 40px) * 2/20)"><em>2</em></div>
     </div>
-    <p class="cap">the tasks by area, one scale</p>
+    <p class="cap">how my notes as a user became a plan the team can pick up, with the tasks by area on one scale</p>
   </div>
   <div class="ed" style="margin-top:var(--s3)">
     <p>i ran ai agents as code auditors, each in its own lane: onboarding and connection, agent logic, the mirroring layer, and a simplicity sweep against my own style guide. i set the lanes and the bar: my own findings first, a file and line for every claim, and anything only provable on a live phone labeled a hypothesis. they found things. i decided what mattered.</p>
     <ul class="disc" style="margin-top:var(--s4)">
       <li>every claim has a receipt, every guess is labeled a guess</li>
-      <li>one defect, one task, one plain sentence anyone on the team can pick up</li>
+      <li>one finding, one task, one plain sentence anyone on the team can pick up</li>
       <li>keep the design calls that are actually mine, and hand off the rest</li>
     </ul>
     <div class="hers">what came out was a board of tasks, each a plain verb with a root cause and an owner, ordered safety first. i kept one for myself: rebuilding matching preferences as one page.</div>
   </div>
 </section>
 
-<!-- 6. my design laws -->
+<!-- 6. what i bring from it -->
 <section class="prose lessons">
-  <h2>my design laws for agentic products</h2>
-  <p>i design by these now.</p>
+  <h2>what i bring from it</h2>
+  <p>i design every agentic product by these now.</p>
   <p><b>show the agent's conclusions, not just its inputs.</b> if people train something, they need to see what it learned and correct it. that surface is the loop.</p>
+  <p><b>let the agent earn its freedom.</b> start with no permission, unlock more only when it proves itself, and take it back when it doesn't.</p>
   <p><b>only ask for input you'll use.</b> every question you ask spends the goodwill training runs on.</p>
-  <p><b>honest state over optimistic state.</b> "connected" goes false when it's false, and a counter counts the thing it names.</p>
+  <p><b>honest state over optimistic state.</b> "connected" means connected, and a counter counts the thing it names.</p>
   <p><b>price the work up front.</b> training takes about an hour of careful rating before anything changes, so the first screen says so.</p>
+  <div class="hers">if the agent concludes something about a person, show it to them and let them argue with it.</div>
 </section>
 
 <footer class="wide">
