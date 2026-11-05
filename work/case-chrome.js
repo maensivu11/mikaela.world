@@ -93,7 +93,15 @@
     '.w98-addr{flex:none;display:flex;align-items:center;gap:6px;margin:3px 0;font:11px Tahoma,"MS Sans Serif",sans-serif;color:#000}',
     '.w98-addr b{flex:1;font-weight:400;background:#fff;border:2px solid;border-color:#808080 #fff #fff #808080;padding:2px 5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}',
     '.w98 .frame{border-radius:0!important;border:2px solid;border-color:#808080 #fff #fff #808080!important;box-shadow:none!important}',
-    '@media (max-width:600px){.w98-addr span{display:none}}'
+    '@media (max-width:600px){.w98-addr span{display:none}}',
+    /* phones (<=600px): wider side margins on every case page, and prev/next become a small hand-drawn pager at the end of the page, inside the margin */
+    '@media (max-width:600px){:root{--pad:30px!important}' +
+      '.cc-pager{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;padding:8px var(--pad) 40px}' +
+      '.cc-pager .cc-side{position:static;transform:none;display:flex;flex-direction:column;align-items:center;gap:4px;min-width:44px;min-height:44px;padding:8px 6px;font-size:inherit;opacity:.8;border-radius:12px;-webkit-tap-highlight-color:transparent}' +
+      '.cc-pager .cc-next{margin-left:auto}' +
+      '.cc-pager .cc-arrow{width:32px;height:22px;stroke-width:2.4}' +
+      '.cc-pager .cc-name{display:block!important;position:static;transform:none;opacity:1;font-size:15px;white-space:nowrap}' +
+      '.cc-pager .cc-side:active,.cc-pager .cc-side:focus{background:rgba(61,58,140,.08);box-shadow:0 0 0 1.5px rgba(61,58,140,.35)}}'
   ].join('\n');
   var style = document.createElement('style');
   style.textContent = css;
@@ -107,7 +115,7 @@
     ne: '<svg class="cc-arrow cc-ne" viewBox="0 0 32 32" aria-hidden="true"><path d="M6.3 26.1c3.8-3.4 7.1-7.5 10.9-11.1 2.8-2.7 5.6-5.6 8.4-8.9"/><path d="M11.8 6.4c4.5.2 9.1-.5 13.9-.4.3 4.4-.1 9 .4 13.7"/></svg>'
   };
   window.ccArrow = ARROW;
-  function link(cls, href, glyph, name, label) {
+  function link(cls, href, glyph, name, label, parent) {
     var a = document.createElement('a');
     a.className = 'cc ' + cls;
     a.href = href;
@@ -121,12 +129,17 @@
       s.textContent = name;
       a.appendChild(s);
     }
-    document.body.appendChild(a);
+    (parent || document.body).appendChild(a);
   }
 
   link('cc-top', d.notebook || '../../index.html#work-index', ARROW.up + '<span>notebook</span>', '', 'back to the notebook');
-  if (d.prev) link('cc-side cc-prev', d.prev, ARROW.left, d.prevName, 'previous: ' + d.prevName);
-  if (d.next) link('cc-side cc-next', d.next, ARROW.right, d.nextName, 'next: ' + d.nextName);
+  /* prev/next live in one nav: fixed at the screen edges on desktop, an in-flow pager at the page end on phones */
+  var pager = document.createElement('nav');
+  pager.className = 'cc-pager';
+  pager.setAttribute('aria-label', 'case studies');
+  document.body.appendChild(pager);
+  if (d.prev) link('cc-side cc-prev', d.prev, ARROW.left, d.prevName, 'previous: ' + d.prevName, pager);
+  if (d.next) link('cc-side cc-next', d.next, ARROW.right, d.nextName, 'next: ' + d.nextName, pager);
   /* back to the notebook: the page pulls back, then the notebook finishes the zoom out onto this project's tile */
   var top = document.querySelector('.cc-top');
   if (top) top.addEventListener('click', function (e) {
