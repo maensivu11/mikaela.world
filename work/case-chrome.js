@@ -26,6 +26,9 @@
     '.cc-ne{display:inline-block;width:14px;height:14px;vertical-align:-1px;stroke-width:3;margin:0 2px}',
     '@media (max-width:760px){.cc-arrow{width:30px;height:21px}.cc-top .cc-up{width:13px;height:17px}}',
     '@media print{.cc{display:none}}',
+    '.cc-side:active,.cc-side:focus,.cc-top:active,.cc-top:focus{opacity:1!important;color:#3d3a8c!important}',
+    '.cc-side:active .cc-arrow,.cc-side:focus .cc-arrow,.cc-top:active .cc-up,.cc-top:focus .cc-up{filter:drop-shadow(1px 0 0 #fff) drop-shadow(-1px 0 0 #fff) drop-shadow(0 1px 0 #fff) drop-shadow(0 -1px 0 #fff)}',
+    '@media (hover:none){.cc-side:active,.cc-side:focus{background:rgba(255,255,255,.9);border-radius:999px;box-shadow:0 0 0 1.5px #fff,0 4px 12px rgba(0,0,0,.12)}.cc-side .cc-name{display:none}}',
     'html.touch-shield .phone:not(.iframe-on) iframe,html.touch-shield .frame:not(.iframe-on) iframe{pointer-events:none}',
     'html.touch-shield .phone:has(iframe):not(.iframe-on)::after,html.touch-shield .frame:has(iframe):not(.iframe-on)::after{content:"tap to use";position:absolute;left:50%;bottom:14px;transform:translateX(-50%);z-index:5;font:12px/1 var(--mono,ui-monospace),monospace;color:#fff;background:rgba(0,0,0,.62);border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:7px 12px;pointer-events:none;white-space:nowrap}',
     /* no sideways scroll anywhere: code wraps inside its panel */
