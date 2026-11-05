@@ -1127,3 +1127,6 @@ document.querySelectorAll('[data-ext-href]').forEach(function(el){
   window.closeWorkIndex=function(done){if(state!=='closed')close(true);if(/^#work\//.test(window.location.hash))history.replaceState(null,'','#work-index');return closeWI(done);};
   setInterval(function(){if(state==='min')clock();},30000);
 })();
+
+/* backdrop click closes the notebook (2026-11-05) */
+(function(){var m=document.getElementById('m-workindex');if(!m)return;m.addEventListener('click',function(e){if(e.target===m&&m.classList.contains('open')&&typeof window.closeWorkIndex==='function'){window.closeWorkIndex(function(){if(typeof finishThoughtsClose==='function')finishThoughtsClose();});}});})();

@@ -462,3 +462,8 @@ body{display:grid;min-height:100svh;place-items:center;overflow-x:hidden;backgro
   .wi-close{position:fixed;top:min(calc(55.6vw - 3px),calc(100svh - 56px));right:max(calc(4.1vw - 3px),8px);z-index:30}
   .journal-close{top:calc(56vw - 4px);right:0}
 }
+
+/* mobile notebook escape hatch: X always on screen (2026-11-05) */
+@media (max-width:600px){
+  .work-index-modal.open .wi-close{position:fixed!important;top:14px!important;right:12px!important;width:48px!important;height:48px!important;opacity:1!important;visibility:visible!important;pointer-events:auto!important;z-index:40!important;font:40px/1 var(--hand)!important}
+}
