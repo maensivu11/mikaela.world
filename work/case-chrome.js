@@ -143,6 +143,18 @@
   var inWin = /[?&]win=1(&|$)/.test(location.search) && window.parent !== window;
   if (inWin) {
     document.documentElement.classList.add('cc-win');
+    /* lazy embeds set iframe.src after load, which would add entries to the tab's history and make
+       the browser's back button step through embeds instead of closing the window: replace instead */
+    var srcDesc = Object.getOwnPropertyDescriptor(HTMLIFrameElement.prototype, 'src');
+    if (srcDesc && srcDesc.set) Object.defineProperty(HTMLIFrameElement.prototype, 'src', {
+      configurable: true, get: srcDesc.get,
+      set: function (v) {
+        if (this.isConnected && this.contentWindow) {
+          try { this.contentWindow.location.replace(new URL(v, location.href).href); return; } catch (err) {}
+        }
+        srcDesc.set.call(this, v);
+      }
+    });
     document.addEventListener('keydown', function (e) {
       if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.altKey) return;
       var t = e.target, tag = t && t.tagName;
@@ -180,14 +192,17 @@
     var m = location.pathname.match(/work\/([^\/]+)\//);
     var slug = m ? (m[1] === 'winged-web' ? 'winged-app' : m[1]) : '';
     try { sessionStorage.setItem('wi-from', slug); } catch (err) {}
-    if (!document.body.animate || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    e.preventDefault();
-    var href = top.href;
-    document.documentElement.style.background = '#f6f0e0';
-    var a1 = document.body.animate([{ transform: 'scale(1)', opacity: 1 }, { transform: 'scale(.82)', opacity: 0 }], { duration: 240, easing: 'cubic-bezier(.4,0,1,1)', fill: 'forwards' });
-    document.body.style.transformOrigin = '50% ' + (scrollY + innerHeight / 2) + 'px';
-    a1.finished.then(function () { location.href = href; }, function () { location.href = href; });
+    /* no fade and no paper wash: the case page holds until the notebook paints, the notebook arrives on
+       its desk canvas with the spread already decoded (prefetched below) */
   });
+  if (top && !inWin) {
+    var warm = function () {
+      ['assets/tabletop/open-comp-blank.png', 'assets/source-painting/plain_canvas.png'].forEach(function (p) {
+        var i = new Image(); i.src = new URL('../../' + p, location.href).href;
+      });
+    };
+    if (window.requestIdleCallback) requestIdleCallback(warm, { timeout: 3000 }); else setTimeout(warm, 1500);
+  }
   /* hotkeys: esc goes back to the notebook (lightboxes close first), left and right walk the cases */
   if (!inWin) document.addEventListener('keydown', function (e) {
     if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.altKey) return;
