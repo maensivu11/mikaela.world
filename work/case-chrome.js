@@ -95,6 +95,21 @@
   link('cc-top', d.notebook || '../../index.html#work-index', ARROW.up + '<span>notebook</span>', '', 'back to the notebook');
   if (d.prev) link('cc-side cc-prev', d.prev, ARROW.left, d.prevName, 'previous: ' + d.prevName);
   if (d.next) link('cc-side cc-next', d.next, ARROW.right, d.nextName, 'next: ' + d.nextName);
+  /* back to the notebook: the page pulls back, then the notebook finishes the zoom out onto this project's tile */
+  var top = document.querySelector('.cc-top');
+  if (top) top.addEventListener('click', function (e) {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+    var m = location.pathname.match(/work\/([^\/]+)\//);
+    var slug = m ? (m[1] === 'winged-web' ? 'winged-app' : m[1]) : '';
+    try { sessionStorage.setItem('wi-from', slug); } catch (err) {}
+    if (!document.body.animate || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    e.preventDefault();
+    var href = top.href;
+    document.documentElement.style.background = '#f6f0e0';
+    var a1 = document.body.animate([{ transform: 'scale(1)', opacity: 1 }, { transform: 'scale(.82)', opacity: 0 }], { duration: 240, easing: 'cubic-bezier(.4,0,1,1)', fill: 'forwards' });
+    document.body.style.transformOrigin = '50% ' + (scrollY + innerHeight / 2) + 'px';
+    a1.finished.then(function () { location.href = href; }, function () { location.href = href; });
+  });
   /* "visit live" links: the typed arrow becomes the same hand-drawn stroke */
   document.querySelectorAll('a.live').forEach(function (a) {
     a.innerHTML = a.innerHTML.replace('\u2197', ARROW.ne);
