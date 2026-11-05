@@ -75,6 +75,10 @@
     '@media (max-width:900px){.intro,.manifesto p.intro,.call p{font-size:19px!important;line-height:28px!important}.framing,.manifesto p:not(.intro),.note li,.hers{font-size:16px!important;line-height:26px!important}pre:not(.code){font-size:11.5px!important;line-height:18px!important}}',
     /* captions: clear space before the text that follows */
     '.cap+.why+*,figure:has(figcaption)+:not(figure):not(.art),.art:has(.cap)+:not(.art):not(figure){margin-top:var(--s4)!important}',
+    /* 2d app tile: the product mark inline left of the title, app-store style, radius 22% */
+    '.hero-head h1.has-tile{display:flex!important;align-items:center;gap:15px}',
+    '.hero-head .app-tile{flex:none;display:block;width:56px!important;height:56px!important;border-radius:12px!important;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.06);transform:translateY(var(--tile-nudge,0))}',
+    '@media (max-width:900px){.hero-head h1.has-tile{gap:14px}.hero-head .app-tile{width:44px!important;height:44px!important;border-radius:10px!important}}',
     /* 3 captions breathe before the text below them */
     '.cap+*:not(.cap):not(.why){margin-top:var(--s4)!important}',
     '.pair+.ed,.art+.ed{margin-top:var(--s3)!important}',
