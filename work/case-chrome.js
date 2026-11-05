@@ -145,13 +145,17 @@
   document.body.appendChild(pager);
   if (d.prev) link('cc-side cc-prev', d.prev, ARROW.left, d.prevName, 'previous: ' + d.prevName, pager);
   if (d.next) link('cc-side cc-next', d.next, ARROW.right, d.nextName, 'next: ' + d.nextName, pager);
-  /* phones: the edge arrows recede while the reader scrolls and return ~400ms after the scroll stops */
-  var ccRest = 0, ccRoot = document.documentElement;
+  /* phones: the edge arrows recede while the reader scrolls fast, and return as soon as she slows to a near-pause (under 4px per event for 120ms) or stops (150ms) */
+  var ccRest = 0, ccRoot = document.documentElement, ccY = scrollY, ccFast = 0;
+  function ccShow() { ccRoot.classList.remove('cc-moving'); }
   addEventListener('scroll', function () {
     if (!matchMedia('(max-width:600px)').matches) return;
-    if (!ccRoot.classList.contains('cc-moving')) ccRoot.classList.add('cc-moving');
+    var y = scrollY, dy = Math.abs(y - ccY), now = Date.now();
+    ccY = y;
     clearTimeout(ccRest);
-    ccRest = setTimeout(function () { ccRoot.classList.remove('cc-moving'); }, 400);
+    if (dy >= 4) { ccFast = now; ccRoot.classList.add('cc-moving'); }
+    else if (now - ccFast >= 120) { ccShow(); return; }
+    ccRest = setTimeout(ccShow, 150);
   }, { passive: true });
   /* back to the notebook: the page pulls back, then the notebook finishes the zoom out onto this project's tile */
   var top = document.querySelector('.cc-top');
