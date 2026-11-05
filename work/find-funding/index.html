@@ -53,6 +53,14 @@ p+p{margin-top:20px}
 /* phone visitors: every embed renders its own mobile layout at a real phone width, in a phone-shaped frame */
 .frame picture{display:contents}
 @media (max-width:600px){.hero .frame{flex:none;aspect-ratio:390/844}.hero .w98{flex:none}}
+/* phone visitors: every mobile embed sits in a clean iphone, not a browser window (mikaela, 11-06) */
+@media (max-width:600px){
+  .hero .w98,.portal-live .w98{border:0;background:none;box-shadow:none;padding:0;margin:4px 10px 6px}
+  .hero .w98-bar,.hero .w98-addr,.portal-live .w98-bar,.portal-live .w98-addr{display:none}
+  .hero .w98 .frame,.portal-live .w98 .frame,.frame.live{position:relative;border:0!important;border-radius:34px!important;background:#101013;overflow:hidden;margin:7px 7px 9px;box-shadow:0 0 0 3px #101013,0 0 0 4.5px #46464c,0 0 0 6px #101013,0 18px 36px rgba(0,0,0,.25)!important}
+  .hero .w98 .frame::before,.portal-live .w98 .frame::before,.frame.live::before{content:"";position:absolute;left:50%;top:12px;transform:translateX(-50%);width:64px;height:8px;border-radius:4px;background:#0b0b0d;z-index:6;pointer-events:none}
+  .portal-frame{aspect-ratio:390/844;height:auto;min-height:0}
+}
 .premise{font-size:17px;line-height:26px;color:var(--ink);margin-top:10px;max-width:none;white-space:normal}
 .hero .cap{margin-top:12px}
 
