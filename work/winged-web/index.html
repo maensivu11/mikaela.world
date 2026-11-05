@@ -582,11 +582,22 @@ document.querySelectorAll('.art').forEach(el => io ? io.observe(el) : el.classLi
       frame.src = src(cur);
       phone.appendChild(frame); box.appendChild(phone);
       if (chips) box.appendChild(chips);
-      H = 844; measured = false; frame.addEventListener('load', function(){ fitSoon(); });
-      fitSoon();
+      H = KNOWN[stages[cur].hash] || 844; size(); frame.addEventListener('load', function(){ fitSoon(); });
     }
-    /* size the phone to everything the screen holds, so nothing scrolls inside it */
-    var H = 844, fitT = [], measured = false;
+    /* size the phone to everything the screen holds, so nothing scrolls inside it.
+       sizes are known up front (measured from the app) and applied before the app loads, so nothing
+       reflows while you scroll; a later measurement can only grow it if the app ever gets taller. */
+    var KNOWN = { '/onboard/demo': 844, '/embed/intro': 844, '/vouch-collection': 892, '/vouch/vt1': 844, '/matches/demo': 1047,
+      '/date/d1?stage=before': 1327, '/date/d1?stage=during': 1272, '/date/d1?stage=after': 844, '/match/demo?tab=settings': 1904 };
+    var H = 844, fitT = [], roomH = window.innerHeight, lastW = window.innerWidth;
+    function size(){
+      if (!frame) return;
+      var room = Math.max(320, roomH - (chips ? 230 : 160));
+      var sc = Math.min(box.parentNode.clientWidth / 390, 1, room / H);
+      phone.classList.add('fit');
+      frame.style.height = H + 'px'; frame.style.transform = 'scale(' + sc + ')';
+      phone.style.height = Math.ceil(H * sc) + 'px'; phone.style.width = Math.ceil(390 * sc) + 'px'; phone.style.margin = '0 auto';
+    }
     function fit(){
       if (!frame) return;
       var doc; try { doc = frame.contentDocument; } catch(e) { return; }
@@ -595,26 +606,17 @@ document.querySelectorAll('.art').forEach(el => io ? io.observe(el) : el.classLi
       var extra = 0;
       doc.querySelectorAll('*').forEach(function(el){ var o = getComputedStyle(el).overflowY; if ((o === 'auto' || o === 'scroll') && el.scrollHeight > el.clientHeight + 1) extra = Math.max(extra, el.scrollHeight - el.clientHeight); });
       extra = Math.max(extra, doc.documentElement.scrollHeight - doc.documentElement.clientHeight);
-      var need = Math.max(H + extra, 844);
-      /* the whole screen, top to bottom, fits in the viewport: scale the phone down rather than scroll anything */
-      var room = Math.max(320, window.innerHeight - (chips ? 230 : 160));
-      var sc = Math.min(box.parentNode.clientWidth / 390, 1, room / need);
-      if (phone.classList.contains('fit') && measured) return;
-      if (H === 844) measured = true;
-      H = Math.ceil(need);
-      phone.classList.add('fit');
-      frame.style.height = H + 'px'; frame.style.transform = 'scale(' + sc + ')';
-      phone.style.height = Math.ceil(H * sc) + 'px'; phone.style.width = Math.ceil(390 * sc) + 'px'; phone.style.margin = '0 auto';
+      if (extra > 4) { H = Math.ceil(H + extra); size(); }
     }
     function fitSoon(){ fitT.forEach(clearTimeout); fitT = [1500].map(function(t){ return setTimeout(fit, t); }); }
-    window.addEventListener('resize', function(){ if (frame) { H = 844; measured = false; phone.classList.remove('fit'); frame.style.height = ''; frame.style.transform = ''; phone.style.height = ''; phone.style.width = ''; fitSoon(); } });
+    window.addEventListener('resize', function(){ if (window.innerWidth === lastW) return; lastW = window.innerWidth; roomH = window.innerHeight; size(); });
     function unmount(){ if (!frame) return; phone.remove(); frame = null; box.classList.remove('on'); if (chips) chips.remove(); }
     var chips = null;
     if (stages.length > 1) {
       chips = document.createElement('div'); chips.className = 'chips';
       stages.forEach(function(st,i){
         var b = document.createElement('button'); b.type = 'button'; b.textContent = st.label; b.setAttribute('aria-pressed', i===cur);
-        b.onclick = function(){ cur = i; chips.querySelectorAll('button').forEach(function(x,j){ x.setAttribute('aria-pressed', j===i); }); if (frame) { H = 844; measured = false; phone.classList.remove('fit'); frame.style.height = ''; frame.style.transform = ''; phone.style.height = ''; phone.style.width = ''; frame.src = src(i); if (frame.contentWindow) { try { frame.contentWindow.location.reload(); } catch(e){} } fitSoon(); } };
+        b.onclick = function(){ cur = i; chips.querySelectorAll('button').forEach(function(x,j){ x.setAttribute('aria-pressed', j===i); }); if (frame) { H = KNOWN[stages[i].hash] || 844; size(); frame.src = src(i); if (frame.contentWindow) { try { frame.contentWindow.location.reload(); } catch(e){} } fitSoon(); } };
         chips.appendChild(b);
       });
     }
@@ -624,7 +626,7 @@ document.querySelectorAll('.art').forEach(el => io ? io.observe(el) : el.classLi
       box.appendChild(r); return;
     }
     if (!('IntersectionObserver' in window)) return;
-    new IntersectionObserver(function(es){ es.forEach(function(e){ e.isIntersecting ? mount() : unmount(); }); }, { rootMargin: '200px 0px' }).observe(box);
+    var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting) { mount(); io.disconnect(); } }); }, { rootMargin: '400px 0px' }); io.observe(box);
   });
 })();
 </script>
