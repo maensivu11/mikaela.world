@@ -139,7 +139,16 @@ if(passwordForm)passwordForm.addEventListener('submit',function(e){
   e.preventDefault();var input=document.querySelector('[data-password-input]');var error=document.querySelector('[data-password-error]');
   if(input&&input.value==='shareh0ld3rv4lu3'){
     sessionStorage.setItem('portfolio-work-unlocked','yes');document.getElementById('m-password').classList.remove('open');document.body.style.overflow='';
-    if(error)error.textContent='';var trigger=pendingWorkTrigger;pendingWorkTrigger=null;if(trigger)enterPainting(trigger);
+    if(error)error.textContent='';var trigger=pendingWorkTrigger;pendingWorkTrigger=null;
+    // iOS zooms in on the field; zoom back out before the notebook plays: blur, pin the scale, then restore pinch-zoom
+    if(input)input.blur();
+    var vp=document.querySelector('meta[name="viewport"]'),vpOld=vp&&vp.getAttribute('content');
+    var zoomed=!!(window.visualViewport&&window.visualViewport.scale>1.01);
+    if(vp&&zoomed)vp.setAttribute('content','width=device-width, initial-scale=1, maximum-scale=1');
+    setTimeout(function(){
+      if(vp&&zoomed)vp.setAttribute('content',vpOld);
+      if(trigger)enterPainting(trigger);
+    },zoomed?350:0);
   }else{if(error)error.textContent='The password is incorrect. Please try again.';if(input){input.select();input.focus();}}
 });
 document.querySelectorAll('[data-modal]').forEach(function(el){el.addEventListener('click',function(e){
