@@ -672,7 +672,7 @@ document.querySelectorAll('.art').forEach(el => io ? io.observe(el) : el.classLi
       frame.src = src(cur);
       phone.appendChild(frame); box.appendChild(phone);
       if (chips) box.appendChild(chips);
-      H = 844; size(); frame.addEventListener('load', function(){ fitSoon(); });
+      H = 844; size(); veil(); frame.addEventListener('load', function(){ fitSoon(); });
     }
     /* every phone is a real phone: 390 wide, one screen tall, at a readable size that fits the viewport.
        tall screens are anchored on the part that matters, and nothing scrolls inside the frame. */
@@ -708,8 +708,11 @@ document.querySelectorAll('.art').forEach(el => io ? io.observe(el) : el.classLi
           el.setAttribute('data-held', '');
         }
       });
+      if (target) frame.style.opacity = '';
     }
-    function fitSoon(){ fitT.forEach(clearTimeout); fitT = [300, 1500, 3000].map(function(t){ return setTimeout(fit, t); }); }
+    function fitSoon(){ fitT.forEach(clearTimeout); fitT = [150, 300, 500, 800, 1200, 1500, 2000, 3000].map(function(t){ return setTimeout(fit, t); }); fitT.push(setTimeout(function(){ if (frame) frame.style.opacity = ''; }, 5000)); }
+    /* anchored screens (settings) stay invisible until they sit on their anchor, so the wrong tab or the top of the page never paints */
+    function veil(){ if (frame && stages[cur].anchor) frame.style.opacity = '0'; }
     window.addEventListener('resize', function(){ if (window.innerWidth === lastW) return; lastW = window.innerWidth; roomH = window.innerHeight; size(); });
     function unmount(){ if (!frame) return; phone.remove(); frame = null; box.classList.remove('on'); if (chips) chips.remove(); }
     var chips = null;
@@ -717,7 +720,7 @@ document.querySelectorAll('.art').forEach(el => io ? io.observe(el) : el.classLi
       chips = document.createElement('div'); chips.className = 'chips';
       stages.forEach(function(st,i){
         var b = document.createElement('button'); b.type = 'button'; b.textContent = st.label; b.setAttribute('aria-pressed', i===cur);
-        b.onclick = function(){ cur = i; chips.querySelectorAll('button').forEach(function(x,j){ x.setAttribute('aria-pressed', j===i); }); if (frame) { H = 844; size(); frame.src = src(i); if (frame.contentWindow) { try { frame.contentWindow.location.reload(); } catch(e){} } fitSoon(); } };
+        b.onclick = function(){ cur = i; chips.querySelectorAll('button').forEach(function(x,j){ x.setAttribute('aria-pressed', j===i); }); if (frame) { H = 844; size(); veil(); frame.src = src(i); if (frame.contentWindow) { try { frame.contentWindow.location.reload(); } catch(e){} } fitSoon(); } };
         chips.appendChild(b);
       });
     }
