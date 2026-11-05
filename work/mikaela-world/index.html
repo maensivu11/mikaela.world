@@ -52,7 +52,23 @@ p+p{margin-top:20px}
 .hero-pair .frame{width:100%}
 /* hero stack, as the homepage layers it: painting, then book, then note */
 /* landscape stage so the book's name label and the note both read: book left, note overlapping its right edge */
-.hero-art{width:100%;margin:0}
+.hero-art{width:calc(100vw - 2 * var(--pad));max-width:none;margin:0 0 0 calc(50% - 50vw + var(--pad))}
+.hero-stage{cursor:zoom-in;outline:none}
+.hero-stage:focus-visible{box-shadow:0 0 0 2px #3d3a8c,0 24px 48px rgba(0,0,0,.06)}
+.hero-stage .hero-painting,.hero-stage .hero-journal,.hero-stage .hero-page{transition:transform 420ms cubic-bezier(.2,.8,.2,1);will-change:transform}
+.hero-stage .hero-painting{transform:translate3d(var(--px0,0),var(--py0,0),0) scale(1.04)}
+.hero-stage .hero-journal{transform:translate3d(var(--px1,0),var(--py1,0),0) rotate(-3deg)}
+.hero-stage .hero-page{transform:translate3d(var(--px2,0),var(--py2,0),0) rotate(4deg)}
+.hero-stage:hover .hero-page,.hero-stage:focus-visible .hero-page{transform:translate3d(calc(var(--px2,0px) + 1.5%),calc(var(--py2,0px) - 3%),0) rotate(6deg)}
+.hero-stage:hover .hero-page img{filter:drop-shadow(0 8px 6px rgba(34,15,5,.3)) drop-shadow(0 36px 26px rgba(34,15,5,.38))}
+.hero-art>.cap,.hero-hint{padding-left:max(0px,calc((100vw - 1280px) / 2))}
+.hero-hint{font-family:'B-McE',cursive;font-size:21px;color:#3d3a8c;margin-top:var(--s6)}
+.lb{position:fixed;inset:0;z-index:80;background:rgba(20,16,12,.86);display:flex;align-items:center;justify-content:center;padding:24px;cursor:zoom-out;opacity:0;transition:opacity 200ms ease-out}
+.lb.on{opacity:1}
+.lb .hero-stage{width:min(96vw,calc((100vh - 48px) * 4 / 3));aspect-ratio:4/3;cursor:zoom-out;flex:none}
+.lb-x{position:fixed;top:16px;right:18px;width:48px;height:48px;border:0;background:none;color:#FBF6EA;cursor:pointer}
+.lb-x svg{width:40px;height:40px;fill:none;stroke:currentColor;stroke-width:3.2;stroke-linecap:round}
+@media (prefers-reduced-motion:reduce){.hero-stage *{transition:none!important}}
 .hero-stage{position:relative;aspect-ratio:4/3;border-radius:12px;overflow:hidden;box-shadow:0 24px 48px rgba(0,0,0,.06)}
 .hero-stage img{display:block;width:100%;height:100%}
 .hero-painting{position:absolute;inset:0;object-fit:cover}
@@ -85,7 +101,27 @@ pre .k{color:#f4e21f}
 
 /* 4 system strip */
 .ds{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:80px 0}
-.sw{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:8px}
+.sw{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:8px}
+.tex,.feat{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;align-items:start}
+.feat{grid-template-columns:repeat(3,1fr)}
+.tex .t{aspect-ratio:4/3;border-radius:12px;border:1px solid var(--line);background-size:cover;background-position:center}
+.tex .t-hl{background:#FBF6EA;display:flex;align-items:center;justify-content:center;padding:12%}
+.tex .t-hl img{width:100%;mix-blend-mode:multiply}
+.tex figcaption,.feat figcaption{font-family:var(--mono);font-size:13px;line-height:20px;color:var(--muted);margin-top:var(--s6)}
+.feat>figure>:first-child{aspect-ratio:4/3;border-radius:12px;background:#e80756 url('../../assets/source-painting/plain_canvas.png') center/cover;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.daisy{border:0;padding:0;cursor:pointer;width:100%}
+.daisy img{position:absolute;pointer-events:none}
+.daisy-bloom{width:40%;left:30%;top:16%;filter:drop-shadow(0 7px 5px rgba(35,18,8,.32));animation:daisy-idle 2400ms ease-in-out infinite;transition:transform 420ms cubic-bezier(.23,1,.32,1)}
+.daisy-label{width:86%;left:7%;top:6%;opacity:0;clip-path:inset(0 100% 0 0);transition:clip-path 500ms cubic-bezier(.23,1,.32,1),opacity 200ms ease}
+.daisy:hover .daisy-label,.daisy:focus-visible .daisy-label{opacity:1;clip-path:inset(0 0 0 0)}
+.daisy:hover .daisy-bloom,.daisy:focus-visible .daisy-bloom{animation:none;transform:scale(1.06) rotate(5deg)}
+.daisy.spin .daisy-bloom{animation:daisy-spin 1100ms linear}
+@keyframes daisy-idle{0%,100%{transform:scale(1) rotate(-1deg)}50%{transform:scale(1.035) rotate(1deg)}}
+@keyframes daisy-spin{to{transform:rotate(360deg)}}
+.sticker img{width:34%;filter:drop-shadow(0 4px 4px rgba(0,0,0,.3));transform:rotate(-8deg)}
+.orb-demo span{font-family:'B-McE',cursive;font-size:24px;color:#fff;padding:14px 28px;border-radius:999px;background:rgba(255,255,255,.18);border:1.5px solid rgba(255,255,255,.4);box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 8px 20px rgba(0,0,0,.18);backdrop-filter:blur(8px)}
+@media (max-width:760px){.tex{grid-template-columns:repeat(2,1fr)}.feat{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.daisy-bloom{animation:none!important}}
 .stills{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;align-items:start}
 .stills img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:12px;border:1px solid var(--line)}
 .stills figcaption,.made figcaption{font-family:var(--mono);font-size:13px;line-height:20px;color:var(--muted);margin-top:var(--s6)}
@@ -95,7 +131,7 @@ pre .k{color:#f4e21f}
 .made .painting{max-width:none}
 .made .painting img{width:100%;aspect-ratio:21/9;object-fit:cover;border-radius:12px}
 .made figure+figure,.made .drawings{margin-top:var(--s3)}
-@media (max-width:760px){.stills{grid-template-columns:repeat(2,1fr)}.made .drawings{grid-template-columns:1fr}}
+@media (max-width:760px){.sw{grid-template-columns:repeat(2,1fr)}.stills{grid-template-columns:repeat(2,1fr)}.made .drawings{grid-template-columns:1fr}}
 .sw .chip{height:96px;border-radius:12px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center}
 .sw p{font-family:var(--mono);font-size:13px;line-height:20px;color:var(--muted);margin-top:8px}
 .why{font-family:var(--mono);font-size:12px;line-height:18px;color:var(--muted);margin-top:4px}
@@ -189,12 +225,13 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
     <a class="live" href="https://mikaela.world" rel="noopener">visit live ↗ mikaela.world</a>
   </div>
   <figure class="art hero-art">
-    <div class="hero-stage">
+    <div class="hero-stage" tabindex="0" role="button" aria-label="Open the hero full size: my note on my childhood journal on my painting">
       <img class="hero-painting" src="assets/00-hero-painting.jpg" alt="Her painting, a hot-pink field of hand-painted flowers" width="1000" height="1333">
       <picture class="hero-journal"><source srcset="assets/00-hero-journal.webp" type="image/webp"><img src="assets/00-hero-journal.png" alt="Her black and white composition book, her name written on the label as a kid, sitting on the painting" width="1000" height="1333"></picture>
       <picture class="hero-page"><source srcset="assets/00-hero-page.webp" type="image/webp"><img src="assets/00-hero-page.png" alt="Her handwritten note, hi!!! i'm mikaela, on grid paper, on top of the book" width="1000" height="1333"></picture>
     </div>
     <figcaption class="cap">the note the site opens on. my hand, my words, no font<br>my real painting, my real childhood journal</figcaption>
+    <p class="hero-hint" aria-hidden="true">hover to lift the note, click to see it full size</p>
   </figure>
   <p class="framing">the first thing you see is a note i wrote by hand, to you. under it is the journal i kept as a kid, drawings and all. the painting in the back is mine, the video inside the book i designed, and the handwriting on the note and in the journal is my own, from now and from when i was a kid. nothing here was picked from a list.</p>
 </header>
@@ -277,12 +314,26 @@ Promise.all(frames.map(<span class="k">function</span>(src){<span class="k">var<
 <!-- 4. the system strip -->
 <section class="ds">
   <div class="wide">
-    <div class="ed" style="margin-bottom:var(--s3)"><h2>the system</h2><p class="intro">three materials, and the real things they come from.</p></div>
+    <div class="ed" style="margin-bottom:var(--s3)"><h2>the system</h2><p class="intro">the site's real colors, textures and moving parts, each taken from something i made or kept.</p></div>
     <span class="hand r2">paper, ink, my hand</span>
     <div class="sw">
+      <div><div class="chip" style="background:#e80756"></div><p>painting pink #e80756</p><p class="why">the ground of my painting, sampled. every page of the site sits on it</p></div>
       <div><div class="chip" style="background:#FBF6EA"></div><p>paper #FBF6EA</p><p class="why">warm, not white. the color of a page that's been kept, not printed</p></div>
       <div><div class="chip" style="background:#22303a"></div><p>ink #22303a</p><p class="why">blue-black ballpoint, never pure black, because no pen is</p></div>
       <div><div class="chip" style="background:#FBF6EA;font-family:'B-McE',cursive;font-size:34px;color:#22303a">mikaela</div><p>b-mce ("mikaela")</p><p class="why">an adopted handwriting font, not my own hand. it sits in the margins; the real handwriting is in the note and the journal</p></div>
+    </div>
+    <span class="hand r1" style="margin-top:var(--s3)">textures you could touch</span>
+    <div class="tex">
+      <figure><div class="t" style="background-image:url('../../assets/source-painting/plain_canvas.png')"></div><figcaption>canvas, from my painting</figcaption></figure>
+      <figure><div class="t" style="background-image:url('../../assets/source-note/FINALPAGE.png');background-size:260%;background-position:60% 70%"></div><figcaption>grid paper, from the note</figcaption></figure>
+      <figure><div class="t" style="background-image:url('assets/00-journal-cover.jpg');background-size:240%;background-position:30% 20%"></div><figcaption>marble cover, from the journal</figcaption></figure>
+      <figure><div class="t" style="background-image:url('assets/09-note-design-highlight.jpg');background-size:cover;background-position:center 75%"></div><figcaption>highlighter, traced over my ink</figcaption></figure>
+    </div>
+    <span class="hand r4" style="margin-top:var(--s3)">features you can poke</span>
+    <div class="feat">
+      <figure><button class="daisy" type="button" aria-label="The see my work daisy, recreated: hover or tap to spin it"><img class="daisy-label" src="../../assets/source-flowers/see-my-work-trimmed.png" alt=""><img class="daisy-bloom" src="../../assets/source-flowers/flower1-cropped.png" alt=""></button><figcaption>the daisy is the "see my work" button. it sways while it waits, the label wipes in on hover, and it spins when you press it</figcaption></figure>
+      <figure><div class="sticker"><img src="../../assets/source-note/starsticker.png" alt="The star sticker from the note" loading="lazy"></div><figcaption>a real sticker, stuck to the note</figcaption></figure>
+      <figure><div class="orb-demo"><span>talk to me</span></div><figcaption>the voice button, glass on the painting. more on it below</figcaption></figure>
     </div>
     <span class="hand r3" style="margin-top:var(--s3)">stills from the real things</span>
     <div class="stills">
@@ -291,6 +342,17 @@ Promise.all(frames.map(<span class="k">function</span>(src){<span class="k">var<
       <figure><img src="assets/11-still-childhood.jpg" alt="A photo of Mikaela as a little girl holding a lunchbox, from the video in the book" loading="lazy" width="900" height="675"><figcaption>a still from the video in the book</figcaption></figure>
       <figure><img src="assets/11-still-working.jpg" alt="Her desk: a laptop full of code, a notebook and a pink mug" loading="lazy" width="900" height="675"><figcaption>a still of my desk, mid-build</figcaption></figure>
     </div>
+  </div>
+</section>
+
+<!-- 4c. the voice agent -->
+<section class="wide voice">
+  <div class="ed">
+    <h2>the voice agent</h2>
+    <span class="hand r2">you can hear me</span>
+    <p class="intro">there's a voice agent of me on the homepage. tap "talk to me" in the corner and you're in a real conversation with an agent that speaks in my voice and answers questions about me and my work.</p>
+    <p>it runs on elevenlabs. the button starts a live session right in the browser, no app and no sign up. the glass ring breathes while it connects, pulses while it's listening, and quickens while it talks, so you always know whose turn it is. the same button ends the call.</p>
+    <p class="logic">a portfolio is usually something you read. i wanted one part of it to talk back, because if i'm going to say "this is me," it should be all the way.</p>
   </div>
 </section>
 
@@ -318,8 +380,36 @@ Promise.all(frames.map(<span class="k">function</span>(src){<span class="k">var<
 
 <script>
 document.body.classList.remove('no-js');
+document.querySelectorAll('.daisy').forEach(function(d){ d.addEventListener('click', function(){ d.classList.remove('spin'); void d.offsetWidth; d.classList.add('spin'); }); d.addEventListener('animationend', function(){ d.classList.remove('spin'); }); });
 const io = 'IntersectionObserver' in window ? new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -8% 0px' }) : null;
 document.querySelectorAll('.art').forEach(el => io ? io.observe(el) : el.classList.add('in'));
+</script>
+<script>
+/* hero: layers drift at different depths under the pointer; click opens it full size */
+(function(){
+  var st = document.querySelector('.hero .hero-stage'); if (!st) return;
+  var calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!calm && matchMedia('(hover:hover)').matches) {
+    st.addEventListener('pointermove', function(e){
+      var r = st.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+      [[0,-8],[1,10],[2,22]].forEach(function(l){ st.style.setProperty('--px' + l[0], (x * l[1]) + 'px'); st.style.setProperty('--py' + l[0], (y * l[1]) + 'px'); });
+    });
+    st.addEventListener('pointerleave', function(){ [0,1,2].forEach(function(i){ st.style.removeProperty('--px' + i); st.style.removeProperty('--py' + i); }); });
+  }
+  function open(){
+    var lb = document.createElement('div'); lb.className = 'lb'; lb.setAttribute('role','dialog'); lb.setAttribute('aria-modal','true'); lb.setAttribute('aria-label','the hero, full size');
+    var c = st.cloneNode(true); c.removeAttribute('tabindex'); c.removeAttribute('role'); c.style.cssText = '';
+    var x = document.createElement('button'); x.className = 'lb-x'; x.setAttribute('aria-label','close');
+    x.innerHTML = window.ccArrow ? '<svg viewBox="0 0 40 40" aria-hidden="true"><path d="M8.5 9.2c3.1 2.6 6.4 6.3 9.6 9.4 3.3 3.4 7.6 7.9 13.4 12.6"/><path d="M31.4 7.8c-2.4 2.9-5.6 6.4-8.9 9.9-3.9 4.1-8.4 8.5-13.6 13.5"/></svg>' : 'close';
+    lb.appendChild(c); lb.appendChild(x); document.body.appendChild(lb); document.body.style.overflow = 'hidden';
+    requestAnimationFrame(function(){ lb.classList.add('on'); }); x.focus();
+    function close(){ lb.remove(); document.body.style.overflow = ''; document.removeEventListener('keydown', key); st.focus({preventScroll:true}); }
+    function key(e){ if (e.key === 'Escape') close(); }
+    lb.addEventListener('click', close); document.addEventListener('keydown', key);
+  }
+  st.addEventListener('click', open);
+  st.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
+})();
 </script>
 <script src="../case-chrome.js" data-notebook="../../index.html#work-index" data-prev="../winged-max/index.html" data-prev-name="winged max"></script>
 </body>
