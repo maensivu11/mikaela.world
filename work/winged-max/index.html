@@ -212,9 +212,9 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
   <div class="hero-head">
     <div>
       <h1>winged max</h1>
-      <p class="claim">winged max is the agent running entirely on your own mac. it mirrors your iphone, learns your taste, and acts on your behalf locally.</p>
-      <p class="claim">i'm the design engineer &amp; founder. i designed it and built it.</p>
-      <p class="stage">stage: working build, unfinished interface. this page shows how it works, not how it looks.</p>
+      <p class="claim">winged max is the winged agent running entirely on your own mac. it mirrors your iphone, learns your taste and acts for you, locally.</p>
+      <p class="claim">design engineer. i designed it and made it agentic.</p>
+      <p class="stage">this page shows the part that has to be right first: what the agent may do, and when.</p>
     </div>
     <img src="assets/winged-max-logo.png" alt="The Winged Max logo, a silver chrome wing" width="64" height="64">
   </div>
@@ -232,17 +232,15 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
 }</pre>
   </div>
   <p class="cap"><span class="mk-l">1</span>taste is 80% of every autonomous decision &nbsp; <span class="mk-l">2</span>no data stays "no data", never a fake middle score · excerpt from the repo, comments shortened</p>
-  <p class="logic">what you actually swipe on is evidence. what you write in a brief is a guess about yourself. and a fake 0.5 would let the agent act on nothing and call it a decision.</p>
+  <p class="logic">what you swipe on is evidence. what you write in a brief is a guess about yourself.</p>
 </header>
 
 <!-- 2. the idea -->
 <section class="prose">
   <h2>the idea</h2>
-  <p class="intro">dating apps are a second job. the deciding part takes seconds. the swiping, the reading, the opening lines and finding a thursday that works take hours. so the pitch was short: an agent that does the labor, while you stay the one who decides.</p>
-  <p>winged max is a macos app that mirrors your iphone on your mac and operates the dating apps inside that window. no scraping, no fake account. it's your hinge, on your phone, under your account, driven by something that learned what you like, where you can watch it work.</p>
-  <div class="hers">the deciding part takes seconds. the rest takes hours. max is built around that gap, and the decision stays on your side of it.</div>
-  <div class="hers">before max, winged was the agent that texts and calls to set up your dates. max takes the same split into your own phone screen. the agent does the labor, you decide.</div>
-  <div class="hers">the interface isn't finished and i'm not going to dress it up. the part that has to be right first is the mechanism: what the agent may do, when it earns more, and what it can never do. a pretty screen on top of a wrong permission is the worst version of this product. so this page shows the permissions.</div>
+  <p class="intro">the deciding part of dating apps takes seconds. the swiping, the reading, the opening lines and finding a thursday that works take hours. winged max does the hours, and you keep the seconds.</p>
+  <p>it's a macos app that mirrors your iphone and works the dating apps inside that window. no scraping and no fake account: it's your hinge, on your phone, under your account, driven by something that learned what you like, where you can watch it.</p>
+  <div class="hers">winged sets up your dates over text and calls. max brings the same deal to your own phone screen: the agent does the labor, you decide.</div>
 </section>
 
 <!-- 3. the system: the numbers that carry the product -->
@@ -250,17 +248,17 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
   <div class="wide">
     <div class="ds-intro ed">
     <h2>the system</h2>
-      <p class="intro">winged max doesn't have a finished visual system yet. its real design system is a handful of numbers, each one a decision about how much the agent may do on your behalf.</p>
+      <p class="intro">the design system here is a handful of numbers, and each one decides how much the agent may do for you.</p>
     </div>
     <span class="hand r1">every number is a permission</span>
     <div class="knobs">
       <div class="knob"><b>0.8 / 0.2</b><p class="what">taste vs. stated preferences</p><p class="why">what you chose outweighs what you said you'd choose</p></div>
       <div class="knob"><b>120 days</b><p class="what">rating half-life</p><p class="why">taste moves; the model tracks who you are now</p></div>
-      <div class="knob"><b>×3</b><p class="what">weight of a correction</p><p class="why">overruling the agent is the most informative thing you do</p></div>
+      <div class="knob"><b>×3</b><p class="what">weight of a correction</p><p class="why">overruling the agent teaches it the most</p></div>
       <div class="knob"><b>50 · AUC &gt; 0.6</b><p class="what">to unlock autopilot</p><p class="why">it has to predict ratings it never saw, better than a coin flip</p></div>
       <div class="knob"><b>25 a day</b><p class="what">unattended actions, default</p><p class="why">a bad night stays small</p></div>
       <div class="knob"><b>≥ 0.72 · ≤ 0.35</b><p class="what">auto-like · auto-pass</p><p class="why">the agent acts only when it's sure; the middle stays yours</p></div>
-      <div class="knob"><b>0</b><p class="what">messages sent without you</p><p class="why">a wrong like costs nothing; a wrong message costs trust</p></div>
+      <div class="knob"><b>0</b><p class="what">messages sent without you</p><p class="why">a wrong like costs nothing. a wrong message costs trust.</p></div>
       <div class="knob"><b>on the mac</b><p class="what">ratings, reasons, taste model</p><p class="why">your taste stays yours: it never leaves the machine</p></div>
     </div>
     <div class="curve">
@@ -279,7 +277,7 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
       </div>
       <div>
         <p class="why" style="font-size:13px;line-height:20px">weight = max(0.5<sup>age/120</sup>, 0.15) × (corrected ? 3 : 1)</p>
-        <p class="why">old ratings fade but never vanish: the early corpus is the only evidence of long-standing taste. drawn from RatingWeightPolicy.swift, axis from zero.</p>
+        <p class="why">old ratings fade but never vanish, so your long-standing taste keeps a vote. drawn from the code, axis from zero.</p>
       </div>
     </div>
   </div>
@@ -289,7 +287,7 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
 <section class="wide">
   <div class="ed" style="margin:0 0 var(--s3)">
     <h2>how the agent works</h2>
-    <p class="intro">an agent that sees who you find attractive and writes as you has to earn trust mechanically, not with copy. three rules, each enforced in code: the human confirms anything consequential, autonomy is earned and revocable, and your taste stays yours.</p>
+    <p class="intro">an agent that sees who you find attractive and writes as you has to earn trust in the mechanism. three rules, each enforced in code: you confirm anything consequential, autonomy is earned and can be taken back, and your taste stays on your mac.</p>
   </div>
 
   <div class="mech">
@@ -305,12 +303,11 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
           <li><span class="i">6</span><span>act or ask<span class="d">like, pass, or hand it back to you</span></span></li>
         </ol>
       </div>
-      <p class="cap">one profile through the agent · the profile is the synthetic test fixture, not a real person</p>
+      <p class="cap">one profile through the agent · a synthetic test profile</p>
     </div>
     <div class="note">
-      <span class="hand r3">you can watch it work</span><p>it works inside your real app, where you can watch.</p>
-      <p>winged max drives apple's iphone mirroring, so the agent sees and taps the same window you would. that was a product choice as much as a technical one: an agent you can watch is one you can trust with your account. only one step leaves the mac, reading facts off a profile screenshot. i documented exactly what leaves and what doesn't.</p>
-      <p>mirroring needs macos 15 and isn't available in the eu, so availability, not capture, was the real constraint.</p>
+      <span class="hand r3">you can watch it work</span><p>it works inside your real app.</p>
+      <p>winged max drives apple's iphone mirroring, so the agent sees and taps the same window you would. an agent you can watch is one you can trust with your account. one step leaves the mac, reading facts off a screenshot, and i documented exactly what leaves and what stays.</p>
     </div>
   </div>
 
@@ -331,15 +328,15 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
         </div>
         <div class="meter"><i id="r-m"></i></div>
       </div>
-      <p class="cap">live recreation of the autonomy ladder · states and thresholds from the repo, values illustrative</p>
+      <p class="cap">the autonomy ladder, recreated live · states and thresholds from the code</p>
     </div>
     <div class="note">
       <span class="hand r4">earned, and taken back</span><p>autonomy is a ladder, not a toggle.</p>
-      <p>the agent starts with no permission at all. after enough ratings a small model is fitted on the mac, and it only unlocks auto-like and auto-pass if it predicts choices it was never shown better than chance. even then it acts only at the confident ends, under a daily cap. if the model goes invalid, autopilot is taken away and the app says so.</p>
+      <p>the agent starts with no permission at all. after enough ratings, a small model is fitted on your mac, and auto-like and auto-pass unlock only if it predicts choices it was never shown better than chance. it acts only at the confident ends, under a daily cap, and if the model stops holding up, autopilot goes back off and the app tells you.</p>
       <div class="code" style="margin-top:20px"><pre><span class="k">public var</span> unlocksAgent: Bool {
     validationCount >= <span class="n">50</span> &amp;&amp; auc > <span class="n">0.6</span>
 }</pre></div>
-      <p class="cap">AttractionClassifier.swift · every rating contributes one prediction from a model that never saw it</p><p class="logic">a model graded on profiles it trained on can pass by memorizing you. grading it only on ones it never saw is the honest test. a toggle would skip the test entirely, and an agent that can be switched on can't be earned.</p>
+      <p class="cap">the unlock rule, from the code</p><p class="logic">a model graded on profiles it trained on can pass by memorizing you, so it's graded only on ones it never saw. you can't switch trust on. it has to be earned.</p>
     </div>
   </div>
 
@@ -361,8 +358,8 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
     </div>
     <div class="note">
       <span class="hand r1">corrections count triple</span><p>training refits on every rating, and listens hardest to corrections.</p>
-      <p>watch mode ("learn while i browse") turns a habit you already have into training. you browse hinge as usual. winged captures each profile as you scroll and asks three short questions: your visual reaction, like or pass, and a reason.</p>
-      <p>i separated "not my type" from "wrong life plans", so passing on someone who doesn't want kids never teaches the model you don't find them attractive.</p><p class="logic">a half-life with a floor, not a cutoff: a hard window would forget your long-standing taste the day it turned old. the floor keeps the early ratings as a quiet vote. and a correction counts triple because the moment you overrule the agent is the only moment it learns it was wrong.</p>
+      <p>watch mode, "learn while i browse," turns a habit you already have into training. you browse hinge as usual, and winged captures each profile and asks three quick things: your first reaction, like or pass, and why.</p>
+      <p>"not my type" and "wrong life plans" are separate answers, so passing on someone who doesn't want kids never teaches the model you don't find them attractive.</p><p class="logic">a half-life with a floor keeps your early ratings as a quiet vote instead of forgetting them on a cutoff date.</p>
     </div>
   </div>
 
@@ -379,12 +376,12 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
     ...
 }</pre>
       </div>
-      <p class="cap"><span class="mk-l">1</span>until delivery can be proved, "send" is an error, not an action · excerpt, body shortened</p>
+      <p class="cap"><span class="mk-l">1</span>approving a draft does not send it · excerpt, body shortened</p>
     </div>
     <div class="note">
       <span class="hand r2">approve is not send</span><p>drafts are review-first. sending fails closed.</p>
-      <p>the agent writes in your voice. three style answers (emoji, formality, reply length) are enforced on every draft, and writing samples or a consent-gated scan of your own past messages teach the rest. but in the build i audited, no message could leave the machine. approving a draft is not sending it, and the code refuses to pretend otherwise.</p><p class="logic">until delivery can be proved, an agent that says "sent" might be lying to you. an error is honest. a fake success isn't.</p>
-      <div class="hers">this is the call i'd defend to anyone. no message leaves without you. a wrong like costs nothing. a wrong message costs trust, in your name, to a real person. approving a draft is not sending it, and i won't let the code pretend it is.</div>
+      <p>the agent writes in your voice. three style answers (emoji, formality, reply length) shape every draft, and your own writing samples teach the rest. no message leaves the mac without you.</p>
+      <div class="hers">this is the call i'd defend to anyone. a wrong message costs trust, in your name, to a real person, so approving a draft never sends it.</div>
     </div>
   </div>
 </section>
@@ -392,21 +389,21 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
 <!-- 5. the audit: the instrument -->
 <section class="wide">
   <div class="ed">
-    <h2>the audit</h2>
-    <p class="intro">i traced every training input end to end, from the screen to the decision. sixteen inputs, each followed until i could say exactly what it changes in what the agent does.</p>
+    <h2>auditing my own product</h2>
+    <p class="intro">i trace an agent's training end to end, from the screen to the decision. here that meant sixteen inputs, each followed until i could say exactly what it changes in what the agent does.</p>
   </div>
   <div class="art" style="margin-top:var(--s3)">
-    <div class="inputs" aria-label="16 training inputs: 7 change behavior, 4 open gates, 5 not wired in yet">
+    <div class="inputs" aria-label="16 training inputs: 7 change behavior, 4 open gates, 5 ready to connect">
       <i class="a"></i><i class="a"></i><i class="a"></i><i class="a"></i><i class="a"></i><i class="a"></i><i class="a"></i>
       <i class="g"></i><i class="g"></i><i class="g"></i><i class="g"></i>
       <i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i>
     </div>
-    <div class="ilab"><span>7 change behavior</span><span>4 open gates</span><span>5 not wired in yet</span></div>
-    <p class="cap">about 16 inputs, traced from the screen to the decision · approximate counts from the trace</p>
+    <div class="ilab"><span>7 change behavior</span><span>4 open gates</span><span>5 ready to connect</span></div>
+    <p class="cap">sixteen inputs, traced from the screen to the decision</p>
   </div>
   <div class="ed" style="margin-top:var(--s3)">
-    <p>the trace paid for itself fast. it showed that the mandatory "why" on all 50 ratings is stored and waiting for a reader, and that the inspect-and-correct strip, the one screen where you can see what the model learned about you and correct it, is already in the code and never renders. human-in-the-loop training isn't collecting input. it's showing people what the machine concluded and letting them argue with it. that surface is the loop, and now i know exactly where it plugs in.</p>
-    <div class="hers">this is the part of the case i'm proudest of. i can follow every input to the decision it changes, and i know where the loop closes: the screen where someone sees what the agent concluded and argues back. i built the trace that shows it.</div>
+    <p>the trace showed me where the loop closes. the "why" behind every rating is already stored, and the screen where you see what the model learned and correct it is already in the code. human-in-the-loop training is showing people what the machine concluded and letting them argue with it.</p>
+    <div class="hers">this is the part i'm proudest of. i can follow every input to the decision it changes.</div>
   </div>
 
   <div class="mech" style="margin-top:var(--s2)">
@@ -425,15 +422,14 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
       <p class="cap"><span class="mk-l">1</span>a 48-pixel thumbnail &nbsp; <span class="mk-l">2</span>a 1% change counts as a new screen: an autoplay video or the clock ticking is enough</p>
     </div>
     <div class="note">
-      <span class="hand r2">a ticking clock is not a new profile</span><p>start from what i felt as a user, then prove it in the code.</p>
-      <p>i used winged max like a new user and wrote down everything that felt off. a screen counter that climbed while my phone sat still. a "connected" state that never turned false. an agent that said "try again" when the truth was "hinge isn't installed."</p>
-      <p>then i treated each one as a fixture, not a complaint, and had the code explain it. the climbing counter is on the left.</p><p class="logic">the idea was sound: compare screens cheaply before paying for inference. the threshold was the bug. at 1% of a thumbnail, anything moving looks like a new screen.</p>
+      <span class="hand r2">a ticking clock is not a new profile</span><p>start from what i felt as a user, then find it in the code.</p>
+      <p>i use my own product like a new user and write down everything that feels off, like a screen counter that climbed while my phone sat still. then i trace each one to its line. here it was a threshold: at 1% of a tiny thumbnail, a ticking clock looks like a new screen.</p>
     </div>
   </div>
 
   <div class="art" style="margin-top:var(--s2)">
     <div class="funnel">
-      <div><b>13</b><span>things I caught as a user</span></div>
+      <div><b>13</b><span>things i felt as a user</span></div>
       <div><b>67</b><span>findings, each with file and line</span></div>
       <div><b>62</b><span>tasks, one plain verb each</span></div>
     </div>
@@ -444,36 +440,32 @@ section.prose>h2+*,.ed>h2+*,section.prose>h2+.hand+*,.ed>h2+.hand+*,.ed>:first-c
       <span>onboarding</span><div class="b" style="width:calc((100% - 40px) * 11/20)"><em>11</em></div>
       <span>preferences</span><div class="b" style="width:calc((100% - 40px) * 2/20)"><em>2</em></div>
     </div>
-    <p class="cap">the 62 tasks by area, one scale</p>
+    <p class="cap">the tasks by area, one scale</p>
   </div>
   <div class="ed" style="margin-top:var(--s3)">
-    <p>three code auditors ran in parallel, each in its own lane: onboarding and connection, agent logic, and a simplicity sweep against my own style guide. a fourth went under the ui into the mirroring layer. every finding needed a file and line. anything only provable on a live phone was labeled a hypothesis. a second round caught the app screenshotting and calling paid inference every 5 seconds on a static screen, about 720 calls an hour.</p>
-    <div class="hers">the auditors were ai agents reading the repo. i set the lanes, the fixtures and the bar: my thirteen defects first, a file and line for every finding, and anything only provable on a live phone marked a hypothesis. they found things. i decided what mattered.</div>
+    <p>i ran ai agents as code auditors, each in its own lane: onboarding and connection, agent logic, the mirroring layer, and a simplicity sweep against my own style guide. i set the lanes and the bar: my own findings first, a file and line for every claim, and anything only provable on a live phone labeled a hypothesis. they found things. i decided what mattered.</p>
     <ul class="disc" style="margin-top:var(--s4)">
       <li>every claim has a receipt, every guess is labeled a guess</li>
       <li>one defect, one task, one plain sentence anyone on the team can pick up</li>
       <li>keep the design calls that are actually mine, and hand off the rest</li>
     </ul>
-    <div class="hers">what came out was a board, not a report. 62 tasks, each a plain verb with a root cause and a proposed owner. i kept one for myself as design direction: rebuilding matching preferences as one page. the order was safety first.</div>
+    <div class="hers">what came out was a board of tasks, each a plain verb with a root cause and an owner, ordered safety first. i kept one for myself: rebuilding matching preferences as one page.</div>
   </div>
 </section>
 
 <!-- 6. my design laws -->
 <section class="prose lessons">
   <h2>my design laws for agentic products</h2>
-  <p>tracing the training loop left me with these. i design by them now.</p>
+  <p>i design by these now.</p>
   <p><b>show the agent's conclusions, not just its inputs.</b> if people train something, they need to see what it learned and correct it. that surface is the loop.</p>
-  <p><b>never ask for input you won't use.</b> fifty forced justifications that nothing reads burn exactly the goodwill training depends on.</p>
-  <p><b>honest state beats optimistic state.</b> "connected" has to go false when it's false. a counter has to count the thing it names.</p>
-  <p><b>price the work up front.</b> training is roughly an hour of careful rating before anything changes. say so on the first screen.</p>
-  <div class="hers">i carried these into the agentic products i built after this one. if the agent concludes something about a person, show it and let them argue with it.</div>
+  <p><b>only ask for input you'll use.</b> every question you ask spends the goodwill training runs on.</p>
+  <p><b>honest state over optimistic state.</b> "connected" goes false when it's false, and a counter counts the thing it names.</p>
+  <p><b>price the work up front.</b> training takes about an hour of careful rating before anything changes, so the first screen says so.</p>
 </section>
 
 <footer class="wide">
   <div class="built mono">
-    <p><span>stage</span> · working macos build, interface unfinished</p>
-    <p><span>source</span> · winged-max repo (private); excerpts quoted, comments shortened</p>
-    <p><span>evidence</span> · 62-task audit board, receipts per task</p>
+    <p><span>source</span> · winged max repo, private · excerpts quoted, comments shortened</p>
   </div>
 </footer>
 
