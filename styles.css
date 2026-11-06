@@ -44,7 +44,9 @@
   .painting-hotspot-layer,.hotspot-layer{position:absolute;inset:0;display:block;width:100%;height:100%;pointer-events:none}
   .painting-hotspot-layer{z-index:4}
   .hotspot-layer{z-index:6}
-  .layer-book{position:absolute;left:5.69%;top:1.33%;width:67.34%;height:auto;transform-origin:60% 90%;z-index:5;will-change:transform;touch-action:none;user-select:none}
+  .layer-book{position:absolute;left:5.69%;top:1.33%;width:67.34%;height:auto;transform-origin:60% 90%;z-index:5;touch-action:none;user-select:none}
+  .layer-book.is-dragging,.layer-book.has-intro-transition{will-change:transform}
+  .mapped-hot .mapped-shuffle{will-change:transform;contain:paint}
   .layer-book.has-intro-transition{transition:transform 900ms var(--ease-out)}
   .layer-book.is-moved{transform:translate(-9%,12%) rotate(-8deg)}
   .layer-book.is-dragging{cursor:grabbing;transition:none}
