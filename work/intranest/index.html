@@ -116,6 +116,14 @@ footer,footer.wide{margin-top:var(--gap);border-top:1px solid var(--line);paddin
 /* phone visitors: every embed renders its own mobile layout at a real phone width, in a phone-shaped frame */
 .frame picture{display:contents}
 @media (max-width:600px){.hero .frame{flex:none;aspect-ratio:390/844}.hero .w98{flex:none}}
+/* desktop: in-page embeds sit on a clean macbook, not a nested win98 window (mikaela, 00:59) */
+@media (min-width:601px){
+  .hero .w98{position:relative;border:0;border-color:transparent;background:#17171a;box-shadow:0 28px 56px rgba(0,0,0,.18);padding:14px 14px 16px;border-radius:16px 16px 0 0;margin-bottom:26px}
+  .hero .w98 .w98-bar,.hero .w98 .w98-addr{display:none}
+  .hero .w98 .frame{border:1px solid #000!important;border-radius:5px!important;box-shadow:none!important}
+  .hero .w98::before{content:"";position:absolute;top:6px;left:50%;transform:translateX(-50%);width:5px;height:5px;border-radius:50%;background:#2f2f35;z-index:2}
+  .hero .w98::after{content:"";position:absolute;left:-4.5%;right:-4.5%;bottom:-13px;height:13px;background:#232327;border-radius:3px 3px 12px 12px;box-shadow:0 10px 24px rgba(0,0,0,.2)}
+}
 /* phone visitors: the mobile embed sits in a clean iphone, not a browser window (mikaela, 11-06) */
 @media (max-width:600px){
   .hero .w98{border:0;background:none;box-shadow:none;padding:0;margin:4px 10px 6px}
