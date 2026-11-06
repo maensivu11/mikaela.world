@@ -155,14 +155,35 @@
         srcDesc.set.call(this, v);
       }
     });
-    document.addEventListener('keydown', function (e) {
-      if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.altKey) return;
-      var t = e.target, tag = t && t.tagName;
-      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || (t && t.isContentEditable)) return;
-      if (document.querySelector('.lb, [aria-modal="true"]')) return;
-      var k = e.key === 'Escape' ? 'esc' : e.key === 'ArrowLeft' ? 'prev' : e.key === 'ArrowRight' ? 'next' : '';
-      if (k) { e.preventDefault(); parent.postMessage({ ww: k }, location.origin); }
-    });
+    /* windows hotkeys work wherever focus sits inside the case page, its embeds included:
+       left/right and alt+left/right (cmd+[ / cmd+] on mac) = previous/next case, f5 and ctrl/cmd+r = refresh,
+       ctrl+w = close, esc = minimize. plain arrows and esc are left alone while typing in a field. */
+    var wwKey = function (e) {
+      var k = e.key, typing = false, t = e.target, tag = t && t.tagName, doc = (t && t.ownerDocument) || document;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || (t && t.isContentEditable)) typing = true;
+      if (k === 'F5' || ((e.ctrlKey || e.metaKey) && !e.altKey && (k === 'r' || k === 'R'))) return 'refresh';
+      if (e.ctrlKey && !e.metaKey && !e.altKey && (k === 'w' || k === 'W')) return 'close';
+      if ((e.altKey && !e.ctrlKey && !e.metaKey && k === 'ArrowLeft') || (e.metaKey && k === '[')) return 'prev';
+      if ((e.altKey && !e.ctrlKey && !e.metaKey && k === 'ArrowRight') || (e.metaKey && k === ']')) return 'next';
+      if (e.metaKey || e.ctrlKey || e.altKey || typing) return '';
+      if (doc.querySelector('.lb, [aria-modal="true"]')) return '';
+      return k === 'Escape' ? 'esc' : k === 'ArrowLeft' ? 'prev' : k === 'ArrowRight' ? 'next' : '';
+    };
+    var wwListen = function (win) {
+      try {
+        if (!win || !win.document || win.document.__wwKeys) return;
+        win.document.__wwKeys = true;
+        win.document.addEventListener('keydown', function (e) {
+          var a = wwKey(e);
+          if (a) { e.preventDefault(); e.stopPropagation(); parent.postMessage({ ww: a }, location.origin); }
+        }, true);
+        /* same-origin embeds (the live app captures) get the same listener as they load */
+        var hook = function (f) { var on = function () { try { wwListen(f.contentWindow); } catch (err) {} }; f.addEventListener('load', on); on(); };
+        Array.prototype.forEach.call(win.document.querySelectorAll('iframe'), hook);
+        new win.MutationObserver(function (ms) { ms.forEach(function (m) { Array.prototype.forEach.call(m.addedNodes, function (n) { if (n.tagName === 'IFRAME') hook(n); else if (n.querySelectorAll) Array.prototype.forEach.call(n.querySelectorAll('iframe'), hook); }); }); }).observe(win.document.documentElement, { childList: true, subtree: true });
+      } catch (err) { /* cross-origin embed: its own keys stay its own */ }
+    };
+    wwListen(window);
   }
   if (!inWin) link('cc-top', d.notebook || '../../index.html#work-index', ARROW.up + '<span>notebook</span>', '', 'back to the notebook');
   /* prev/next live in one nav: fixed at the screen edges on desktop, an in-flow pager at the page end on phones */

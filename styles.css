@@ -374,9 +374,9 @@ body{display:grid;min-height:100svh;place-items:center;overflow-x:hidden;backgro
 }
 
 /* ===== Work window: a windows 98 browser that opens from the click point (script.js w98 window) ===== */
-.ww-dim{position:fixed;inset:0;z-index:110;background:rgba(0,0,40,.38);opacity:0;pointer-events:none;transition:opacity 160ms linear}
+.ww-dim{position:fixed;inset:0;z-index:5000;background:rgba(0,0,40,.38);opacity:0;pointer-events:none;transition:opacity 160ms linear}
 .ww-dim.on{opacity:1;pointer-events:auto}
-.ww{position:fixed;z-index:111;display:none;flex-direction:column;box-sizing:border-box;min-width:0;border:2px solid;border-color:#dfdfdf #000 #000 #dfdfdf;box-shadow:inset 1px 1px 0 #fff,inset -1px -1px 0 #808080;background:#c0c0c0;padding:3px;color:#000;font:11px/1.2 Tahoma,"MS Sans Serif","Microsoft Sans Serif",Geneva,Verdana,sans-serif;letter-spacing:0;text-transform:none;user-select:none;-webkit-user-select:none;touch-action:none}
+.ww{position:fixed;z-index:5001;isolation:isolate;display:none;flex-direction:column;box-sizing:border-box;min-width:0;border:2px solid;border-color:#dfdfdf #000 #000 #dfdfdf;box-shadow:inset 1px 1px 0 #fff,inset -1px -1px 0 #808080;background:#c0c0c0;padding:3px;color:#000;font:11px/1.2 Tahoma,"MS Sans Serif","Microsoft Sans Serif",Geneva,Verdana,sans-serif;letter-spacing:0;text-transform:none;user-select:none;-webkit-user-select:none;touch-action:none}
 .ww.open{display:flex}
 .ww *{box-sizing:border-box}
 .ww-bar{height:20px;flex:none;display:flex;align-items:center;gap:4px;padding:0 2px 0 3px;background:linear-gradient(90deg,#000080,#1084d0);color:#fff;font-weight:bold;cursor:default}
@@ -441,7 +441,7 @@ body{display:grid;min-height:100svh;place-items:center;overflow-x:hidden;backgro
 .ww-h[data-e="sw"]{left:-5px;bottom:-5px;width:12px;height:12px;cursor:nesw-resize}
 .ww.max{border-width:0;padding:0;box-shadow:none}
 .ww.max .ww-h,.ww.max .ww-grip{display:none}
-.ww-task{position:fixed;left:0;right:0;bottom:0;z-index:112;height:28px;display:none;align-items:center;gap:4px;padding:2px 2px 0;background:#c0c0c0;box-shadow:inset 0 1px 0 #dfdfdf,inset 0 2px 0 #fff;font:11px Tahoma,"MS Sans Serif",Geneva,sans-serif;color:#000}
+.ww-task{position:fixed;left:0;right:0;bottom:0;z-index:5002;height:28px;display:none;align-items:center;gap:4px;padding:2px 2px 0;background:#c0c0c0;box-shadow:inset 0 1px 0 #dfdfdf,inset 0 2px 0 #fff;font:11px Tahoma,"MS Sans Serif",Geneva,sans-serif;color:#000}
 .ww-task.on{display:flex}
 .ww-task button{height:22px;display:flex;align-items:center;gap:4px;padding:0 6px 0 4px;border:0;background:#c0c0c0;font:inherit;color:#000;box-shadow:inset -1px -1px 0 #000,inset 1px 1px 0 #fff,inset -2px -2px 0 #808080,inset 2px 2px 0 #dfdfdf;cursor:default}
 .ww-task button:active{box-shadow:inset 1px 1px 0 #000,inset -1px -1px 0 #fff,inset 2px 2px 0 #808080,inset -2px -2px 0 #dfdfdf}
@@ -497,7 +497,7 @@ body{display:grid;min-height:100svh;place-items:center;overflow-x:hidden;backgro
 .ww-go:hover{border-color:#fff #808080 #808080 #fff}
 .ww-go:active{border-color:#808080 #fff #fff #808080}
 .ww-task .ww-start.act{box-shadow:inset 1px 1px 0 #000,inset -1px -1px 0 #fff,inset 2px 2px 0 #808080,inset -2px -2px 0 #dfdfdf}
-.ww-menu98{position:fixed;left:2px;bottom:27px;z-index:113;display:flex;background:#c0c0c0;box-shadow:inset -1px -1px 0 #000,inset 1px 1px 0 #dfdfdf,inset -2px -2px 0 #808080,inset 2px 2px 0 #fff;padding:3px}
+.ww-menu98{position:fixed;left:2px;bottom:27px;z-index:5003;display:flex;background:#c0c0c0;box-shadow:inset -1px -1px 0 #000,inset 1px 1px 0 #dfdfdf,inset -2px -2px 0 #808080,inset 2px 2px 0 #fff;padding:3px}
 /* the menu stays rendered on its own compositor layer and only flips visibility: opening it must not create or tear down a layer over the page's webgl/iframe layers (that recomposite flashes the whole screen on mac) */
 .ww-menu98{will-change:transform;transform:translateZ(0);contain:layout paint style}
 .ww-menu98[hidden]{display:flex;visibility:hidden;pointer-events:none}
@@ -512,3 +512,6 @@ body{display:grid;min-height:100svh;place-items:center;overflow-x:hidden;backgro
 
 /* the desk never rubber-bands: on mac trackpads and ios, overscroll moved the in-flow composition book while the fixed painting stayed put, so the book popped out of the scene */
 html,body{overscroll-behavior:none}
+
+/* while the window fills the screen nothing behind it paints at all: no notebook or desk layer can surface through it mid-scroll (mac compositor) */
+html.ww-full #m-workindex .wi-sheet,html.ww-full .stage,html.ww-full #bg-canvas{visibility:hidden}

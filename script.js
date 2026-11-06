@@ -949,12 +949,14 @@ document.querySelectorAll('[data-ext-href]').forEach(function(el){
     r.x=Math.max(0,Math.min(r.x,W-r.w));r.y=Math.max(0,Math.min(r.y,H-r.h));return r;
   }
   function defRect(){var W=vw(),H=vh(),ww=Math.min(1120,W-96),hh=Math.min(820,H-72);return {x:Math.round((W-ww)/2),y:Math.round((H-hh)/2),w:ww,h:hh};}
+  function fullSync(){document.documentElement.classList.toggle('ww-full',state==='open'&&(isMax||mobile()));}
   function applyGeom(){
     // desktop keeps the taskbar on screen under a maximized window, like windows 98
     if(mobile()||isMax){w.classList.add('max');place({x:0,y:0,w:vw(),h:vh()-(mobile()?0:TASK_H)});}
     else{w.classList.remove('max');rect=clamp(rect||defRect());place(rect);}
     bMax.innerHTML=(isMax||mobile())?SV.rest:SV.max;bMax.setAttribute('aria-label',isMax?'restore':'maximize');bMax.title=isMax?'Restore':'Maximize';
     bMax.disabled=mobile();
+    fullSync();
   }
   function status(t){msgEl.textContent=t;}
   function setChrome(i,docTitle){
@@ -1033,7 +1035,7 @@ document.querySelectorAll('[data-ext-href]').forEach(function(el){
     if(state==='closed')return;
     var i=cur,p=(i>=0&&cases[i].link.getClientRects().length)?entryPoint(i):(origin||{x:vw()/2,y:vh()/2});
     var wasMin=state==='min';
-    state='closed';taskSync();dim.classList.remove('on');
+    state='closed';taskSync();dim.classList.remove('on');fullSync();
     var end=function(){
       w.classList.remove('open','loading');finishLoad();freshFrame();cur=-1;
       if(i>=0){var l=cases[i].link;l.classList.add('ww-from');l.focus({preventScroll:true});setTimeout(function(){l.classList.remove('ww-from');},1400);}
@@ -1043,7 +1045,7 @@ document.querySelectorAll('[data-ext-href]').forEach(function(el){
   }
   function minimize(){
     if(state!=='open')return;
-    state='min';clock();taskSync();dim.classList.remove('on');
+    state='min';clock();taskSync();dim.classList.remove('on');fullSync();
     var r=tb.getBoundingClientRect();
     grow(r.left+r.width/2,r.top+r.height/2,true,function(){if(state==='min'){w.classList.remove('open');tb.focus({preventScroll:true});}});
   }
@@ -1118,11 +1120,20 @@ document.querySelectorAll('[data-ext-href]').forEach(function(el){
   $('.ww-bar').addEventListener('dblclick',function(e){if(!e.target.closest('button'))toggleMax();});
   Array.prototype.forEach.call(w.querySelectorAll('[data-e]'),function(h){h.addEventListener('pointerdown',function(e){grab(e,h.getAttribute('data-e'));});});
   window.addEventListener('resize',function(){if(state!=='closed'){applyGeom();taskSync();}});
+  function hot(a){if(state!=='open')return;if(a==='prev')go(-1);else if(a==='next')go(1);else if(a==='refresh'){if(cur>=0)load(cur);}else if(a==='close')close();}
   // keys: esc minimizes / restores before anything else; tab stays inside it
   document.addEventListener('keydown',function(e){
     // esc tucks the window into the taskbar like a real computer; esc again brings it back. only X closes.
     if(e.key==='Escape'&&state!=='closed'){e.preventDefault();e.stopImmediatePropagation();if(state==='open')minimize();else restore();return;}
     if(state!=='open')return;
+    // windows hotkeys on the window chrome itself (the case page forwards the same set from inside)
+    var k=e.key,t=e.target,typing=t&&(/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)||t.isContentEditable),a='';
+    if(k==='F5'||((e.ctrlKey||e.metaKey)&&!e.altKey&&(k==='r'||k==='R')))a='refresh';
+    else if(e.ctrlKey&&!e.metaKey&&!e.altKey&&(k==='w'||k==='W'))a='close';
+    else if((e.altKey&&!e.ctrlKey&&!e.metaKey&&k==='ArrowLeft')||(e.metaKey&&k==='['))a='prev';
+    else if((e.altKey&&!e.ctrlKey&&!e.metaKey&&k==='ArrowRight')||(e.metaKey&&k===']'))a='next';
+    else if(!e.metaKey&&!e.ctrlKey&&!e.altKey&&!typing)a=k==='ArrowLeft'?'prev':k==='ArrowRight'?'next':'';
+    if(a){e.preventDefault();e.stopImmediatePropagation();hot(a);return;}
     if(e.key==='Tab'){
       var f=Array.prototype.filter.call(w.querySelectorAll('button:not(:disabled),iframe'),function(el){return el.getClientRects().length;});
       if(!f.length)return;e.stopImmediatePropagation();
@@ -1134,7 +1145,7 @@ document.querySelectorAll('[data-ext-href]').forEach(function(el){
   // the case page inside the window forwards its hotkeys (esc, left, right)
   window.addEventListener('message',function(e){
     if(e.origin!==window.location.origin||!e.data||!e.data.ww||e.source!==frame.contentWindow)return;
-    if(e.data.ww==='esc')minimize();else if(e.data.ww==='prev')go(-1);else if(e.data.ww==='next')go(1);
+    if(e.data.ww==='esc')minimize();else hot(e.data.ww);
   });
   // back/forward: #work/<slug> opens that case in the window, anything else closes it
   function fromHash(){
