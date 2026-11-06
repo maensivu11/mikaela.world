@@ -920,7 +920,7 @@ document.querySelectorAll('[data-ext-href]').forEach(function(el){
     '<div class="ww-tools">'+
       '<button type="button" class="ww-prev">'+SV.back+'<span>Previous</span></button>'+
       '<button type="button" class="ww-next">'+SV.fwd+'<span>Next</span></button>'+
-      '<button type="button" class="ww-stop ww-opt" title="Stop">'+SV.stop+'<span>Stop</span></button>'+
+      '<button type="button" class="ww-stop" title="Stop (closes the window)">'+SV.stop+'<span>Stop</span></button>'+
       '<button type="button" class="ww-refresh" title="Refresh">'+SV.refresh+'<span>Refresh</span></button>'+
       '<button type="button" class="ww-home" title="Back to the notebook">'+SV.home+'<span>Home</span></button>'+
       '<span class="ww-fill"></span><span class="ww-throb">'+SV.throb+'</span></div>'+
@@ -1066,7 +1066,8 @@ document.querySelectorAll('[data-ext-href]').forEach(function(el){
   bNext.addEventListener('click',function(){go(1);});
   $('.ww-home').addEventListener('click',function(){close();});
   $('.ww-refresh').addEventListener('click',function(){if(cur>=0)load(cur);});
-  $('.ww-stop').addEventListener('click',function(){if(w.classList.contains('loading')){try{frame.contentWindow.stop();}catch(e){}finishLoad();}});
+  // stop closes the browser, same path as X (zoom back to the notebook entry)
+  $('.ww-stop').addEventListener('click',function(){try{frame.contentWindow.stop();}catch(e){}close();});
   // Start: a windows 98 start menu with every case, the notebook, and shut down (closes the window)
   var startB=task.querySelector('.ww-start'),menu=task.querySelector('.ww-menu98'),items=menu.querySelector('.ww-items');
   items.innerHTML=cases.map(function(c,i){return '<button type="button" role="menuitem" data-i="'+i+'">'+SV.ie+'<span>'+c.name+'</span></button>';}).join('')+
