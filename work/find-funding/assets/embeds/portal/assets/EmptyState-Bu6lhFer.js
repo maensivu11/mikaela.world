@@ -1,1 +1,0 @@
-import{j as t,a}from"./index.demo-BIRfVLDx.js";function i({heading:s,message:e=a["empty.default"]}){return t.jsxs("section",{className:"empty-state",children:[t.jsx("span",{className:"empty-state-icon","aria-hidden":"true"}),s!==void 0&&t.jsx("h2",{children:s}),t.jsx("p",{children:e})]})}export{i as E};
