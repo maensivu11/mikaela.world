@@ -61,6 +61,10 @@ p+p{margin-top:20px}
   .hero .w98::before,.portal-live .w98::before{content:"";position:absolute;top:6px;left:50%;transform:translateX(-50%);width:5px;height:5px;border-radius:50%;background:#2f2f35;z-index:2;pointer-events:none}
   .hero .w98::after,.portal-live .w98::after{content:"";position:absolute;left:-4.5%;right:-4.5%;bottom:-13px;height:13px;background:#232327;border-radius:3px 3px 12px 12px;pointer-events:none}
 }
+/* touch devices: the screenshot poster stays until the first tap; an untapped embed never shows as a black pane (mikaela, 01:50) */
+html.touch-shield .frame:not(.iframe-on) iframe{visibility:hidden!important}
+html.touch-shield .frame:not(.iframe-on) img{visibility:visible!important;display:block!important}
+html.touch-shield .frame.iframe-on img{visibility:hidden!important}
 /* phone visitors: every mobile embed sits in a clean iphone, not a browser window (mikaela, 11-06) */
 @media (max-width:600px){
   .hero .w98,.portal-live .w98{border:0;background:none;box-shadow:none;padding:0;margin:4px 10px 6px}
