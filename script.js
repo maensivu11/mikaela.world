@@ -1073,6 +1073,8 @@ document.querySelectorAll('[data-ext-href]').forEach(function(el){
     '<hr><button type="button" role="menuitem" data-act="home">'+SV.home+'<span>Notebook</span></button><button type="button" role="menuitem" data-act="off">'+SV.x.replace('viewBox','style="width:16px;height:14px" viewBox')+'<span>Shut Down...</span></button>';
   function menuOpen(on){menu.hidden=!on;startB.setAttribute('aria-expanded',on?'true':'false');startB.classList.toggle('act',on);}
   startB.addEventListener('click',function(e){e.stopPropagation();menuOpen(menu.hidden);});
+  // keep focus (and the case page's focus state) where it is: no blur/focus repaint when Start is pressed
+  startB.addEventListener('pointerdown',function(e){if(e.pointerType==='mouse')e.preventDefault();});
   items.addEventListener('click',function(e){
     var b=e.target.closest('button');if(!b)return;menuOpen(false);
     var act=b.getAttribute('data-act');
