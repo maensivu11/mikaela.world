@@ -376,8 +376,9 @@ body{display:grid;min-height:100svh;place-items:center;overflow-x:hidden;backgro
 }
 
 /* ===== Work window: a windows 98 browser that opens from the click point (script.js w98 window) ===== */
-.ww-dim{position:fixed;inset:0;z-index:5000;background:rgba(0,0,40,.38);opacity:0;pointer-events:none;transition:opacity 160ms linear}
-.ww-dim.on{opacity:1;pointer-events:auto}
+.ww-dim{position:fixed;inset:0;z-index:5000;background:rgba(0,0,40,.38);opacity:0;pointer-events:none;display:none;transition:opacity 160ms linear,display 160ms allow-discrete}
+.ww-dim.on{display:block;opacity:1;pointer-events:auto}
+@starting-style{.ww-dim.on{opacity:0}}
 .ww{position:fixed;z-index:5001;isolation:isolate;display:none;flex-direction:column;box-sizing:border-box;min-width:0;border:2px solid;border-color:#dfdfdf #000 #000 #dfdfdf;box-shadow:inset 1px 1px 0 #fff,inset -1px -1px 0 #808080;background:#c0c0c0;padding:3px;color:#000;font:11px/1.2 Tahoma,"MS Sans Serif","Microsoft Sans Serif",Geneva,Verdana,sans-serif;letter-spacing:0;text-transform:none;user-select:none;-webkit-user-select:none;touch-action:none}
 .ww.open{display:flex}
 .ww *{box-sizing:border-box}
