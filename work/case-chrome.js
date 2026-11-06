@@ -27,6 +27,8 @@
     '@media (max-width:760px){.cc-arrow{width:30px;height:21px}.cc-top .cc-up{width:13px;height:17px}}',
     '@media print{.cc{display:none}}',
     'html.cc-win .cc,html.cc-win .cc-pager{display:none!important}',
+    /* no rubber-band and no trackpad swipe-back preview: a fast scroll on a mac would slide the previous page (the notebook) in over the case */
+    'html,body{overscroll-behavior:none}',
     '.cc-side:active,.cc-side:focus,.cc-top:active,.cc-top:focus{opacity:1!important;color:#3d3a8c!important}',
     '.cc-side:active .cc-arrow,.cc-side:focus .cc-arrow,.cc-top:active .cc-up,.cc-top:focus .cc-up{filter:drop-shadow(1px 0 0 #fff) drop-shadow(-1px 0 0 #fff) drop-shadow(0 1px 0 #fff) drop-shadow(0 -1px 0 #fff)}',
     '@media (hover:none){.cc-side:active,.cc-side:focus{background:rgba(255,255,255,.9);border-radius:999px;box-shadow:0 0 0 1.5px #fff,0 4px 12px rgba(0,0,0,.12)}.cc-side .cc-name{display:none}}',

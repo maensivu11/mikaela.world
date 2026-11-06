@@ -1123,8 +1123,9 @@ document.querySelectorAll('[data-ext-href]').forEach(function(el){
   function hot(a){if(state!=='open')return;if(a==='prev')go(-1);else if(a==='next')go(1);else if(a==='refresh'){if(cur>=0)load(cur);}else if(a==='close')close();}
   // keys: esc minimizes / restores before anything else; tab stays inside it
   document.addEventListener('keydown',function(e){
-    // esc tucks the window into the taskbar like a real computer; esc again brings it back. only X closes.
-    if(e.key==='Escape'&&state!=='closed'){e.preventDefault();e.stopImmediatePropagation();if(state==='open')minimize();else restore();return;}
+        // esc while the window is up tucks it into the taskbar; with the window minimized esc falls through to the
+    // notebook's own close (reverse flip home), which takes the minimized window and taskbar with it
+    if(e.key==='Escape'&&state==='open'){e.preventDefault();e.stopImmediatePropagation();minimize();return;}
     if(state!=='open')return;
     // windows hotkeys on the window chrome itself (the case page forwards the same set from inside)
     var k=e.key,t=e.target,typing=t&&(/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)||t.isContentEditable),a='';
