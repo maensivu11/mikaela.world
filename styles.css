@@ -509,3 +509,6 @@ body{display:grid;min-height:100svh;place-items:center;overflow-x:hidden;backgro
 .ww-items button svg{width:20px;height:20px;flex:none}
 .ww-items button:hover,.ww-items button:focus-visible{background:#000080;color:#fff;outline:none}
 .ww-items hr{margin:2px 1px;border:0;border-top:1px solid #808080;border-bottom:1px solid #fff}
+
+/* the desk never rubber-bands: on mac trackpads and ios, overscroll moved the in-flow composition book while the fixed painting stayed put, so the book popped out of the scene */
+html,body{overscroll-behavior:none}
