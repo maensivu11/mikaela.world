@@ -121,11 +121,11 @@ footer,footer.wide{margin-top:var(--gap);border-top:1px solid var(--line);paddin
 @media (max-width:600px){.hero .frame{flex:none;aspect-ratio:390/844}.hero .w98{flex:none}}
 /* desktop: in-page embeds sit on a clean macbook, not a nested win98 window (mikaela, 00:59) */
 @media (min-width:601px){
-  .hero .w98{position:relative;border:0;border-color:transparent;background:#17171a;box-shadow:0 20px 40px rgba(0,0,0,.16);padding:14px 14px 16px;border-radius:16px 16px 0 0;margin-bottom:26px;transform:translateZ(0);isolation:isolate}
+  .hero .w98{position:relative;border:0;border-color:transparent;background:#17171a;box-shadow:0 20px 40px rgba(0,0,0,.16);padding:14px 14px 24px;border-radius:16px 16px 14px 14px;margin-bottom:18px;contain:paint;isolation:isolate}
   .hero .w98 .w98-bar,.hero .w98 .w98-addr{display:none}
   .hero .w98 .frame{border:1px solid #000!important;border-radius:5px!important;box-shadow:none!important}
   .hero .w98::before{content:"";position:absolute;top:6px;left:50%;transform:translateX(-50%);width:5px;height:5px;border-radius:50%;background:#2f2f35;z-index:2;pointer-events:none}
-  .hero .w98::after{content:"";position:absolute;left:-4.5%;right:-4.5%;bottom:-13px;height:13px;background:#232327;border-radius:3px 3px 12px 12px;pointer-events:none}
+  .hero .w98::after{content:"";position:absolute;left:40%;right:40%;bottom:9px;height:5px;background:#2e2e33;border-radius:3px;pointer-events:none}
 }
 /* touch devices: the screenshot poster stays until the first tap; an untapped embed never shows as a black pane (mikaela, 01:50) */
 html.touch-shield .frame:not(.iframe-on) iframe{visibility:hidden!important}
