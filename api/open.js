@@ -5,8 +5,9 @@ const GIF = Buffer.from('R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA
 
 export default async function handler(req, res) {
   const c = typeof req.query.c === 'string' ? req.query.c.slice(0, 100) : 'signature';
+  let log = 'unsent';
   try {
-    await fetch('https://us.i.posthog.com/i/v0/e/', {
+    const r = await fetch('https://us.i.posthog.com/capture/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -21,9 +22,12 @@ export default async function handler(req, res) {
         },
       }),
     });
+    log = String(r.status);
   } catch (e) {
     // the pixel must always render, even if logging fails
+    log = 'err:' + (e && e.message ? e.message.slice(0, 80) : 'unknown');
   }
+  res.setHeader('X-Log', log);
   res.setHeader('Content-Type', 'image/gif');
   res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
   res.setHeader('Content-Length', GIF.length);
