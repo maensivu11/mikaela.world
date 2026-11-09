@@ -4,7 +4,7 @@
 const GIF = Buffer.from('R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7', 'base64');
 
 export default async function handler(req, res) {
-  const c = typeof req.query.c === 'string' ? req.query.c.slice(0, 100) : 'signature';
+  const c = typeof req.query.c === 'string' ? req.query.c.slice(0, 400) : 'signature';
   let log = 'unsent';
   try {
     const r = await fetch('https://us.i.posthog.com/capture/', {
